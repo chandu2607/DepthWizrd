@@ -1,6 +1,8 @@
 # data & run artifacts (never commit datasets or large caches)
-data/
-runs/
+# NOTE: anchored with a leading slash so they match only the repo-root dirs and
+# NOT the source package depthwizard/data/.
+/data/
+/runs/
 *.npy
 depth_cache/
 
