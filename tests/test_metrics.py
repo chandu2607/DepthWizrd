@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from depthwizard.metrics.height_metrics import (
     valid_mask, compute_metrics, compute_class_metrics, aggregate_scene_metrics,
+    compute_binned_metrics, aggregate_binned,
 )
 
 
@@ -88,6 +89,47 @@ def test_valid_mask_extra():
     extra = np.array([[True, False], [True, True]])
     m = valid_mask(gt, extra_mask=extra)
     assert m.sum() == 3
+
+
+def test_binned_assigns_and_bias():
+    # edges -> bins [0,2),[2,5),[5,inf). One pixel per bin, +1 m over-prediction.
+    gt = np.array([1.0, 3.0, 10.0])
+    pred = gt + 1.0
+    b = compute_binned_metrics(pred, gt, edges=[0.0, 2.0, 5.0])
+    assert [x["n_pixels"] for x in b] == [1, 1, 1]
+    assert (b[0]["lo"], b[0]["hi"]) == (0.0, 2.0)
+    assert b[-1]["hi"] == float("inf")
+    for x in b:
+        assert abs(x["mae"] - 1.0) < 1e-9
+        assert abs(x["bias"] - 1.0) < 1e-9      # over-prediction -> positive bias
+
+
+def test_binned_ceiling_shows_negative_bias():
+    # a 14 m ceiling: tall GT, capped prediction -> strong NEGATIVE bias up high.
+    gt = np.array([2.0, 30.0])
+    pred = np.array([2.0, 14.0])                 # tall pixel saturates at ceiling
+    b = compute_binned_metrics(pred, gt, edges=[0.0, 5.0, 20.0])
+    top = b[-1]                                  # [20, inf) bin
+    assert top["n_pixels"] == 1
+    assert abs(top["bias"] - (-16.0)) < 1e-9     # 14 - 30
+    assert abs(top["mae"] - 16.0) < 1e-9
+
+
+def test_binned_empty_bin_is_nan():
+    b = compute_binned_metrics(np.array([1.0]), np.array([1.0]), edges=[0.0, 2.0, 5.0])
+    assert b[0]["n_pixels"] == 1
+    assert b[1]["n_pixels"] == 0 and np.isnan(b[1]["mae"])
+
+
+def test_aggregate_binned_pools_by_count():
+    # two scenes into the same single bin [0,inf): mae 2 over 2 px, mae 4 over 1 px
+    s1 = compute_binned_metrics(np.array([2.0, 2.0]), np.array([0.0, 0.0]), edges=[0.0])
+    s2 = compute_binned_metrics(np.array([4.0]), np.array([0.0]), edges=[0.0])
+    agg = aggregate_binned([s1, s2])
+    assert len(agg) == 1
+    assert agg[0]["n_pixels"] == 3
+    # pooled MAE = (2*2 + 4*1)/3 = 8/3  (NOT the (2+4)/2 average of per-scene means)
+    assert abs(agg[0]["mae"] - (8.0 / 3.0)) < 1e-9
 
 
 if __name__ == "__main__":

@@ -64,6 +64,13 @@ class TrainConfig:
     max_train_pixels_affine: int = 2_000_000  # subsample for affine lstsq
     amp: bool = True         # mixed precision if CUDA available
     num_workers: int = 2
+    # Phase-2 target-space transform for the learned head (Baseline C only).
+    #   "none"  -> train on raw metric nDSM (the ORIGINAL Baseline C; keep default
+    #              so Phase-1 C remains bit-for-bit reproducible, per the spec).
+    #   "log1p" -> train on log(1+h), invert with expm1 at predict BEFORE resizing.
+    #              Justified only by the target-distribution evidence (heavy right
+    #              skew + ground dominance); see scripts/phase2_diagnose_distribution.py.
+    target_transform: str = "none"
 
 
 @dataclass

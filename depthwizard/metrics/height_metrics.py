@@ -162,3 +162,109 @@ def aggregate_scene_metrics(scene_metrics: list[dict]) -> dict:
             np.sqrt(np.sum((rmse_w[finite] ** 2) * wf) / np.sum(wf))
         )
     return agg
+
+
+# --- height-binned metrics (Phase-2 §10: where does error concentrate?) -----
+#
+# The Phase-2 diagnosis is that a single overall MAE hides a tall-structure
+# ceiling: buildings above ~14 m collapse. To SEE that (and whether a fix helps
+# the tall bins WITHOUT wrecking the dominant low bins), we report MAE/RMSE per
+# ground-truth height bin. Binning is on GT height (the honest axis); the model
+# ceiling shows up as a large positive bias in the high bins.
+
+DEFAULT_HEIGHT_EDGES = [0.0, 2.0, 5.0, 10.0, 15.0, 20.0, 30.0, 40.0]
+
+
+def _bin_spans(edges):
+    """Turn ascending edges into [lo, hi) spans with a final [last, inf) bin."""
+    e = [float(x) for x in edges]
+    spans = list(zip(e[:-1], e[1:]))
+    spans.append((e[-1], float("inf")))
+    return spans
+
+
+def compute_binned_metrics(
+    pred: np.ndarray,
+    gt: np.ndarray,
+    edges=DEFAULT_HEIGHT_EDGES,
+    mask: Optional[np.ndarray] = None,
+    nodata: Optional[float] = None,
+) -> list[dict]:
+    """Per GT-height-bin MAE/RMSE/bias over valid pixels.
+
+    Bins are half-open [lo, hi) on the GROUND-TRUTH height, with a trailing
+    [last_edge, inf) bin. Returns one dict per bin:
+      {lo, hi, n_pixels, mae, rmse, bias, mean_gt, mean_pred}
+    where bias = mean(pred - gt) (positive = over-prediction; a ceiling makes
+    the tall bins strongly NEGATIVE-biased, i.e. under-predicted). Empty bins
+    return NaN metrics with n_pixels=0 (so they pool correctly).
+    """
+    pred = np.asarray(pred, dtype=np.float64)
+    gt = np.asarray(gt, dtype=np.float64)
+    if pred.shape != gt.shape:
+        raise ValueError(f"shape mismatch: pred {pred.shape} vs gt {gt.shape}")
+    m = valid_mask(gt, pred, nodata=nodata, extra_mask=mask)
+    p = pred[m]
+    g = gt[m]
+    out = []
+    for lo, hi in _bin_spans(edges):
+        sel = (g >= lo) & (g < hi)
+        n = int(sel.sum())
+        if n == 0:
+            out.append({"lo": lo, "hi": hi, "n_pixels": 0, "mae": np.nan,
+                        "rmse": np.nan, "bias": np.nan, "mean_gt": np.nan,
+                        "mean_pred": np.nan})
+            continue
+        err = p[sel] - g[sel]
+        out.append({
+            "lo": lo, "hi": hi, "n_pixels": n,
+            "mae": float(np.mean(np.abs(err))),
+            "rmse": float(np.sqrt(np.mean(err ** 2))),
+            "bias": float(np.mean(err)),
+            "mean_gt": float(np.mean(g[sel])),
+            "mean_pred": float(np.mean(p[sel])),
+        })
+    return out
+
+
+def aggregate_binned(scene_binned: list[list[dict]]) -> list[dict]:
+    """Pixel-pool a list of per-scene binned results (from compute_binned_metrics).
+
+    Pooling is EXACT (not an average of per-scene means): for each bin it
+    reconstructs sum|err| = mae*n and sum(err^2) = rmse^2*n across scenes, so
+    the pooled MAE/RMSE are the true pixel-weighted values. Assumes every scene
+    used the same `edges` (same bin count/order), which the callers guarantee.
+    """
+    if not scene_binned:
+        return []
+    nb = len(scene_binned[0])
+    acc = [{"lo": scene_binned[0][i]["lo"], "hi": scene_binned[0][i]["hi"],
+            "n_pixels": 0, "sabs": 0.0, "ssq": 0.0, "sgt": 0.0, "spred": 0.0}
+           for i in range(nb)]
+    for scene in scene_binned:
+        for i, b in enumerate(scene):
+            n = b.get("n_pixels", 0)
+            if not n or not np.isfinite(b.get("mae", np.nan)):
+                continue
+            acc[i]["n_pixels"] += n
+            acc[i]["sabs"] += b["mae"] * n
+            acc[i]["ssq"] += (b["rmse"] ** 2) * n
+            acc[i]["sgt"] += b["mean_gt"] * n
+            acc[i]["spred"] += b["mean_pred"] * n
+    out = []
+    for a in acc:
+        n = a["n_pixels"]
+        if n == 0:
+            out.append({"lo": a["lo"], "hi": a["hi"], "n_pixels": 0,
+                        "mae": np.nan, "rmse": np.nan, "bias": np.nan,
+                        "mean_gt": np.nan, "mean_pred": np.nan})
+            continue
+        mae = a["sabs"] / n
+        rmse = float(np.sqrt(a["ssq"] / n))
+        mean_gt = a["sgt"] / n
+        mean_pred = a["spred"] / n
+        out.append({"lo": a["lo"], "hi": a["hi"], "n_pixels": n,
+                    "mae": float(mae), "rmse": rmse,
+                    "bias": float(mean_pred - mean_gt),
+                    "mean_gt": float(mean_gt), "mean_pred": float(mean_pred)})
+    return out

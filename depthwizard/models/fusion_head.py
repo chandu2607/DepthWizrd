@@ -100,6 +100,11 @@ class LearnedFusionHead(HeightEstimator):
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         torch.manual_seed(seed)
         self.model = SmallFusionUNet(w=cfg_train.width).to(self.device)
+        # Phase-2: optional target-space transform. "none" reproduces the original
+        # Baseline C exactly; "log1p" trains in log-height space (inverted at predict).
+        self.target_transform = getattr(cfg_train, "target_transform", "none")
+        if self.target_transform not in ("none", "log1p"):
+            raise ValueError(f"unknown target_transform: {self.target_transform!r}")
         # Depth normalization stats (filled during fit) so inputs are well-scaled.
         self.d_mean = 0.0
         self.d_std = 1.0
@@ -129,6 +134,11 @@ class LearnedFusionHead(HeightEstimator):
         gt_r = cv2.resize(gt_f, (res, res), interpolation=cv2.INTER_LINEAR)
         valid_r = cv2.resize(valid.astype(np.float32), (res, res),
                              interpolation=cv2.INTER_NEAREST) > 0.5
+        if self.target_transform == "log1p":
+            # Pointwise reparameterization of the SAME resized target the original
+            # C uses -> the two variants differ ONLY by this transform (one variable).
+            # nDSM is non-negative here; clamp defensively so log1p stays defined.
+            gt_r = np.log1p(np.maximum(gt_r, 0.0))
         return gt_r, valid_r
 
     def fit(self, train_samples: Iterable[Sample]) -> "LearnedFusionHead":
@@ -186,6 +196,10 @@ class LearnedFusionHead(HeightEstimator):
         x = self._prep_xy(sample, res)
         xt = torch.from_numpy(x[None]).float().to(self.device)
         pred = self.model(xt).squeeze(0).cpu().numpy().astype(np.float32)
+        if self.target_transform == "log1p":
+            # Invert to linear meters BEFORE resizing (so downstream metrics/resize
+            # all operate in metric space, identical to the original C path).
+            pred = np.expm1(pred)
         h, w = np.asarray(sample["gt"]).shape[:2]
         return cv2.resize(pred, (w, h), interpolation=cv2.INTER_LINEAR)
 

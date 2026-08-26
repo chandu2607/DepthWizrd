@@ -1,0 +1,56 @@
+# DepthWizard PHASE-2 MODIFY config -- controlled A/B/C-original/C-log1p run.
+#
+# This mirrors configs/phase1_hf.yaml EXACTLY (same data, same city-held-out
+# split seed, same head hyper-params) so the ONLY difference between the
+# original Baseline C and the modified C is the target-space transform. That is
+# the whole point of the Phase-2 protocol: change ONE variable and attribute any
+# delta to it.
+#
+# The run script (scripts/run_phase2_modify.py) trains C TWICE per seed:
+#   * target_transform="none"  -> the ORIGINAL Baseline C (reproduces Phase-1)
+#   * target_transform="log1p" -> the modification under test
+# so the `train.target_transform` value below is only a documented default; the
+# script sets both variants explicitly via dataclasses.replace.
+#
+# Depth is REUSED from the Phase-1 cache (depth.cache_dir below) -> Depth
+# Anything V2 is NOT recomputed. Provenance caveat from Phase-1 still holds:
+# unofficial HF mirror, preprocessed nDSM; re-confirm on official IEEE GRSS
+# DFC2019 before any external reporting.
+
+out_dir: runs/phase2_modify
+baselines: [A, B, C]
+seeds: [0, 1]              # BOTH seeds reported as mean +/- std (never headline one)
+
+data:
+  root: data/dfc2019
+  source: hf_blocks
+  hf_repo: JasonXF/DFC2019-10k
+  nodata: -999.0
+  building_label: 6
+  tile_size: 512
+  max_tiles_per_city: 120  # identical to Phase-1 so the split is identical
+
+depth:
+  model_id: depth-anything/Depth-Anything-V2-Small-hf
+  input_size: 518
+  cache_dir: runs/phase1_hf/depth_cache   # REUSE Phase-1 DA-V2 cache (no recompute)
+  use_cache: true
+
+split:
+  # MANDATORY city-held-out. Same seed as Phase-1 -> identical train/val/test tiles.
+  train_cities: [JAX]
+  val_cities: [JAX]
+  test_cities: [OMA]
+  val_fraction_within_train_city: 0.15
+  seed: 1337
+
+train:
+  epochs: 15
+  batch_size: 4
+  lr: 0.001
+  width: 24
+  train_res: 256
+  max_train_pixels_affine: 2000000
+  amp: true
+  num_workers: 2
+  target_transform: log1p   # documented default; script runs BOTH none & log1p
