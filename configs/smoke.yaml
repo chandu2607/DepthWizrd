@@ -1,0 +1,38 @@
+# DepthWizard SMOKE-TEST config (NOT valid evidence).
+#
+# Exercises the entire pipeline offline with synthetic data + (optionally) a fake
+# depth stub, so you can confirm the code runs before spending GPU time on the
+# real DFC2019 run. Any run with this config is marked evidence_valid=False and
+# the report carries a warning banner. Run:
+#   python scripts/run_phase1.py --config configs/smoke.yaml --allow-fake-depth
+
+out_dir: runs/smoke
+baselines: [A, B, C]
+seeds: [0]
+
+data:
+  root: data/none
+  source: synthetic
+  tile_size: 128           # tiny for speed
+  max_tiles_per_city: 16
+
+depth:
+  model_id: depth-anything/Depth-Anything-V2-Small-hf
+  input_size: 518
+  cache_dir: runs/smoke/depth_cache
+  use_cache: false
+
+split:
+  train_cities: [SYNA]
+  val_cities: [SYNA]
+  test_cities: [SYNB]
+  val_fraction_within_train_city: 0.2
+  seed: 1337
+
+train:
+  epochs: 2
+  batch_size: 4
+  lr: 0.001
+  width: 16
+  train_res: 96
+  amp: false

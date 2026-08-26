@@ -1,0 +1,47 @@
+# DepthWizard Phase-1 feasibility config (REAL DATA run).
+#
+# This is the config that produces valid evidence. It expects DFC2019 Track-1
+# tiles on disk in the canonical layout (<tile>_RGB.tif / _AGL.tif / _CLS.tif),
+# grouped by city prefix (JAX_*, OMA_*). See scripts/00_fetch_dataset.py and the
+# Colab notebook for acquisition. Switch `source` to hf_mirror to attempt an
+# automatic HuggingFace download (schema inspected at runtime).
+
+out_dir: runs/phase1
+baselines: [A, B, C]     # add D to attempt the RDAH-Net reference (optional)
+seeds: [0, 1]            # the learned head is trained once per seed (reproducibility)
+
+data:
+  root: data/dfc2019     # put your extracted tiles here
+  source: byo            # {byo, hf_mirror, ieee, synthetic}
+  hf_repo: JasonXF/DFC2019-10k
+  rgb_suffix: _RGB.tif
+  agl_suffix: _AGL.tif   # AGL = above-ground level = nDSM (meters)
+  cls_suffix: _CLS.tif
+  nodata: -999.0
+  building_label: 6      # DFC2019 CLS: 2 ground, 5 tree, 6 building, 9 water, 17 bridge
+  tile_size: 512
+  max_tiles_per_city: 200  # bounded runtime; raise for a fuller run, 0 = no cap
+
+depth:
+  model_id: depth-anything/Depth-Anything-V2-Small-hf
+  input_size: 518
+  cache_dir: data/depth_cache
+  use_cache: true
+
+split:
+  # MANDATORY city-held-out generalization. NEVER random-split same-city tiles.
+  train_cities: [JAX]
+  val_cities: [JAX]      # held-out TILES from the train city (in-domain)
+  test_cities: [OMA]     # a city entirely unseen in training (the headline number)
+  val_fraction_within_train_city: 0.15
+  seed: 1337
+
+train:
+  epochs: 15
+  batch_size: 4
+  lr: 0.001
+  width: 24              # base channels of the small fusion U-Net (few 100k params)
+  train_res: 256         # train head at reduced res for speed
+  max_train_pixels_affine: 2000000
+  amp: true
+  num_workers: 2
