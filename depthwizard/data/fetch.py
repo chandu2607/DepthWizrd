@@ -7,9 +7,11 @@ synthetic numbers are NOT feasibility evidence and the report marks them so.
 
 Resolution order:
   1. cfg.data.root already contains RGB/AGL triplets  -> use as-is (offline, best).
-  2. source == 'hf_mirror'  -> huggingface_hub.snapshot_download, then scan.
-  3. source == 'ieee'       -> cannot be automated (login/EULA); print instructions.
-  4. source == 'synthetic'  -> generate offline smoke-test tiles.
+  2. source == 'hf_mirror'  -> huggingface_hub.snapshot_download, then scan triplets.
+  3. source == 'hf_blocks'  -> block-tiled mirror ({split}/{rgb,depth,seg}); adapter
+                               in data/hf_blocks.py decodes color seg PNGs to CLS.
+  4. source == 'ieee'       -> cannot be automated (login/EULA); print instructions.
+  5. source == 'synthetic'  -> generate offline smoke-test tiles.
 
 The HF mirror schema is inspected at RUNTIME (we scan whatever files land on disk
 for *_RGB.tif / *_AGL.tif pairs) rather than assuming a layout we could not verify.
@@ -74,6 +76,23 @@ def resolve_records(cfg) -> tuple[str, list[Record]]:
             print(f"[fetch] HF mirror gave {len(recs)} triplets: {cities_present(recs)}")
             return "hf_mirror", recs
         print("[fetch] HF mirror produced no recognizable triplets.")
+
+    if d.source == "hf_blocks":
+        # Block-tiled mirror ({split}/{rgb,depth,seg}); see data/hf_blocks.py.
+        # Real DFC crops but a non-canonical layout, so it needs a dedicated
+        # adapter that decodes the color seg PNGs into integer CLS masks.
+        from . import hf_blocks
+        snap = hf_blocks.ensure_local(d.hf_repo)
+        if snap:
+            cls_cache = os.path.join(d.root, "_hf_cls")
+            cities = (set(cfg.split.train_cities) | set(cfg.split.val_cities)
+                      | set(cfg.split.test_cities))
+            recs = hf_blocks.scan_hf_blocks(snap, cls_cache, cities=cities)
+            if recs:
+                print(f"[fetch] hf_blocks gave {len(recs)} records "
+                      f"(unofficial mirror, preprocessed nDSM): {cities_present(recs)}")
+                return "hf_blocks", recs
+        print("[fetch] hf_blocks produced no records.")
 
     if d.source == "ieee":
         print(IEEE_INSTRUCTIONS)

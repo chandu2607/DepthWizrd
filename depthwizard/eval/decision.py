@@ -138,7 +138,9 @@ def decide(results: dict, thr: DecisionThresholds | None = None,
                    f"< {thr.min_pearson_signal}). The core premise fails on this data; "
                    "do not scale this architecture. Reconsider the input modality/prior.")
     elif c2 and (c4 or c6) and gap_ok:
-        tag = "strong" if strong else "within reference band"
+        tag = ("strong (<=2 m)" if strong
+               else "within the 2-4 m reference band" if c4
+               else "ABOVE the 2-4 m reference band")
         verdict = "GO"
         summary = (f"Learned fusion beats affine cross-city by {gain*100:.0f}% "
                    f"(MAE {c_mae:.2f} vs {b_mae:.2f} m), cross-city RMSE {c_rmse:.2f} m "

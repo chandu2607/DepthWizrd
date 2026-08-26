@@ -81,6 +81,16 @@ def render(results: dict) -> str:
     out.append(f"- seeds (head): `{meta.get('seeds')}`  |  head params: "
                f"{meta.get('head_params', 'n/a')}\n")
 
+    if meta.get("source") == "hf_blocks":
+        out.append("> **Data provenance caveat:** this run used an _unofficial_ "
+                   "HuggingFace mirror (`JasonXF/DFC2019-10k`) of DFC2018/19 crops, with "
+                   "a **preprocessed nDSM** (ground floored to 0, no nodata sentinel) and "
+                   "semantic labels decoded from color seg PNGs (building mask confirmed "
+                   "empirically on rooftops). Provenance was checked by inspection (real "
+                   "orthophotos, not generated). Numbers are valid feasibility evidence, "
+                   "but re-confirm on the **official IEEE GRSS DFC2019** (login + EULA) "
+                   "before any external reporting.\n")
+
     # ---- headline: cross-city ----
     out.append("## Cross-city generalization (held-out TEST city) — headline\n")
     out.append("_The number that matters. Trained on the train city, evaluated on a "
@@ -145,7 +155,9 @@ def render(results: dict) -> str:
                "terrain from a DEM, whose own error compounds. Not evaluated here.\n")
 
     out.append("## Reproduce\n")
-    out.append("```bash\npython scripts/run_phase1.py --config configs/phase1.yaml\n```\n")
+    cfg_hint = ("configs/phase1_hf.yaml" if meta.get("source") == "hf_blocks"
+                else "configs/phase1.yaml")
+    out.append(f"```bash\npython scripts/run_phase1.py --config {cfg_hint}\n```\n")
     return "\n".join(out)
 
 

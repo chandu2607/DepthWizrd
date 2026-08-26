@@ -1,0 +1,52 @@
+# DepthWizard Phase-1 feasibility config -- REAL DATA via the HF block mirror.
+#
+# Uses the `JasonXF/DFC2019-10k` HuggingFace mirror (source: hf_blocks). Its
+# layout is {train,val,test}/{rgb,depth,seg}/<NAME>.{tif,tif,png}, NOT the
+# canonical *_RGB/_AGL/_CLS triplets, so depthwizard/data/hf_blocks.py adapts it:
+# it pairs the modality folders by basename and decodes the color seg PNGs into
+# integer CLS masks (building color -> 6, empirically confirmed on rooftops).
+#
+# The crops are REAL DFC2018/19 orthophotos + LiDAR-derived nDSM (provenance
+# verified by inspection), but this is an UNOFFICIAL mirror with a preprocessed
+# nDSM (ground floored to 0, no -999 nodata). It is valid feasibility evidence;
+# the official IEEE GRSS DFC2019 (login + EULA) is the upgrade path for final
+# reported numbers. The mirror's own train/val/test dirs are ignored -- tiles are
+# pooled and re-split BY CITY below (mandatory city-held-out protocol).
+
+out_dir: runs/phase1_hf
+baselines: [A, B, C]     # A raw depth, B global affine (bar to beat), C learned fusion
+seeds: [0, 1]            # the learned head is trained once per seed (reproducibility)
+
+data:
+  root: data/dfc2019     # only used to hold the decoded CLS cache (_hf_cls/); the
+                         # rgb/depth themselves stay in the HF cache (no OneDrive copy)
+  source: hf_blocks      # {byo, hf_mirror, hf_blocks, ieee, synthetic}
+  hf_repo: JasonXF/DFC2019-10k
+  nodata: -999.0         # no-op for this mirror (it has no nodata sentinel; ground = 0)
+  building_label: 6      # DFC2019 CLS: 2 ground, 5 tree, 6 building, 9 water, 17 bridge
+  tile_size: 512
+  max_tiles_per_city: 120  # bounded first real run; depth is cached so re-runs are cheap
+
+depth:
+  model_id: depth-anything/Depth-Anything-V2-Small-hf
+  input_size: 518
+  cache_dir: data/depth_cache   # note: run_phase1 overrides this to <out_dir>/depth_cache
+  use_cache: true
+
+split:
+  # MANDATORY city-held-out generalization. NEVER random-split same-city tiles.
+  train_cities: [JAX]
+  val_cities: [JAX]      # held-out TILES from the train city (in-domain sanity)
+  test_cities: [OMA]     # a city entirely unseen in training (the headline number)
+  val_fraction_within_train_city: 0.15
+  seed: 1337
+
+train:
+  epochs: 15
+  batch_size: 4
+  lr: 0.001
+  width: 24              # base channels of the small fusion U-Net (few 100k params)
+  train_res: 256         # train head at reduced res for speed
+  max_train_pixels_affine: 2000000
+  amp: true
+  num_workers: 2
