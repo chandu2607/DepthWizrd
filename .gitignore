@@ -1,0 +1,21 @@
+# data & run artifacts (never commit datasets or large caches)
+data/
+runs/
+*.npy
+depth_cache/
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
+.venv/
+venv/
+
+# os / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
