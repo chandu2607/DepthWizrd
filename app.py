@@ -16,6 +16,7 @@ from depthwizard.config import TrainConfig
 from scripts.run_phase29_peak_recovery import PeakRecoveryMLP
 
 pv.OFF_SCREEN = True
+DATA_DIR = Path("data/dfc2023_multicity")
 
 # Page configuration
 st.set_page_config(
