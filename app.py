@@ -602,8 +602,10 @@ def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
 
     cameras = {
         "City Overview": [(x_mid - extent*0.75, y_mid - extent*0.75, z_mid + extent*0.55), (x_mid, y_mid, z_mid), (0, 0, 1)],
+        "Urban":         [(x_mid - extent*0.45, y_mid - extent*0.45, z_mid + extent*0.25), (x_mid, y_mid, z_mid), (0, 0, 1)],
+        "Inspection":    [(x_mid - extent*0.30, y_mid - extent*0.30, z_mid + extent*0.18), (x_mid, y_mid, z_mid), (0, 0, 1)],
+        "Top View":      [(x_mid, y_mid, z_mid + extent*1.1), (x_mid, y_mid, z_mid), (0, 1, 0)],
         "Urban Street":  [(x_mid - extent*0.45, y_mid - extent*0.45, z_mid + extent*0.25), (x_mid, y_mid, z_mid), (0, 0, 1)],
-        "Inspection":    [(x_mid - extent*0.3, y_mid - extent*0.3, z_mid + extent*0.18), (x_mid, y_mid, z_mid), (0, 0, 1)],
         "Oblique":       [(x_mid - extent*0.75, y_mid - extent*0.75, z_mid + extent*0.55), (x_mid, y_mid, z_mid), (0, 0, 1)],
         "Overhead":      [(x_mid, y_mid, z_mid + extent*1.1), (x_mid, y_mid, z_mid), (0, 1, 0)],
         "Perspective":   [(x_mid, y_mid - extent*0.65, z_mid + extent*0.35), (x_mid, y_mid, z_mid), (0, 0, 1)],
@@ -667,7 +669,7 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("### 🎛️ 3D Render Controls")
 exaggeration = st.sidebar.select_slider(
     "Vertical Exaggeration", options=[1.0, 1.5, 2.0, 3.0], value=1.0)
-camera_angle = st.sidebar.selectbox("Camera Preset", ["City Overview", "Urban Street", "Inspection"])
+camera_angle = st.sidebar.selectbox("Camera Preset", ["City Overview", "Urban", "Inspection", "Top View"])
 render_mode = st.sidebar.selectbox("Render Mode", ["RGB City", "Elevation-Colored", "Building Height Structure", "Contour Lines"])
 if st.sidebar.button("🔄 Re-render 3D View"):
     st.session_state.pop("render_cache", None)
@@ -1016,8 +1018,32 @@ if "pipeline_time_s" in st.session_state:
     _pt = st.session_state["pipeline_time_s"]
     st.success(f"⚡ Processing completed in **{_pt}s**")
 
-# Section 3 — Outputs
-st.markdown("<div class='section-header'>3. Elevation Model Outputs</div>",
+# Section 3 — Reconstructed 3D City Viewport (HERO COMPONENT)
+st.markdown("<div class='section-header'>3. Reconstructed 3D City Scene</div>",
+            unsafe_allow_html=True)
+st.markdown(
+    "<span class='mesh-badge'>✓ Building-Aware 3D City &nbsp;·&nbsp; "
+    "Hybrid Base DTM + Extruded Building Side Walls + DSM Roof Topology</span>",
+    unsafe_allow_html=True)
+
+render_key = f"{camera_angle}_{render_mode}_{exaggeration}"
+if st.session_state.get("render_cache_key") != render_key:
+    with st.spinner("🔧 Building hybrid 3D city scene and rendering…"):
+        render_bytes = render_3d_screenshot(
+            active_image, dsm_pred, _transform, _is_geo,
+            exaggeration, camera_angle, render_mode)
+    st.session_state["render_cache"] = render_bytes
+    st.session_state["render_cache_key"] = render_key
+else:
+    render_bytes = st.session_state["render_cache"]
+
+st.image(render_bytes,
+         caption=f"3D City Scene — {render_mode}  |  {camera_angle} Preset  |  {exaggeration}× vertical display",
+         use_container_width=True)
+st.caption("💡 Change Camera Preset or Render Mode in the left sidebar to inspect urban massing.")
+
+# Section 4 — 2D Depth & Elevation Outputs
+st.markdown("<div class='section-header'>4. 2D Depth & Elevation Maps</div>",
             unsafe_allow_html=True)
 c3, c4 = st.columns(2)
 with c3:
@@ -1031,8 +1057,8 @@ with c4:
     st.image(dsm_viz, caption=f"Reconstructed Surface — {label}",
              use_container_width=True, clamp=True)
 
-# Section 4 — Statistics dashboard
-st.markdown("<div class='section-header'>4. Height & Structural Statistics</div>",
+# Section 5 — Statistics dashboard
+st.markdown("<div class='section-header'>5. Height & Structural Statistics</div>",
             unsafe_allow_html=True)
 m1, m2, m3, m4, m5, m6 = st.columns(6)
 mode_str = "Absolute" if _is_geo else "Relative"
@@ -1051,31 +1077,6 @@ for col, val, lbl in stats_pairs:
             f"<div class='metric-value'>{val}</div>"
             f"<div class='metric-label'>{lbl}</div>"
             f"</div>", unsafe_allow_html=True)
-
-# Section 5 — 3D Viewer
-st.markdown("<div class='section-header'>5. Interactive 3D City Mesh</div>",
-            unsafe_allow_html=True)
-st.markdown(
-    "<span class='mesh-badge'>✓ Edge-Aware 3D Mesh &nbsp;·&nbsp; "
-    f"Curtain-filter: {_EDGE_DZ_THRESHOLD:.0f} m threshold</span>",
-    unsafe_allow_html=True)
-
-render_key = f"{camera_angle}_{render_mode}_{exaggeration}"
-if st.session_state.get("render_cache_key") != render_key:
-    with st.spinner("🔧 Building edge-aware mesh and rendering…"):
-        render_bytes = render_3d_screenshot(
-            active_image, dsm_pred, _transform, _is_geo,
-            exaggeration, camera_angle, render_mode)
-    st.session_state["render_cache"] = render_bytes
-    st.session_state["render_cache_key"] = render_key
-else:
-    render_bytes = st.session_state["render_cache"]
-
-st.image(render_bytes,
-         caption=f"3D View — {render_mode}  |  {camera_angle}  |  {exaggeration}× vertical",
-         use_container_width=True)
-st.caption("💡 Change Camera Angle or Render Mode in the sidebar. "
-           "Controls update the view without re-running the elevation model.")
 
 # Section 6 — Export
 st.markdown("<div class='section-header'>6. Export Assets</div>",
