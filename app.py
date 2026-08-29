@@ -99,55 +99,97 @@ body { background: #0D1117; }
 # ──────────────────────────────────────────────────────────────────────────────
 # Model caching — load once, reuse across all interactions
 # ──────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
+# Model caching — each component loads independently; failures are isolated
+# ──────────────────────────────────────────────────────────────────────────────
 @st.cache_resource
 def load_locked_models():
-    from depthwizard.depth.depth_anything import DepthAnythingV2
-    from depthwizard.config import DepthConfig
-    dcfg = DepthConfig(cache_dir="data/dfc2023_multicity/depth_cache")
-    depth_model = DepthAnythingV2(dcfg.model_id, dcfg.input_size, dcfg.cache_dir, True)
-
-    # Phase 24 U-Net footprint estimator
-    from depthwizard.models.building_conditioned_net import BuildingConditionedEstimator
-    tcfg = TrainConfig(arch="unet3", target_transform="none", epochs=1,
-                       batch_size=8, lr=1e-3, amp=True)
-    estimator = BuildingConditionedEstimator(tcfg, nodata=-999.0, seed=0)
-    p24_ckpt = Path("runs/phase24_moe/seed_0/model.pt")
+    load_status = {}          # tracks which components loaded successfully
+    depth_model = None
+    estimator = None
+    mlp_model = None
+    mu_train = sigma_train = feature_cols = None
     has_unet = False
-    if p24_ckpt.exists():
-        try:
-            state = torch.load(p24_ckpt, map_location=estimator.device)
+
+    # ── Depth Anything V2 ────────────────────────────────────────────────────
+    try:
+        from depthwizard.depth.depth_anything import DepthAnythingV2
+        from depthwizard.config import DepthConfig
+        dcfg = DepthConfig(cache_dir="data/dfc2023_multicity/depth_cache")
+        depth_model = DepthAnythingV2(
+            dcfg.model_id, dcfg.input_size, dcfg.cache_dir, True)
+        load_status["Depth Anything V2"] = "✅ Loaded"
+    except Exception as e:
+        load_status["Depth Anything V2"] = f"❌ {e}"
+
+    # ── Phase 24 U-Net footprint estimator ───────────────────────────────────
+    try:
+        from depthwizard.models.building_conditioned_net import \
+            BuildingConditionedEstimator
+        tcfg = TrainConfig(arch="unet3", target_transform="none",
+                           epochs=1, batch_size=8, lr=1e-3, amp=True)
+        estimator = BuildingConditionedEstimator(tcfg, nodata=-999.0, seed=0)
+        p24_ckpt = Path("runs/phase24_moe/seed_0/model.pt")
+        if p24_ckpt.exists():
+            state = torch.load(p24_ckpt, map_location=estimator.device,
+                               weights_only=True)
             estimator.model.load_state_dict(state)
             estimator.model.eval()
             has_unet = True
-        except Exception:
-            pass
+            load_status["U-Net Footprint (Phase 24)"] = "✅ Loaded"
+        else:
+            load_status["U-Net Footprint (Phase 24)"] = \
+                "⚠️ Checkpoint not found — using fallback heuristic mask"
+    except Exception as e:
+        load_status["U-Net Footprint (Phase 24)"] = f"❌ {e}"
 
-    # Phase 29 PeakRecoveryMLP
-    p29_dir = Path("runs/phase29_peak_recovery")
-    ckpt_path = p29_dir / "seed_0/model.pt"
-    stats_path = p29_dir / "normalization_stats.json"
-    mlp_model = None
-    mu_train = sigma_train = feature_cols = None
-    if ckpt_path.exists() and stats_path.exists():
-        with open(stats_path) as f:
-            stats = json.load(f)
-        mu_train = np.array(stats["mean"])
-        sigma_train = np.array(stats["std"])
-        feature_cols = stats["features"]
-        mlp_model = PeakRecoveryMLP(input_dim=18, hidden_dim=64)
-        mlp_model.load_state_dict(torch.load(ckpt_path, map_location="cpu"))
-        mlp_model.eval()
+    # ── Phase 29 PeakRecoveryMLP ─────────────────────────────────────────────
+    try:
+        p29_dir = Path("runs/phase29_peak_recovery")
+        ckpt_path = p29_dir / "seed_0/model.pt"
+        stats_path = p29_dir / "normalization_stats.json"
+        if ckpt_path.exists() and stats_path.exists():
+            with open(stats_path) as f:
+                stats = json.load(f)
+            mu_train = np.array(stats["mean"])
+            sigma_train = np.array(stats["std"])
+            feature_cols = stats["features"]
+            mlp_model = PeakRecoveryMLP(input_dim=18, hidden_dim=64)
+            mlp_model.load_state_dict(
+                torch.load(ckpt_path, map_location="cpu", weights_only=True))
+            mlp_model.eval()
+            load_status["PeakRecoveryMLP (Phase 29)"] = "✅ Loaded"
+        else:
+            load_status["PeakRecoveryMLP (Phase 29)"] = \
+                "⚠️ Checkpoint not found — peak refinement disabled"
+    except Exception as e:
+        load_status["PeakRecoveryMLP (Phase 29)"] = f"❌ {e}"
 
-    return depth_model, estimator, mlp_model, mu_train, sigma_train, feature_cols, has_unet
+    return (depth_model, estimator, mlp_model,
+            mu_train, sigma_train, feature_cols,
+            has_unet, load_status)
 
 
-try:
+# Load models and display status in sidebar
+with st.spinner("Loading models…"):
     (depth_model, footprint_estimator, peak_mlp,
-     mu_train, sigma_train, feature_cols, has_unet) = load_locked_models()
-    models_ready = True
-except Exception as e:
-    st.error(f"Failed to load locked models: {e}")
-    models_ready = False
+     mu_train, sigma_train, feature_cols,
+     has_unet, _load_status) = load_locked_models()
+
+# Determine overall readiness
+models_ready = depth_model is not None
+
+# Show component status in sidebar
+st.sidebar.markdown("---")
+st.sidebar.markdown("### 🔩 Model Status")
+for name, status in _load_status.items():
+    st.sidebar.markdown(f"**{name}**  \n{status}")
+
+if not models_ready:
+    st.sidebar.error(
+        "Depth Anything V2 failed to load. "
+        "Check that `depthwizard/` and its dependencies are installed correctly.")
+
 
 
 # ──────────────────────────────────────────────────────────────────────────────
