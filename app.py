@@ -540,9 +540,12 @@ def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
     extent = max(span_x, span_y)
 
     cameras = {
-        "Oblique":     [(x_mid - extent*0.75, y_mid - extent*0.75, z_mid + extent*0.5), (x_mid, y_mid, z_mid), (0, 0, 1)],
-        "Overhead":    [(x_mid, y_mid, z_mid + extent*1.1), (x_mid, y_mid, z_mid), (0, 1, 0)],
-        "Perspective": [(x_mid, y_mid - extent*0.65, z_mid + extent*0.35), (x_mid, y_mid, z_mid), (0, 0, 1)],
+        "City Overview": [(x_mid - extent*0.75, y_mid - extent*0.75, z_mid + extent*0.55), (x_mid, y_mid, z_mid), (0, 0, 1)],
+        "Urban Street":  [(x_mid - extent*0.45, y_mid - extent*0.45, z_mid + extent*0.25), (x_mid, y_mid, z_mid), (0, 0, 1)],
+        "Inspection":    [(x_mid - extent*0.3, y_mid - extent*0.3, z_mid + extent*0.18), (x_mid, y_mid, z_mid), (0, 0, 1)],
+        "Oblique":       [(x_mid - extent*0.75, y_mid - extent*0.75, z_mid + extent*0.55), (x_mid, y_mid, z_mid), (0, 0, 1)],
+        "Overhead":      [(x_mid, y_mid, z_mid + extent*1.1), (x_mid, y_mid, z_mid), (0, 1, 0)],
+        "Perspective":   [(x_mid, y_mid - extent*0.65, z_mid + extent*0.35), (x_mid, y_mid, z_mid), (0, 0, 1)],
     }
 
     t1 = time.perf_counter()
@@ -602,7 +605,7 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("### 🎛️ 3D Render Controls")
 exaggeration = st.sidebar.select_slider(
     "Vertical Exaggeration", options=[1.0, 1.5, 2.0, 3.0], value=1.0)
-camera_angle = st.sidebar.selectbox("Camera Angle", ["Oblique", "Overhead", "Perspective"])
+camera_angle = st.sidebar.selectbox("Camera Preset", ["City Overview", "Urban Street", "Inspection"])
 render_mode = st.sidebar.selectbox("Render Mode", ["RGB Texture", "Elevation-Colored", "Contour Lines"])
 if st.sidebar.button("🔄 Re-render 3D View"):
     st.session_state.pop("render_cache", None)
@@ -611,7 +614,7 @@ if st.sidebar.button("🔄 Re-render 3D View"):
 # Mesh status badge
 st.sidebar.markdown("---")
 st.sidebar.markdown("**🧱 3D Mesh Engine**")
-st.sidebar.success("✔ Edge-Aware Topology (Phase 31D)")
+st.sidebar.success("✔ Phase 31F Urban 3D Surface")
 st.sidebar.caption(f"Curtain-filter: {_EDGE_DZ_THRESHOLD:.0f} m threshold")
 if "last_mesh_stats" in st.session_state:
     ms = st.session_state["last_mesh_stats"]
