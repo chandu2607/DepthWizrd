@@ -1,0 +1,60 @@
+# DepthWizard DATASET / SCALE FORENSICS config (Experiment #7) -- DIAGNOSTIC ONLY (no training).
+#
+# Two-part forensic study (master prompt Experiment #7):
+#   PART A  scale sanity check -- was Exp-6's "adaptive scale" gain a real per-scene
+#           adaptation or just a larger GLOBAL scale? (predicted-mean-global control).
+#   PART B  JAX-train vs JAX-val vs OMA-test distribution forensics -- physical/image
+#           scale, depth distribution, height distribution, oracle depth->height slope,
+#           scene composition, tall-structure representation, label-provenance consistency.
+#
+# Mirrors configs/scene_scale_diagnostic.yaml EXACTLY for data/split/depth so this study
+# uses the SAME tiles and the SAME frozen DA-V2 representation the models + prior diagnostics
+# used, and so Part A can RE-EXECUTE Experiment #6's deterministic cached ridge to recover its
+# per-scene predictions (they were not persisted in results.json) and verify reproduction:
+#   * same unofficial HF mirror (JasonXF/DFC2019-10k, preprocessed nDSM ground-floored to 0),
+#   * same city-held-out split + seed 1337 (train JAX / in-domain val JAX / test OMA),
+#   * same tile cap (120/city) -> identical train/val/test tiles (102/18/120),
+#   * same REUSED Phase-1 DA-V2 depth cache (runs/phase1_hf/depth_cache) -> NO recompute (§13/§32).
+#
+# NOTHING is trained here: C_log1p, the fusion head, loss, transform, split and DA-V2 weights
+# are untouched (§32). The train.* block is present only so load_config() populates cleanly.
+# Provenance caveat holds: unofficial mirror -> feasibility evidence only; re-confirm on official
+# IEEE GRSS DFC2019 before external reporting.
+
+out_dir: runs/dataset_scale_forensics
+baselines: [A, B]          # descriptive/anchor only; no learned head is trained
+seeds: [0]                 # diagnostic is deterministic; seed only drives pixel subsampling
+
+data:
+  root: data/dfc2019
+  source: hf_blocks
+  hf_repo: JasonXF/DFC2019-10k
+  nodata: -999.0
+  building_label: 6
+  tile_size: 512
+  max_tiles_per_city: 120  # identical to Phase-1..6 so the split is identical
+
+depth:
+  model_id: depth-anything/Depth-Anything-V2-Small-hf
+  input_size: 518
+  cache_dir: runs/phase1_hf/depth_cache   # REUSE Phase-1 DA-V2 cache (no recompute, §13/§32)
+  use_cache: true
+
+split:
+  # MANDATORY city-held-out. Same seed as Phase-1..6 -> identical train/val/test tiles.
+  train_cities: [JAX]
+  val_cities: [JAX]
+  test_cities: [OMA]
+  val_fraction_within_train_city: 0.15
+  seed: 1337
+
+train:
+  # Untouched -- present only for clean config loading; the diagnostic trains nothing.
+  epochs: 15
+  batch_size: 4
+  lr: 0.001
+  width: 24
+  train_res: 256
+  arch: unet3
+  target_transform: log1p
+  loss_type: standard

@@ -61,6 +61,16 @@ class TrainConfig:
     lr: float = 1e-3
     width: int = 24          # base channel width of the small fusion head
     train_res: int = 256     # train the head at reduced resolution for speed
+    # Phase-5 reconstruction-fidelity variable: the fusion-head architecture.
+    #   "unet3" -> original 3-level SmallFusionUNet (DEFAULT: C_none / C_log1p stay
+    #              bit-for-bit reproducible; the whole Phase-1..4 record is unchanged).
+    #   "unet4" -> SmallReconUNet, ONE extra pooling/decoder level (bottleneck 32->16
+    #              at train_res=256), ~doubling the effective receptive field so large
+    #              structures can be reconstructed across their FULL footprint. The new
+    #              deepest level is held at w*4 channels (NOT doubled) -> the added
+    #              params buy receptive field/depth, not raw width. Single-variable
+    #              vs C_log1p (everything else identical).
+    arch: str = "unet3"
     max_train_pixels_affine: int = 2_000_000  # subsample for affine lstsq
     amp: bool = True         # mixed precision if CUDA available
     num_workers: int = 2
@@ -71,6 +81,34 @@ class TrainConfig:
     #              Justified only by the target-distribution evidence (heavy right
     #              skew + ground dominance); see scripts/phase2_diagnose_distribution.py.
     target_transform: str = "none"
+    # Phase-3 height-aware loss weighting (Baseline C only).
+    #   "standard"        -> plain masked-L1 (keep default so C_none / C_log1p stay
+    #                        bit-for-bit reproducible; the standard path is untouched).
+    #   "height_weighted" -> per-pixel weighted masked-L1 with weight w(h) derived
+    #                        from PHYSICAL height h (meters, pre-transform):
+    #                          w(h) = min(1 + max(h,0)/loss_weight_scale, loss_weight_max)
+    #                        Weighted MEAN (÷Σw) so loss magnitude ~ unweighted -> the
+    #                        effective LR is unchanged; the ONLY variable vs C_log1p is
+    #                        per-pixel emphasis. Scale/cap are TRAINING-derived (see
+    #                        scripts/phase3_weight_diagnostic.py); no test info leaks.
+    #   "tail_weighted"   -> Phase-4 CALIBRATED tail weight. Same masked-L1 machinery,
+    #                        but FLAT (w=1) through the abundant low/moderate regime and
+    #                        rising ONLY past a training-derived threshold, with a
+    #                        gentler cap:
+    #                          w(h) = min(1 + max(h - loss_tail_start,0)/loss_tail_scale,
+    #                                     loss_tail_max)   on PHYSICAL height h.
+    #                        Motivation (Phase-3): the height_weighted ramp began at h=0
+    #                        and shifted the WHOLE distribution up, damaging the 0–15 m
+    #                        population (91.7% of JAX-train px). The threshold protects
+    #                        that regime; all three params are JAX-train-derived (see
+    #                        scripts/phase4_weight_diagnostic.py); no test info leaks.
+    loss_type: str = "standard"
+    loss_weight_scale: float = 7.0   # h_scale (m) ~ JAX-train building-pixel median (7.16)
+    loss_weight_max: float = 5.0     # w_max cap: bounds weights -> stable, no tall-outlier blowup
+    # Phase-4 tail_weighted params (used only when loss_type="tail_weighted").
+    loss_tail_start: float = 15.0    # w=1 for h<=this: onset of the sparse tail (measured ~P92 all / ~P79 bldg ≈ the ~14 m learned ceiling)
+    loss_tail_scale: float = 12.5    # ramp scale above the threshold (reaches the cap at h_start+(cap-1)*scale = 40 m ≈ P99.3)
+    loss_tail_max: float = 3.0       # gentler cap than height_weighted (5.0); rare extremes cannot dominate the gradient
 
 
 @dataclass

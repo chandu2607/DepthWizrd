@@ -1,0 +1,62 @@
+# DepthWizard PHASE-3 MODIFY-AGAIN config -- controlled height-aware-loss run.
+#
+# Mirrors configs/phase2_modify.yaml (hence configs/phase1_hf.yaml) EXACTLY: same
+# data, same city-held-out split seed, same head hyper-params, same reused DA-V2
+# depth cache. The ONLY new variable under test is the LOSS: standard masked-L1
+# vs a physical-height-weighted masked-L1 on top of the log1p target.
+#
+# The run script (scripts/run_phase3_weighted.py) trains C THREE ways per seed:
+#   * target_transform="none",  loss_type="standard"        -> C_none  (Phase-1 original)
+#   * target_transform="log1p", loss_type="standard"        -> C_log1p (Phase-2 reference)
+#   * target_transform="log1p", loss_type="height_weighted" -> C_log1p_weighted (NEW)
+# so the train.* loss values below are documented defaults; the script sets each
+# variant explicitly via dataclasses.replace. The key comparison is C_log1p vs
+# C_log1p_weighted (isolates the loss change).
+#
+# Depth is REUSED from the Phase-1 cache -> Depth Anything V2 is NOT recomputed.
+# Provenance caveat still holds: unofficial HF mirror, preprocessed nDSM; re-confirm
+# on official IEEE GRSS DFC2019 before any external reporting.
+
+out_dir: runs/phase3_weighted
+baselines: [A, B, C]
+seeds: [0, 1]              # BOTH seeds reported as mean +/- std (never headline one)
+
+data:
+  root: data/dfc2019
+  source: hf_blocks
+  hf_repo: JasonXF/DFC2019-10k
+  nodata: -999.0
+  building_label: 6
+  tile_size: 512
+  max_tiles_per_city: 120  # identical to Phase-1/2 so the split is identical
+
+depth:
+  model_id: depth-anything/Depth-Anything-V2-Small-hf
+  input_size: 518
+  cache_dir: runs/phase1_hf/depth_cache   # REUSE Phase-1 DA-V2 cache (no recompute)
+  use_cache: true
+
+split:
+  # MANDATORY city-held-out. Same seed as Phase-1/2 -> identical train/val/test tiles.
+  train_cities: [JAX]
+  val_cities: [JAX]
+  test_cities: [OMA]
+  val_fraction_within_train_city: 0.15
+  seed: 1337
+
+train:
+  epochs: 15
+  batch_size: 4
+  lr: 0.001
+  width: 24
+  train_res: 256
+  max_train_pixels_affine: 2000000
+  amp: true
+  num_workers: 2
+  target_transform: log1p        # documented default; script runs none & log1p
+  # Height-aware loss (the Phase-3 variable). Defaults derived ONLY from the JAX
+  # training height distribution (scale ~ building-pixel median 7.16 m); bounded
+  # by w_max so rare tall outliers cannot destabilize training.
+  loss_type: height_weighted     # documented default; script runs standard & height_weighted
+  loss_weight_scale: 7.0         # h_scale (m)
+  loss_weight_max: 5.0           # w_max cap (saturates at h = 28 m)

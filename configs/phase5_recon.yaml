@@ -1,0 +1,66 @@
+# DepthWizard PHASE-5 config -- controlled RECONSTRUCTION-FIDELITY / RECEPTIVE-FIELD run.
+#
+# Mirrors configs/phase4_tail_weighted.yaml (hence phase3/phase2/phase1_hf) EXACTLY:
+# same data, same city-held-out split seed, same head hyper-params, same reused DA-V2
+# depth cache, SAME target transform (log1p), SAME loss (plain masked-L1 / "standard").
+# The ONE new variable under test is the fusion-head ARCHITECTURE (train.arch):
+#
+#   arch="unet3" -> SmallFusionUNet  (3 pooling levels, bottleneck 32x32 @ res 256)
+#                   = the current best control C_log1p, UNCHANGED.
+#   arch="unet4" -> SmallReconUNet   (4 pooling levels, bottleneck 16x16 @ res 256)
+#                   = C_log1p_recon: one extra encoder/decoder level, ~2x effective
+#                     receptive field, so large structures can be reconstructed across
+#                     their FULL footprint (Phase-4 showed loss weighting alone cannot).
+#
+# The run script (scripts/run_phase5_recon.py) trains C TWO ways per seed; only `arch`
+# differs, everything else is identical -> any delta is attributable to reconstruction
+# capacity, not loss/transform/data/optimizer:
+#   * transform="log1p", loss="standard", arch="unet3" -> C_log1p       (PRIMARY CONTROL §4)
+#   * transform="log1p", loss="standard", arch="unet4" -> C_log1p_recon (NEW, tested §10)
+# The KEY comparison is C_log1p vs C_log1p_recon (isolates the architecture change).
+#
+# Depth is REUSED from the Phase-1 cache -> Depth Anything V2 is NOT recomputed.
+# Hardware (§8): RTX 3050 Laptop ~4 GB. The new activations live at tiny 32x32/16x16
+# maps, so VRAM stays ~flat vs unet3; the smoke run measures it before the real run.
+# Provenance caveat still holds (§29): unofficial HF mirror, preprocessed nDSM; re-confirm
+# on official IEEE GRSS DFC2019 before any external reporting.
+
+out_dir: runs/phase5_recon
+baselines: [A, B, C]
+seeds: [0, 1]              # BOTH seeds reported as mean +/- std (never headline one)
+
+data:
+  root: data/dfc2019
+  source: hf_blocks
+  hf_repo: JasonXF/DFC2019-10k
+  nodata: -999.0
+  building_label: 6
+  tile_size: 512
+  max_tiles_per_city: 120  # identical to Phase-1..4 so the split is identical
+
+depth:
+  model_id: depth-anything/Depth-Anything-V2-Small-hf
+  input_size: 518
+  cache_dir: runs/phase1_hf/depth_cache   # REUSE Phase-1 DA-V2 cache (no recompute)
+  use_cache: true
+
+split:
+  # MANDATORY city-held-out. Same seed as Phase-1..4 -> identical train/val/test tiles.
+  train_cities: [JAX]
+  val_cities: [JAX]
+  test_cities: [OMA]
+  val_fraction_within_train_city: 0.15
+  seed: 1337
+
+train:
+  epochs: 15
+  batch_size: 4
+  lr: 0.001
+  width: 24
+  train_res: 256
+  arch: unet4                    # documented default; the script runs unet3 (control) & unet4
+  max_train_pixels_affine: 2000000
+  amp: true
+  num_workers: 2
+  target_transform: log1p        # UNCHANGED from C_log1p (§12: no target change)
+  loss_type: standard            # UNCHANGED from C_log1p (§11: no loss change)

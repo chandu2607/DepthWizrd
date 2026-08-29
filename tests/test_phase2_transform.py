@@ -66,8 +66,10 @@ def test_prep_target_log1p_matches_log_of_linear():
     h_none = LearnedFusionHead(cfg_none, nodata=None, seed=0, device="cpu")
     h_log = LearnedFusionHead(cfg_log, nodata=None, seed=0, device="cpu")
     s = _synthetic_sample()
-    t_none, m_none = h_none._prep_target(s, res=64)
-    t_log, m_log = h_log._prep_target(s, res=64)
+    t_none, m_none, w_none = h_none._prep_target(s, res=64)
+    t_log, m_log, w_log = h_log._prep_target(s, res=64)
+    # standard loss_type -> no weight map is built for either variant.
+    assert w_none is None and w_log is None
     # log target is exactly log1p of the identical resized linear target ...
     assert np.allclose(t_log, np.log1p(np.maximum(t_none, 0.0)), atol=1e-5)
     # ... expm1 recovers it, and the valid mask is untouched by the transform.

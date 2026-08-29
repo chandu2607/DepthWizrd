@@ -1,0 +1,55 @@
+# DepthWizard SCENE-SCALE DIAGNOSTIC config (Experiment #6) -- DIAGNOSTIC ONLY (no training).
+#
+# Purpose: measure whether the per-scene metric SCALE (the depth->metre affine the Exp-5
+# per-image ORACLE exploits) can be PREDICTED at inference time from RGB + frozen DA-V2 depth
+# alone -- fit on JAX-train, frozen, evaluated on held-out JAX-val + OMA. Nothing is trained;
+# C_log1p, the fusion head, loss, transform, split and DA-V2 weights are untouched (master §3).
+#
+# Mirrors configs/depth_signal_diagnostic.yaml EXACTLY for data/split/depth so the scale study
+# uses the SAME representation and the SAME tiles the real models + prior diagnostic used:
+#   * same unofficial HF mirror (JasonXF/DFC2019-10k, preprocessed nDSM ground-floored to 0),
+#   * same city-held-out split + seed (train JAX / in-domain val JAX / test OMA),
+#   * same tile cap (120/city) -> identical train/val/test tiles (102/18/120),
+#   * same REUSED Phase-1 DA-V2 depth cache (runs/phase1_hf/depth_cache) -> NO recompute (§3).
+#
+# The train.* block is present only so load_config() populates cleanly; the diagnostic never
+# instantiates the fusion head or trains. Provenance caveat still holds: unofficial mirror ->
+# feasibility evidence only, re-confirm on official IEEE GRSS DFC2019 before external reporting.
+
+out_dir: runs/scene_scale_diagnostic
+baselines: [A, B]          # descriptive/anchor only; no learned head is trained
+seeds: [0]                 # diagnostic is deterministic; seed only drives pixel subsampling
+
+data:
+  root: data/dfc2019
+  source: hf_blocks
+  hf_repo: JasonXF/DFC2019-10k
+  nodata: -999.0
+  building_label: 6
+  tile_size: 512
+  max_tiles_per_city: 120  # identical to Phase-1..5 so the split is identical
+
+depth:
+  model_id: depth-anything/Depth-Anything-V2-Small-hf
+  input_size: 518
+  cache_dir: runs/phase1_hf/depth_cache   # REUSE Phase-1 DA-V2 cache (no recompute, §3)
+  use_cache: true
+
+split:
+  # MANDATORY city-held-out. Same seed as Phase-1..5 -> identical train/val/test tiles.
+  train_cities: [JAX]
+  val_cities: [JAX]
+  test_cities: [OMA]
+  val_fraction_within_train_city: 0.15
+  seed: 1337
+
+train:
+  # Untouched -- present only for clean config loading; the diagnostic trains nothing.
+  epochs: 15
+  batch_size: 4
+  lr: 0.001
+  width: 24
+  train_res: 256
+  arch: unet3
+  target_transform: log1p
+  loss_type: standard

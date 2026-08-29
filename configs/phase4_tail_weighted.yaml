@@ -1,0 +1,70 @@
+# DepthWizard PHASE-4 config -- controlled CALIBRATED TAIL-WEIGHTED-LOSS run.
+#
+# Mirrors configs/phase3_weighted.yaml (hence phase2_modify.yaml / phase1_hf.yaml)
+# EXACTLY: same data, same city-held-out split seed, same head hyper-params, same
+# reused DA-V2 depth cache. The ONLY new variable under test is the LOSS WEIGHTING
+# FUNCTION -- a gentler, THRESHOLDED tail weight vs C_log1p's plain masked-L1.
+#
+# The run script (scripts/run_phase4_tail_weighted.py) trains C FOUR ways per seed;
+# only (target_transform, loss_type) differ, everything else is identical:
+#   * transform="none",  loss="standard"       -> C_none            (Phase-1 original)
+#   * transform="log1p", loss="standard"       -> C_log1p           (Phase-2 reference; PRIMARY CONTROL §12)
+#   * transform="log1p", loss="height_weighted"-> C_log1p_weighted  (Phase-3 aggressive ablation §24, UNCHANGED)
+#   * transform="log1p", loss="tail_weighted"  -> C_log1p_tail_weighted (NEW, tested §13)
+# The KEY comparison is C_log1p vs C_log1p_tail_weighted (isolates the loss change).
+# The script sets each variant explicitly via dataclasses.replace; the loss.* fields
+# below are documented defaults. Both the aggressive (loss_weight_*) and the tail
+# (loss_tail_*) params live here so both weighted variants read their own fields.
+#
+# Depth is REUSED from the Phase-1 cache -> Depth Anything V2 is NOT recomputed.
+# CRITICAL (§8/§26): every tail-weight parameter is derived from the JAX TRAINING
+# height distribution ONLY. OMA (test) is never used to choose the weighting.
+# Provenance caveat still holds: unofficial HF mirror, preprocessed nDSM; re-confirm
+# on official IEEE GRSS DFC2019 before any external reporting.
+
+out_dir: runs/phase4_tail_weighted
+baselines: [A, B, C]
+seeds: [0, 1]              # BOTH seeds reported as mean +/- std (never headline one)
+
+data:
+  root: data/dfc2019
+  source: hf_blocks
+  hf_repo: JasonXF/DFC2019-10k
+  nodata: -999.0
+  building_label: 6
+  tile_size: 512
+  max_tiles_per_city: 120  # identical to Phase-1/2/3 so the split is identical
+
+depth:
+  model_id: depth-anything/Depth-Anything-V2-Small-hf
+  input_size: 518
+  cache_dir: runs/phase1_hf/depth_cache   # REUSE Phase-1 DA-V2 cache (no recompute)
+  use_cache: true
+
+split:
+  # MANDATORY city-held-out. Same seed as Phase-1/2/3 -> identical train/val/test tiles.
+  train_cities: [JAX]
+  val_cities: [JAX]
+  test_cities: [OMA]
+  val_fraction_within_train_city: 0.15
+  seed: 1337
+
+train:
+  epochs: 15
+  batch_size: 4
+  lr: 0.001
+  width: 24
+  train_res: 256
+  max_train_pixels_affine: 2000000
+  amp: true
+  num_workers: 2
+  target_transform: log1p        # documented default; script runs none & log1p
+  loss_type: tail_weighted       # documented default; script runs all four loss modes
+  # -- Phase-3 aggressive height_weighted params (kept for the C_log1p_weighted ablation) --
+  loss_weight_scale: 7.0         # w(h)=min(1+h/scale, w_max); saturates at h=28 m
+  loss_weight_max: 5.0
+  # -- Phase-4 CALIBRATED tail params (JAX-train-derived; see phase4_weight_diagnostic.py) --
+  # w(h) = min(1 + max(h - loss_tail_start, 0)/loss_tail_scale, loss_tail_max) on PHYSICAL h.
+  loss_tail_start: 15.0          # w=1 below this: onset of the sparse tail (measured ~P92 all / ~P79 bldg ≈ ~14 m ceiling)
+  loss_tail_scale: 12.5          # ramp scale above the threshold (reaches the cap at 40 m ≈ P99.3)
+  loss_tail_max: 3.0             # gentler cap than the aggressive 5.0 -> no rare-outlier gradient blowup
