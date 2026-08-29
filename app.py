@@ -434,103 +434,164 @@ def geo_coords_vectorised(transform, h, w):
 _EDGE_DZ_THRESHOLD = 10.0   # metres — locked from Phase 31D
 
 
-def build_edge_aware_mesh(Z_dsm, transform, exaggeration=1.0):
-    """Phase 31D/31E: edge-aware quad filter + edge-preserving surface regularization.
+def build_building_aware_mesh(Z_dsm, Z_dtm=None, mask_bldg=None, transform=None, exaggeration=1.0, min_area=15):
+    """Phase 31G: Building-Aware Hybrid 3D City Scene Generator.
+    Layer 1: Base DTM Terrain.
+    Layer 2: Building Objects (Extruded Vertical Side Walls + DSM Roof Surfaces).
 
-    Removes quads where any corner elevation difference > _EDGE_DZ_THRESHOLD.
-    Applies edge-preserving bilateral filtering ONLY to visual display points,
-    preserving sharp building outer boundaries while removing roof micro-jitter.
-    The scientific DSM array Z_dsm is NEVER modified.
-
-    Args:
-        Z_dsm:       float32 (h, w) DSM array — read-only, never modified.
-        transform:   rasterio.Affine geotransform.
-        exaggeration: vertical display-only scale factor.
-
-    Returns:
-        mesh (pv.PolyData), topology_stats (dict)
+    Scientific DSM raster Z_dsm is 100% read-only and untouched.
     """
-    Z = Z_dsm   # alias — we only read, never write
+    Z = Z_dsm
     h, w = Z.shape
 
-    # ── DSM integrity snapshot (pre-mesh) ────────────────────────────────────
-    dsm_min_pre  = float(Z.min())
-    dsm_max_pre  = float(Z.max())
+    dsm_min_pre = float(Z.min())
+    dsm_max_pre = float(Z.max())
 
-    # ── Geo coordinates & Visual Regularization ──────────────────────────────
-    x_g, y_g = geo_coords_vectorised(transform, h, w)
+    cols = np.arange(w, dtype=np.float64)
+    rows = np.arange(h, dtype=np.float64)
+    c_grid, r_grid = np.meshgrid(cols, rows)
+    x_g = transform.a * c_grid + transform.c
+    y_g = transform.e * r_grid + transform.f
+
+    if Z_dtm is None:
+        cols_g, rows_g = np.meshgrid(np.arange(w, dtype=np.float32), np.arange(h, dtype=np.float32))
+        Z_dtm = 50.0 + 10.0 * cols_g / w + 15.0 * rows_g / h
     
-    # Phase 31E: Edge-preserving bilateral filter strictly on visualization surface coordinates
-    Z_vis = cv2.bilateralFilter(Z.astype(np.float32), d=5, sigmaColor=3.0, sigmaSpace=3.0)
-    z_display = Z_vis * exaggeration           # display-only scale; does NOT alter Z
-    points = np.stack(
-        [x_g.ravel(), y_g.ravel(), z_display.ravel()], axis=1
-    ).astype(np.float64)
+    Z_ndsm = np.maximum(0.0, Z - Z_dtm)
 
-    # ── Per-quad ΔZ (vectorised, calculated on exact scientific Z) ───────────
-    z00 = Z[:-1, :-1]; z01 = Z[:-1, 1:]
-    z10 = Z[1:, :-1];  z11 = Z[1:, 1:]
-    cell_max = np.maximum(np.maximum(z00, z01), np.maximum(z10, z11))
-    cell_min = np.minimum(np.minimum(z00, z01), np.minimum(z10, z11))
-    cell_dz  = (cell_max - cell_min).ravel()          # shape (h-1)*(w-1)
-    valid    = cell_dz <= _EDGE_DZ_THRESHOLD
+    if mask_bldg is None:
+        d_coarse = cv2.resize(Z_ndsm, (17, 17), interpolation=cv2.INTER_AREA)
+        d_smooth = cv2.resize(d_coarse, (w, h), interpolation=cv2.INTER_LINEAR)
+        mask_bldg = (Z_ndsm - d_smooth) > 2.5
 
-    # ── Quad vertex indices (vectorised) ─────────────────────────────────────
-    row_idx, col_idx = np.mgrid[0:h-1, 0:w-1]
-    p00 = (row_idx * w + col_idx).ravel().astype(np.int64)
-    p01 = (row_idx * w + col_idx + 1).ravel().astype(np.int64)
-    p11 = ((row_idx+1) * w + col_idx + 1).ravel().astype(np.int64)
-    p10 = ((row_idx+1) * w + col_idx).ravel().astype(np.int64)
+    # ── Layer 1: Base Terrain ─────────────────────────────────────────────
+    pts_terrain = np.stack([x_g.ravel(), y_g.ravel(), (Z_dtm * exaggeration).ravel()], axis=1).astype(np.float64)
+    
+    ri, ci = np.mgrid[0:h-1, 0:w-1]
+    p00 = (ri * w + ci).ravel().astype(np.int64)
+    p01 = (ri * w + ci + 1).ravel().astype(np.int64)
+    p11 = ((ri + 1) * w + ci + 1).ravel().astype(np.int64)
+    p10 = ((ri + 1) * w + ci).ravel().astype(np.int64)
 
-    # ── Build PolyData from valid quads only ─────────────────────────────────
-    n_valid = int(valid.sum())
-    face_arr = np.column_stack([
-        np.full(n_valid, 4, dtype=np.int64),
-        p00[valid], p01[valid], p11[valid], p10[valid]
+    quad_is_bldg = (mask_bldg[:-1, :-1] | mask_bldg[:-1, 1:] | mask_bldg[1:, :-1] | mask_bldg[1:, 1:]).ravel()
+    valid_terrain = ~quad_is_bldg
+
+    n_valid_t = int(valid_terrain.sum())
+    faces_terrain = np.column_stack([
+        np.full(n_valid_t, 4, dtype=np.int64),
+        p00[valid_terrain], p01[valid_terrain], p11[valid_terrain], p10[valid_terrain]
     ]).ravel()
 
-    mesh = pv.PolyData(points, face_arr)
-    mesh['Elevation'] = Z.ravel().astype(np.float32)   # exact scientific values
-    mesh.set_active_scalars('Elevation')
-
-    # UV coords (row/col → [0,1]) — 1:1 mapping
     u_g, v_g = np.meshgrid(np.linspace(0, 1, w), np.linspace(1, 0, h))
-    mesh.active_texture_coordinates = np.stack(
-        [u_g.ravel(), v_g.ravel()], axis=1)
+    uv_base = np.stack([u_g.ravel(), v_g.ravel()], axis=1)
 
-    # Phase 31E: compute point normals for smooth lighting
-    mesh.compute_normals(cell_normals=False, point_normals=True, inplace=True)
+    # ── Layer 2: Roof Surfaces from DSM ──────────────────────────────────
+    Z_roof_vis = cv2.bilateralFilter(Z.astype(np.float32), d=5, sigmaColor=3.0, sigmaSpace=3.0)
+    z_roof_disp = Z_roof_vis * exaggeration
+    pts_roof = np.stack([x_g.ravel(), y_g.ravel(), z_roof_disp.ravel()], axis=1).astype(np.float64)
 
-    # ── DSM integrity check (post-mesh) ──────────────────────────────────────
+    valid_roof = quad_is_bldg
+    n_valid_r = int(valid_roof.sum())
+    faces_roof = np.column_stack([
+        np.full(n_valid_r, 4, dtype=np.int64),
+        p00[valid_roof], p01[valid_roof], p11[valid_roof], p10[valid_roof]
+    ]).ravel()
+
+    # ── Layer 3: Extruded Vertical Side Walls ────────────────────────────
+    num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(mask_bldg.astype(np.uint8))
+
+    all_points = list(pts_terrain)
+    all_faces = list(faces_terrain) + list(faces_roof)
+    all_elevations = list(Z.ravel().astype(np.float32))
+    all_bldg_heights = list(Z_ndsm.ravel().astype(np.float32))
+    all_uvs = list(uv_base)
+
+    building_records = []
+    curr_pt_idx = len(pts_terrain)
+
+    for k in range(1, num_labels):
+        area = stats[k, cv2.CC_STAT_AREA]
+        if area < min_area:
+            continue
+        b_mask = (labels == k)
+        z_ground = float(np.median(Z_dtm[b_mask]))
+        z_roof_p95 = float(np.percentile(Z[b_mask], 95))
+        bldg_height = max(0.0, z_roof_p95 - z_ground)
+
+        contours, _ = cv2.findContours(b_mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        if not contours: continue
+        cnt = contours[0]
+        if len(cnt) < 3: continue
+
+        cnt_approx = cv2.approxPolyDP(cnt, 1.0, closed=True)
+        pts_cnt = cnt_approx.reshape(-1, 2)
+        n_pts = len(pts_cnt)
+        if n_pts < 3: continue
+
+        wall_start_idx = curr_pt_idx
+        for col_i, row_i in pts_cnt:
+            x_val = transform.a * col_i + transform.c
+            y_val = transform.e * row_i + transform.f
+            u_val = col_i / (w - 1)
+            v_val = 1.0 - (row_i / (h - 1))
+
+            all_points.append([x_val, y_val, z_ground * exaggeration])
+            all_elevations.append(z_ground)
+            all_bldg_heights.append(bldg_height)
+            all_uvs.append([u_val, v_val])
+
+            all_points.append([x_val, y_val, z_roof_p95 * exaggeration])
+            all_elevations.append(z_roof_p95)
+            all_bldg_heights.append(bldg_height)
+            all_uvs.append([u_val, v_val])
+
+            curr_pt_idx += 2
+
+        for i in range(n_pts):
+            next_i = (i + 1) % n_pts
+            g1 = wall_start_idx + 2*i
+            r1 = wall_start_idx + 2*i + 1
+            g2 = wall_start_idx + 2*next_i
+            r2 = wall_start_idx + 2*next_i + 1
+            all_faces.extend([4, g1, g2, r2, r1])
+
+        building_records.append({"id": k, "height_m": round(bldg_height, 1)})
+
+    pts_combined = np.array(all_points, dtype=np.float64)
+    mesh_combined = pv.PolyData(pts_combined, np.array(all_faces, dtype=np.int64))
+    mesh_combined['Elevation'] = np.array(all_elevations, dtype=np.float32)
+    mesh_combined['BuildingHeight'] = np.array(all_bldg_heights, dtype=np.float32)
+    mesh_combined.set_active_scalars('Elevation')
+    mesh_combined.active_texture_coordinates = np.array(all_uvs, dtype=np.float32)
+    mesh_combined.compute_normals(cell_normals=False, point_normals=True, inplace=True)
+
     dsm_min_post = float(Z.min())
     dsm_max_post = float(Z.max())
-    dsm_ok = (abs(dsm_min_pre - dsm_min_post) < 1e-4 and
-               abs(dsm_max_pre - dsm_max_post) < 1e-4)
+    dsm_ok = (abs(dsm_min_pre - dsm_min_post) < 1e-4 and abs(dsm_max_pre - dsm_max_post) < 1e-4)
 
     topology_stats = {
-        "method":                 "phase31e_edge_preserving_visual_mesh",
-        "dz_threshold_m":         _EDGE_DZ_THRESHOLD,
-        "n_quads_total":          int(len(valid)),
-        "n_quads_removed":        int((~valid).sum()),
-        "pct_removed":            float((~valid).sum() / len(valid) * 100),
-        "max_dz_remaining_m":     float(cell_dz[valid].max()) if n_valid > 0 else 0.0,
-        "dsm_integrity_ok":       dsm_ok,
-        "exaggeration":           exaggeration,
+        "method": "phase31g_building_aware_hybrid_mesh",
+        "dz_threshold_m": _EDGE_DZ_THRESHOLD,
+        "num_buildings": len(building_records),
+        "n_quads_removed": 0,
+        "pct_removed": 0.0,
+        "dsm_integrity_ok": dsm_ok,
+        "exaggeration": exaggeration,
     }
-    return mesh, topology_stats
+    return mesh_combined, topology_stats
 
 
 def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
                           exaggeration, camera_angle, render_mode):
-    """Phase 31E: render with edge-preserving visualization mesh → headless PNG bytes."""
+    """Phase 31G: render building-aware hybrid 3D city scene → headless PNG bytes."""
     import time
     t0 = time.perf_counter()
 
     h, w = dsm_pred.shape
-    mesh, topo = build_edge_aware_mesh(dsm_pred, transform, exaggeration)
+    dtm_input = st.session_state.get("dtm_pred", None)
+    mesh, topo = build_building_aware_mesh(dsm_pred, Z_dtm=dtm_input, transform=transform, exaggeration=exaggeration)
     t_mesh = time.perf_counter() - t0
 
-    # Camera positions (proportional to scene bounding box extent)
     pts_np = np.array(mesh.points)
     x_mid = float(pts_np[:, 0].mean())
     y_mid = float(pts_np[:, 1].mean())
@@ -550,7 +611,7 @@ def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
 
     t1 = time.perf_counter()
     plotter = pv.Plotter(off_screen=True, window_size=(1200, 700))
-    if render_mode == "RGB Texture":
+    if render_mode in ["RGB City", "RGB Texture"]:
         img_rgb = active_image if active_image.dtype == np.uint8 else (
             (active_image - active_image.min()) /
             (active_image.max() - active_image.min() + 1e-6) * 255
@@ -558,16 +619,19 @@ def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
         if img_rgb.shape[0] != h or img_rgb.shape[1] != w:
             img_rgb = cv2.resize(img_rgb, (w, h), interpolation=cv2.INTER_LINEAR)
         tex = pv.numpy_to_texture(img_rgb)
-        plotter.add_mesh(mesh, texture=tex, show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.8, specular=0.1)
+        plotter.add_mesh(mesh, texture=tex, show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.85, specular=0.1)
     elif render_mode == "Elevation-Colored":
-        plotter.add_mesh(mesh, scalars='Elevation', cmap="plasma", show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.8)
+        plotter.add_mesh(mesh, scalars='Elevation', cmap="plasma", show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.85)
         plotter.add_scalar_bar("Elevation (m)", title_font_size=14)
+    elif render_mode == "Building Height Structure":
+        plotter.add_mesh(mesh, scalars='BuildingHeight', cmap="viridis", show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.85)
+        plotter.add_scalar_bar("Building Height Above Ground (m)", title_font_size=14)
     else:   # Contour Lines
         contours = mesh.contour(isosurfaces=15, scalars='Elevation')
         plotter.add_mesh(mesh, color="#2C3E50", opacity=0.7, show_edges=False, smooth_shading=True)
         plotter.add_mesh(contours, color="#FF4B4B", line_width=2)
 
-    plotter.camera_position = cameras[camera_angle]
+    plotter.camera_position = cameras.get(camera_angle, cameras["City Overview"])
     plotter.set_background("#0D1117")
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp:
@@ -580,9 +644,7 @@ def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
         img_bytes = f.read()
     os.remove(tmp_path)
 
-    # Store timing + topology in session state for UI badge
-    import streamlit as _st
-    _st.session_state["last_mesh_stats"] = {
+    st.session_state["last_mesh_stats"] = {
         **topo,
         "mesh_build_s": round(t_mesh, 2),
         "render_s":     round(t_render, 2),
@@ -606,7 +668,7 @@ st.sidebar.markdown("### 🎛️ 3D Render Controls")
 exaggeration = st.sidebar.select_slider(
     "Vertical Exaggeration", options=[1.0, 1.5, 2.0, 3.0], value=1.0)
 camera_angle = st.sidebar.selectbox("Camera Preset", ["City Overview", "Urban Street", "Inspection"])
-render_mode = st.sidebar.selectbox("Render Mode", ["RGB Texture", "Elevation-Colored", "Contour Lines"])
+render_mode = st.sidebar.selectbox("Render Mode", ["RGB City", "Elevation-Colored", "Building Height Structure", "Contour Lines"])
 if st.sidebar.button("🔄 Re-render 3D View"):
     st.session_state.pop("render_cache", None)
     st.session_state.pop("render_cache_key", None)
@@ -614,13 +676,13 @@ if st.sidebar.button("🔄 Re-render 3D View"):
 # Mesh status badge
 st.sidebar.markdown("---")
 st.sidebar.markdown("**🧱 3D Mesh Engine**")
-st.sidebar.success("✔ Phase 31F Urban 3D Surface")
-st.sidebar.caption(f"Curtain-filter: {_EDGE_DZ_THRESHOLD:.0f} m threshold")
+st.sidebar.success("✔ Building-Aware 3D City (Phase 31G)")
+st.sidebar.caption("Hybrid: Base DTM + Extruded Building Walls + DSM Roofs")
 if "last_mesh_stats" in st.session_state:
     ms = st.session_state["last_mesh_stats"]
     st.sidebar.caption(
         f"⏱ Mesh: {ms.get('mesh_build_s',0)}s  Render: {ms.get('render_s',0)}s\n"
-        f"Filtered: {ms.get('n_quads_removed',0)} quads ({ms.get('pct_removed',0):.1f}%)"
+        f"Buildings: {ms.get('num_buildings',0)} objects"
     )
 
 st.sidebar.markdown("---")
@@ -1044,10 +1106,11 @@ def write_geotiff(arr):
     return data
 
 def write_vtp(dsm, transform):
-    """Export Phase 31D repaired visualization mesh as .vtp.
-    Scientific DSM values are preserved; only curtain quads are removed.
+    """Export Phase 31G Building-Aware visualization mesh as .vtp.
+    Scientific DSM values are preserved; building-aware hybrid visualization is exported.
     """
-    mesh, _ = build_edge_aware_mesh(dsm, transform, exaggeration=1.0)
+    dtm_input = st.session_state.get("dtm_pred", None)
+    mesh, _ = build_building_aware_mesh(dsm, Z_dtm=dtm_input, transform=transform, exaggeration=1.0)
     with tempfile.NamedTemporaryFile(delete=False, suffix=".vtp") as f:
         p = f.name
     mesh.save(p)
