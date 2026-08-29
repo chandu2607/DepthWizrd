@@ -485,19 +485,15 @@ if run_wizard:
         depth_map = depth_model.infer(active_image, active_filename,
                                       target_hw=(h, w))
 
+        # Try to run full absolute pipeline (Mode B)
+        used_absolute = False
         if is_georeferenced:
             dsm_truth_path = DATA_DIR / "dsm" / active_filename
-            # Only use bundled demo DSM when demo button was pressed,
-            # NOT for arbitrary user uploads (wrong scene → jagged terrain)
+            # Only use bundled demo DSM for the demo tile (not arbitrary uploads)
             if not dsm_truth_path.exists() and active_filename == "SV_NewYork_40.7401_-73.9915.tif":
                 dsm_truth_path = Path("demo/demo_dsm.tif")
-            if not dsm_truth_path.exists():
-                st.warning(
-                    "⚠️ Metric-scale auxiliary elevation source required for "
-                    "this tile. Upload a pre-validated NYC/Copenhagen tile to "
-                    "use absolute mode.")
-                st.session_state["dsm_pred"] = None
-            else:
+
+            if dsm_truth_path.exists():
                 gt = cv2.imread(str(dsm_truth_path),
                                 cv2.IMREAD_UNCHANGED).astype(np.float32)
                 dtm_true = create_synthetic_dtm(gt.shape)
@@ -551,6 +547,7 @@ if run_wizard:
 
                 refined_ndsm = coarse_ndsm_up + pred_delta_dense
                 dsm_pred = dtm_pred + refined_ndsm
+                used_absolute = True
 
                 st.session_state["dsm_pred"] = dsm_pred
                 st.session_state["refined_ndsm"] = refined_ndsm
@@ -558,8 +555,14 @@ if run_wizard:
                 st.session_state["depth_map"] = depth_map
                 st.session_state["is_georeferenced"] = True
                 st.session_state["raster_meta_cache"] = raster_meta
-        else:
-            # Mode A — relative
+
+        # ── Fallback: always generate relative DSM so 3D mesh is shown ─────
+        if not used_absolute:
+            if is_georeferenced:
+                st.info(
+                    "ℹ️ No metric elevation source found for this tile — "
+                    "showing **RELATIVE DSM** from monocular depth. "
+                    "For absolute metric output, use a pre-validated NYC/Copenhagen tile.")
             depth_norm = ((depth_map - depth_map.min()) /
                           (depth_map.max() - depth_map.min() + 1e-6))
             relative_dsm = depth_norm * 10.0
