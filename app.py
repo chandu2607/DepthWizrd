@@ -24,73 +24,231 @@ DATA_DIR = Path("data/dfc2023_multicity")
 # Page configuration
 # ──────────────────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="DepthWizard — Absolute 3D Elevation Model MVP",
+    page_title="DepthWizard — Single-View 3D Elevation Reconstruction",
+    page_icon="🌐",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Premium dark theme CSS
+# ── Premium dark-mode CSS ──────────────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap');
-body { background: #0D1117; }
-.main-title {
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+body, .stApp { background: #0D1117; }
+
+/* ─── Hero ─────────────────────────────────────────────────────── */
+.hero-wrap {
+    background: linear-gradient(135deg, #0D1117 0%, #161B22 60%, #1a0a0a 100%);
+    border: 1px solid #21262D;
+    border-radius: 16px;
+    padding: 2.2rem 2.5rem 1.8rem;
+    margin-bottom: 1.8rem;
+}
+.hero-title {
     font-family: 'Outfit', sans-serif;
-    color: #FF4B4B;
-    font-size: 2.8rem;
-    font-weight: 700;
-    margin-bottom: 0.2rem;
-    letter-spacing: -0.5px;
+    font-size: 3.2rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #FF4B4B 0%, #FF8C8C 50%, #FFB347 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+    line-height: 1.1;
 }
-.subtitle {
+.hero-tagline {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #C9D1D9;
+    margin: 0.5rem 0 0.4rem;
+}
+.hero-desc {
     font-family: 'Inter', sans-serif;
-    color: #8B949E;
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    color: #6E7681;
+    margin-top: 0.3rem;
+    max-width: 640px;
 }
+.hero-pills { margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.pill {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: rgba(63,185,80,0.12);
+    color: #3FB950;
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    letter-spacing: 0.3px;
+}
+.pill-red {
+    background: rgba(255,75,75,0.12);
+    color: #FF6B6B;
+    border-color: rgba(255,75,75,0.3);
+}
+
+/* ─── Section headers ───────────────────────────────────────────── */
 .section-header {
     font-family: 'Outfit', sans-serif;
     color: #E6EDF3;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-top: 1.8rem;
-    margin-bottom: 0.8rem;
-    border-bottom: 2px solid #21262D;
-    padding-bottom: 0.3rem;
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 0.7rem;
+    border-left: 3px solid #FF4B4B;
+    padding-left: 0.75rem;
 }
+
+/* ─── Metric cards ──────────────────────────────────────────────── */
 .metric-card {
-    background: linear-gradient(135deg, #161B22 0%, #1C2128 100%);
+    background: linear-gradient(145deg, #161B22 0%, #1C2128 100%);
     border: 1px solid #30363D;
-    border-radius: 10px;
-    padding: 1.2rem;
+    border-radius: 12px;
+    padding: 1.1rem 0.8rem;
     text-align: center;
+    transition: border-color 0.2s;
 }
+.metric-card:hover { border-color: #FF4B4B44; }
 .metric-value {
     font-family: 'Outfit', sans-serif;
-    font-size: 1.9rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: #3FB950;
+    line-height: 1.1;
 }
 .metric-label {
     font-family: 'Inter', sans-serif;
-    font-size: 0.8rem;
-    color: #8B949E;
-    margin-top: 0.2rem;
+    font-size: 0.75rem;
+    color: #6E7681;
+    margin-top: 0.25rem;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
 }
+
+/* ─── Step tracker ──────────────────────────────────────────────── */
+.step-row { display: flex; gap: 0.4rem; margin: 0.6rem 0 1rem; flex-wrap: wrap; }
+.step-done {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem; font-weight: 600;
+    background: rgba(63,185,80,0.15);
+    color: #3FB950;
+    border: 1px solid rgba(63,185,80,0.4);
+    border-radius: 20px;
+    padding: 0.25rem 0.9rem;
+}
+.step-run {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem; font-weight: 600;
+    background: rgba(255,75,75,0.15);
+    color: #FF6B6B;
+    border: 1px solid rgba(255,75,75,0.4);
+    border-radius: 20px;
+    padding: 0.25rem 0.9rem;
+    animation: pulse 1.4s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.55} }
+
+/* ─── Info/mode banners ─────────────────────────────────────────── */
+.mode-abs {
+    background: rgba(63,185,80,0.1);
+    border: 1px solid rgba(63,185,80,0.35);
+    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+    color: #3FB950;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+.mode-rel {
+    background: rgba(255,165,0,0.1);
+    border: 1px solid rgba(255,165,0,0.3);
+    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+    color: #FFA500;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+.input-meta {
+    background: #161B22;
+    border: 1px solid #21262D;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: #8B949E;
+    line-height: 1.8;
+}
+.input-meta b { color: #C9D1D9; }
+
+/* ─── 3D viewer badge ───────────────────────────────────────────── */
+.mesh-badge {
+    display:inline-block;
+    font-family:'Inter',sans-serif;
+    font-size:0.72rem;
+    font-weight:600;
+    background:rgba(63,185,80,0.12);
+    color:#3FB950;
+    border:1px solid rgba(63,185,80,0.35);
+    border-radius:20px;
+    padding:0.2rem 0.7rem;
+    margin-bottom:0.5rem;
+}
+
+/* ─── Export cards ──────────────────────────────────────────────── */
+.export-card {
+    background:#161B22;
+    border:1px solid #30363D;
+    border-radius:10px;
+    padding:1rem;
+    text-align:center;
+    margin-bottom:0.5rem;
+}
+.export-label {
+    font-family:'Inter',sans-serif;
+    font-size:0.78rem;
+    color:#6E7681;
+    margin-bottom:0.5rem;
+    text-transform:uppercase;
+    letter-spacing:0.4px;
+}
+
+/* ─── Why it matters ────────────────────────────────────────────── */
+.wim-card {
+    background:linear-gradient(135deg,#161B22,#1C2128);
+    border:1px solid #21262D;
+    border-radius:12px;
+    padding:1rem 1.2rem;
+    text-align:center;
+}
+.wim-icon { font-size:1.6rem; margin-bottom:0.4rem; }
+.wim-text {
+    font-family:'Inter',sans-serif;
+    font-size:0.82rem;
+    color:#8B949E;
+    line-height:1.5;
+}
+
+/* ─── Run button ────────────────────────────────────────────────── */
 .stButton > button[kind="primary"] {
     background: linear-gradient(135deg, #FF4B4B, #C62828);
     color: white;
     font-family: 'Outfit', sans-serif;
-    font-weight: 600;
-    font-size: 1rem;
-    padding: 0.7rem 2.5rem;
-    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.8rem 3rem;
+    border-radius: 10px;
     border: none;
     transition: all 0.2s ease;
+    letter-spacing: 0.5px;
 }
 .stButton > button[kind="primary"]:hover {
-    opacity: 0.85;
-    transform: translateY(-1px);
+    opacity: 0.88;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255,75,75,0.35);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -183,7 +341,8 @@ models_ready = depth_model is not None
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🔩 Model Status")
 for name, status in _load_status.items():
-    st.sidebar.markdown(f"**{name}**  \n{status}")
+    icon = "✅" if "Loaded" in status else ("⚠️" if "not found" in status else "❌")
+    st.sidebar.caption(f"{icon} {name}")
 
 if not models_ready:
     st.sidebar.error(
@@ -434,7 +593,8 @@ uploaded_file = st.sidebar.file_uploader(
 )
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🎛️ 3D Render Controls")
-exaggeration = st.sidebar.slider("Vertical Exaggeration", 1.0, 3.0, 1.0, 0.5)
+exaggeration = st.sidebar.select_slider(
+    "Vertical Exaggeration", options=[1.0, 1.5, 2.0, 3.0], value=1.0)
 camera_angle = st.sidebar.selectbox("Camera Angle", ["Oblique", "Overhead", "Perspective"])
 render_mode = st.sidebar.selectbox("Render Mode", ["RGB Texture", "Elevation-Colored", "Contour Lines"])
 if st.sidebar.button("🔄 Re-render 3D View"):
@@ -443,28 +603,47 @@ if st.sidebar.button("🔄 Re-render 3D View"):
 
 # Mesh status badge
 st.sidebar.markdown("---")
-st.sidebar.markdown("**🧱 3D Mesh**")
-st.sidebar.success("✔ Edge-Aware (Phase 31D)")
-st.sidebar.caption(f"Filter: {_EDGE_DZ_THRESHOLD:.0f}m edge threshold")
+st.sidebar.markdown("**🧱 3D Mesh Engine**")
+st.sidebar.success("✔ Edge-Aware Topology (Phase 31D)")
+st.sidebar.caption(f"Curtain-filter: {_EDGE_DZ_THRESHOLD:.0f} m threshold")
 if "last_mesh_stats" in st.session_state:
     ms = st.session_state["last_mesh_stats"]
     st.sidebar.caption(
-        f"Removed: {ms.get('n_quads_removed', 0)} quads "
-        f"({ms.get('pct_removed', 0):.1f}%)\n"
-        f"Build: {ms.get('mesh_build_s', 0)}s  Render: {ms.get('render_s', 0)}s"
+        f"⏱ Mesh: {ms.get('mesh_build_s',0)}s  Render: {ms.get('render_s',0)}s\n"
+        f"Filtered: {ms.get('n_quads_removed',0)} quads ({ms.get('pct_removed',0):.1f}%)"
     )
 
+st.sidebar.markdown("---")
+st.sidebar.markdown("**📦 Demo Scene**")
+st.sidebar.caption("🏙️ NYC validated SIH demonstration scene")
+
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Header
+# Hero section
 # ──────────────────────────────────────────────────────────────────────────────
-st.markdown("<div class='main-title'>🌐 DepthWizard</div>", unsafe_allow_html=True)
-st.markdown(
-    "<div class='subtitle'>Absolute 3D Elevation Reconstruction — SIH Demonstration MVP</div>",
-    unsafe_allow_html=True)
+st.markdown("""
+<div class='hero-wrap'>
+  <div class='hero-title'>🌐 DepthWizard</div>
+  <div class='hero-tagline'>Single-View Elevation Reconstruction + Interactive 3D Flythrough</div>
+  <div class='hero-desc'>
+    Convert a single optical satellite image into a metric-aware elevation surface
+    and interactive 3D scene — no stereo pair required.
+  </div>
+  <div class='hero-pills'>
+    <span class='pill'>✓ Depth Anything V2</span>
+    <span class='pill'>✓ Phase 29 PeakRecovery MLP</span>
+    <span class='pill'>✓ Phase 31D Edge-Aware 3D Mesh</span>
+    <span class='pill pill-red'>SIH 2025 Demo</span>
+  </div>
+</div>
+""", unsafe_allow_html=True)
 
 if not models_ready:
-    st.warning("⚠️ Locked model resources unavailable. Ensure all checkpoint files are present.")
+    st.error(
+        "⚠️ **Model resources not found.** "
+        "Ensure all checkpoint files are present in `runs/`. "
+        "See README for setup instructions."
+    )
     st.stop()
 
 
@@ -564,29 +743,51 @@ raster_meta     = st.session_state.get("input_meta", {})
 # Main dashboard content
 # ──────────────────────────────────────────────────────────────────────────────
 if active_image is None:
-    st.info("👈 Upload a satellite image in the sidebar, or click **Load Demo Scene (NYC)** to begin.")
+    # Landing state — no image loaded yet
+    lc1, lc2, lc3 = st.columns(3)
+    with lc1:
+        st.markdown("<div class='wim-card'><div class='wim-icon'>🛰️</div><div class='wim-text'><b style='color:#C9D1D9'>Single-View Optical</b><br>No stereo pair or LiDAR required</div></div>", unsafe_allow_html=True)
+    with lc2:
+        st.markdown("<div class='wim-card'><div class='wim-icon'>📐</div><div class='wim-text'><b style='color:#C9D1D9'>Metric Elevation</b><br>Georeferenced DSM output in metres</div></div>", unsafe_allow_html=True)
+    with lc3:
+        st.markdown("<div class='wim-card'><div class='wim-icon'>🏙️</div><div class='wim-text'><b style='color:#C9D1D9'>Interactive 3D City</b><br>Rotate · zoom · pan the reconstructed scene</div></div>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.info("**👈 Click 'Load Demo Scene (NYC)' in the sidebar** to see an instant validated demonstration, or upload your own satellite GeoTIFF.")
     st.stop()
 
 
-# Section 1 — Input preview
+# Section 1 — Input summary
 st.markdown("<div class='section-header'>1. Input Specifications</div>", unsafe_allow_html=True)
 c1, c2 = st.columns([1, 1])
 with c1:
     st.image(active_image, caption=active_filename, use_container_width=True)
 with c2:
-    st.markdown(f"**Filename:** `{active_filename}`")
-    st.markdown(f"**Dimensions:** `{active_image.shape[1]} × {active_image.shape[0]} px`")
+    h_img, w_img = active_image.shape[:2]
+    fmt = Path(active_filename).suffix.upper().lstrip(".")
     if is_georeferenced:
-        st.success("✅ GEOREFERENCED — Absolute Metric Mode")
-        st.markdown(f"**CRS:** `{raster_meta['crs']}`")
-        st.markdown(f"**GSD:** `{raster_meta['gsd'][0]:.3f} m × {raster_meta['gsd'][1]:.3f} m per pixel`")
+        gsd = raster_meta.get('gsd', (None, None))
+        gsd_str = f"{gsd[0]:.3f} m × {gsd[1]:.3f} m" if gsd[0] else "Unknown"
         b = raster_meta['bounds']
-        st.markdown(
-            f"**Bounds:** Left `{b.left:.1f}`, Bottom `{b.bottom:.1f}`, "
-            f"Right `{b.right:.1f}`, Top `{b.top:.1f}`")
+        st.markdown(f"""
+<div class='mode-abs'>✅ ABSOLUTE DSM MODE — Georeferenced</div>
+<div class='input-meta'>
+<b>File:</b> {active_filename}<br>
+<b>Format:</b> {fmt} &nbsp;|&nbsp; <b>Size:</b> {w_img} × {h_img} px<br>
+<b>CRS:</b> {raster_meta.get('crs','N/A')}<br>
+<b>GSD:</b> {gsd_str} per pixel<br>
+<b>Bounds:</b> [{b.left:.2f}, {b.bottom:.2f}, {b.right:.2f}, {b.top:.2f}]
+</div>
+""", unsafe_allow_html=True)
     else:
-        st.warning("⚠️ NON-GEOREFERENCED — Relative Scale Only")
-        st.info("No CRS detected. Output will be labelled RELATIVE DSM (normalised 0–10 m).")
+        st.markdown(f"""
+<div class='mode-rel'>⚠️ RELATIVE ELEVATION MODE — No Georeference</div>
+<div class='input-meta'>
+<b>File:</b> {active_filename}<br>
+<b>Format:</b> {fmt} &nbsp;|&nbsp; <b>Size:</b> {w_img} × {h_img} px<br>
+<b>CRS:</b> Not detected<br>
+<b>Output:</b> Relative DSM, normalised 0–10 m scale
+</div>
+""", unsafe_allow_html=True)
 
 # Section 2 — Run button
 st.markdown("<div class='section-header'>2. Reconstruct Elevation Surface</div>",
@@ -596,13 +797,39 @@ run_wizard = st.button("🚀 RUN DEPTHWIZARD", type="primary")
 if run_wizard:
     # Clear previous results
     for k in ["dsm_pred", "refined_ndsm", "dtm_pred", "depth_map",
-              "is_georeferenced", "raster_meta_cache", "render_cache"]:
+              "is_georeferenced", "raster_meta_cache", "render_cache",
+              "render_cache_key", "pipeline_time_s"]:
         st.session_state.pop(k, None)
 
+    _pipeline_start = time.perf_counter()
+
+    # Step progress display
+    _steps = [
+        ("1 Image Analysis", "2 Relative Depth", "3 Metric Calibration"),
+        ("4 Peak Recovery",  "5 DSM Reconstruction", "6 3D Mesh"),
+    ]
+    _step_ph = st.empty()
+    def _show_steps(done_count):
+        labels = ["1 Image Analysis", "2 Relative Depth", "3 Metric Calibration",
+                  "4 Peak Recovery",  "5 DSM Reconstruction", "6 3D Mesh"]
+        pills = "".join(
+            f"<span class='step-done'>✓ {l}</span>" if i < done_count
+            else (f"<span class='step-run'>⟳ {l}</span>" if i == done_count else f"<span style='opacity:0.35;font-size:0.75rem;padding:0.25rem 0.7rem'>{l}</span>")
+            for i, l in enumerate(labels)
+        )
+        _step_ph.markdown(f"<div class='step-row'>{pills}</div>", unsafe_allow_html=True)
+
+    _show_steps(0)
     with st.spinner("⏳ Running DepthWizard pipeline…"):
         h, w = active_image.shape[:2]
-        depth_map = depth_model.infer(active_image, active_filename,
-                                      target_hw=(h, w))
+        _show_steps(1)   # Step 1 done
+        try:
+            depth_map = depth_model.infer(active_image, active_filename,
+                                          target_hw=(h, w))
+        except Exception as _e:
+            st.error(f"❌ Depth inference failed: {_e}")
+            st.stop()
+        _show_steps(2)   # Step 2 done
 
         # Try to run full absolute pipeline (Mode B)
         used_absolute = False
@@ -664,8 +891,11 @@ if run_wizard:
                             ).numpy()[0]
                         pred_delta_dense[b_mask] = delta
 
+                _show_steps(3)   # Step 3 done
                 refined_ndsm = coarse_ndsm_up + pred_delta_dense
+                _show_steps(4)   # Step 4 done
                 dsm_pred = dtm_pred + refined_ndsm
+                _show_steps(5)   # Step 5 done
                 used_absolute = True
 
                 st.session_state["dsm_pred"] = dsm_pred
@@ -691,6 +921,8 @@ if run_wizard:
             st.session_state["depth_map"] = depth_map
             st.session_state["is_georeferenced"] = False
             st.session_state["raster_meta_cache"] = {}
+        _show_steps(6)   # All steps done
+        st.session_state["pipeline_time_s"] = round(time.perf_counter() - _pipeline_start, 1)
 
 # ─── Display results from session state ──────────────────────────────────────
 if "dsm_pred" not in st.session_state:
@@ -707,6 +939,11 @@ _rm = st.session_state.get("raster_meta_cache", {})
 _transform = _rm.get("transform",
                       rasterio.transform.from_origin(0, dsm_pred.shape[0], 1.0, 1.0))
 
+# Pipeline timing banner
+if "pipeline_time_s" in st.session_state:
+    _pt = st.session_state["pipeline_time_s"]
+    st.success(f"⚡ Processing completed in **{_pt}s**")
+
 # Section 3 — Outputs
 st.markdown("<div class='section-header'>3. Elevation Model Outputs</div>",
             unsafe_allow_html=True)
@@ -714,25 +951,26 @@ c3, c4 = st.columns(2)
 with c3:
     depth_viz = ((depth_map - depth_map.min()) /
                  (depth_map.max() - depth_map.min() + 1e-6))
-    st.image(depth_viz, caption="Relative Optical Depth (Depth Anything V2)",
+    st.image(depth_viz, caption="Relative Optical Depth — Depth Anything V2",
              use_container_width=True, clamp=True)
 with c4:
-    label = "ABSOLUTE DSM" if _is_geo else "RELATIVE DSM"
+    label = "ABSOLUTE DSM" if _is_geo else "RELATIVE DSM (0–10 m scale)"
     dsm_viz = (dsm_pred - dsm_pred.min()) / (dsm_pred.max() - dsm_pred.min() + 1e-6)
     st.image(dsm_viz, caption=f"Reconstructed Surface — {label}",
              use_container_width=True, clamp=True)
 
-# Section 4 — Statistics
+# Section 4 — Statistics dashboard
 st.markdown("<div class='section-header'>4. Height & Structural Statistics</div>",
             unsafe_allow_html=True)
 m1, m2, m3, m4, m5, m6 = st.columns(6)
+mode_str = "Absolute" if _is_geo else "Relative"
 stats_pairs = [
-    (m1, f"{dsm_pred.min():.1f} m", "Min Elevation"),
-    (m2, f"{dsm_pred.max():.1f} m", "Max Elevation"),
-    (m3, f"{dsm_pred.mean():.1f} m", "Mean Elevation"),
+    (m1, f"{dsm_pred.min():.1f} m",              f"Min Elevation ({mode_str})"),
+    (m2, f"{dsm_pred.max():.1f} m",              f"Max Elevation ({mode_str})"),
+    (m3, f"{dsm_pred.mean():.1f} m",             "Mean Elevation"),
     (m4, f"{np.percentile(dsm_pred, 95):.1f} m", "P95 Elevation"),
     (m5, f"{np.percentile(dsm_pred, 99):.1f} m", "P99 Elevation"),
-    (m6, f"{refined_ndsm.max():.1f} m" if _is_geo else "N/A", "Est. Max Structure"),
+    (m6, f"{refined_ndsm.max():.1f} m" if _is_geo else "N/A", "Est. Max Structure (nDSM)"),
 ]
 for col, val, lbl in stats_pairs:
     with col:
@@ -743,12 +981,16 @@ for col, val, lbl in stats_pairs:
             f"</div>", unsafe_allow_html=True)
 
 # Section 5 — 3D Viewer
-st.markdown("<div class='section-header'>5. 3D Terrain Mesh Viewer</div>",
+st.markdown("<div class='section-header'>5. Interactive 3D City Mesh</div>",
             unsafe_allow_html=True)
+st.markdown(
+    "<span class='mesh-badge'>✓ Edge-Aware 3D Mesh &nbsp;·&nbsp; "
+    f"Curtain-filter: {_EDGE_DZ_THRESHOLD:.0f} m threshold</span>",
+    unsafe_allow_html=True)
 
 render_key = f"{camera_angle}_{render_mode}_{exaggeration}"
 if st.session_state.get("render_cache_key") != render_key:
-    with st.spinner("🔧 Rendering 3D mesh…"):
+    with st.spinner("🔧 Building edge-aware mesh and rendering…"):
         render_bytes = render_3d_screenshot(
             active_image, dsm_pred, _transform, _is_geo,
             exaggeration, camera_angle, render_mode)
@@ -758,8 +1000,10 @@ else:
     render_bytes = st.session_state["render_cache"]
 
 st.image(render_bytes,
-         caption=f"3D View — {render_mode} | {camera_angle} | {exaggeration}×",
+         caption=f"3D View — {render_mode}  |  {camera_angle}  |  {exaggeration}× vertical",
          use_container_width=True)
+st.caption("💡 Change Camera Angle or Render Mode in the sidebar. "
+           "Controls update the view without re-running the elevation model.")
 
 # Section 6 — Export
 st.markdown("<div class='section-header'>6. Export Assets</div>",
@@ -802,19 +1046,64 @@ def write_vtp(dsm, transform):
     os.remove(p)
     return data
 
-ex1, ex2, ex3 = st.columns(3)
+ex1, ex2, ex3, ex4 = st.columns(4)
 with ex1:
-    st.download_button("⬇️ Download DSM GeoTIFF",
+    st.markdown("<div class='export-label'>📄 Scientific DSM</div>", unsafe_allow_html=True)
+    st.download_button("⬇️ DSM GeoTIFF",
                        data=write_geotiff(dsm_pred),
                        file_name=f"DSM_{active_filename}",
-                       mime="image/tiff")
+                       mime="image/tiff",
+                       use_container_width=True)
 with ex2:
-    st.download_button("⬇️ Download nDSM GeoTIFF",
+    st.markdown("<div class='export-label'>🏗️ nDSM (Building Heights)</div>", unsafe_allow_html=True)
+    st.download_button("⬇️ nDSM GeoTIFF",
                        data=write_geotiff(refined_ndsm),
                        file_name=f"nDSM_{active_filename}",
-                       mime="image/tiff")
+                       mime="image/tiff",
+                       use_container_width=True)
 with ex3:
-    st.download_button("⬇️ Download 3D Mesh (.vtp)",
+    st.markdown("<div class='export-label'>🌐 3D Mesh (Edge-Aware)</div>", unsafe_allow_html=True)
+    st.download_button("⬇️ 3D Mesh .vtp",
                        data=write_vtp(dsm_pred, _transform),
                        file_name=f"Mesh_{Path(active_filename).stem}.vtp",
-                       mime="application/octet-stream")
+                       mime="application/octet-stream",
+                       use_container_width=True)
+with ex4:
+    st.markdown("<div class='export-label'>🖼️ 3D Preview Image</div>", unsafe_allow_html=True)
+    st.download_button("⬇️ Preview PNG",
+                       data=st.session_state.get("render_cache", b""),
+                       file_name=f"3DPreview_{Path(active_filename).stem}.png",
+                       mime="image/png",
+                       use_container_width=True,
+                       disabled=("render_cache" not in st.session_state))
+
+# ─── How it works ─────────────────────────────────────────────────────────────
+st.markdown("<br>", unsafe_allow_html=True)
+with st.expander("ℹ️ How DepthWizard works"):
+    st.markdown("""
+    1. **Image Analysis** — A Vision Transformer (Depth Anything V2) analyses the RGB image and extracts structural cues from shading, texture, and context.
+    2. **Relative Depth** — The model outputs a relative depth map (dimensionless 0–1 scale) capturing which objects are near or far.
+    3. **Metric Calibration** — For georeferenced tiles, a reference Digital Surface Model anchors the relative depth to real-world elevation in metres.
+    4. **Peak Recovery** — A lightweight MLP (Phase 29) corrects systematic under-estimation of tall building peaks, using per-building geometric and depth features.
+    5. **DSM Reconstruction** — The final Digital Surface Model (DSM) is assembled as: DTM + refined nDSM, giving absolute elevation at every pixel.
+    6. **3D Surface Mesh** — An edge-aware quad filter (Phase 31D) builds the visualization mesh, removing artificial vertical curtain faces at building edges without altering the scientific DSM values.
+
+    > ⚠️ Monocular RGB alone does not provide absolute metric scale. Absolute output requires a reference elevation source (validated demo tiles included).
+    """)
+
+# ─── Why this matters ─────────────────────────────────────────────────────────
+st.markdown("<div class='section-header'>Why This Matters</div>", unsafe_allow_html=True)
+wc1, wc2, wc3, wc4, wc5 = st.columns(5)
+for wc, icon, txt in [
+    (wc1, "🛰️", "Single-view optical imagery — no stereo or LiDAR"),
+    (wc2, "⚡", "Rapid elevation reconstruction from any satellite pass"),
+    (wc3, "📐", "Georeferenced DSM output ready for GIS workflows"),
+    (wc4, "🏙️", "Interactive 3D scene for visual inspection & reporting"),
+    (wc5, "🔬", "Transparent, auditable pipeline with scientific integrity"),
+]:
+    with wc:
+        st.markdown(
+            f"<div class='wim-card'><div class='wim-icon'>{icon}</div>"
+            f"<div class='wim-text'>{txt}</div></div>",
+            unsafe_allow_html=True)
+
