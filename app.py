@@ -435,15 +435,12 @@ _EDGE_DZ_THRESHOLD = 10.0   # metres — locked from Phase 31D
 
 
 def build_edge_aware_mesh(Z_dsm, transform, exaggeration=1.0):
-    """Phase 31D Mesh B: edge-aware quad filter.
+    """Phase 31D/31E: edge-aware quad filter + edge-preserving surface regularization.
 
     Removes quads where any corner elevation difference > _EDGE_DZ_THRESHOLD.
-    This eliminates near-vertical curtain faces at building boundaries
-    without modifying the scientific DSM array.
-
-    Physical basis: Phase 31C P99 adjacent gradient = 2.27 m (normal building
-    surfaces); curtain triangles span 10–35 m in one pixel. Threshold=10 m
-    retains 98.76% of all quads; removes only boundary curtain faces.
+    Applies edge-preserving bilateral filtering ONLY to visual display points,
+    preserving sharp building outer boundaries while removing roof micro-jitter.
+    The scientific DSM array Z_dsm is NEVER modified.
 
     Args:
         Z_dsm:       float32 (h, w) DSM array — read-only, never modified.
@@ -460,14 +457,17 @@ def build_edge_aware_mesh(Z_dsm, transform, exaggeration=1.0):
     dsm_min_pre  = float(Z.min())
     dsm_max_pre  = float(Z.max())
 
-    # ── Geo coordinates ──────────────────────────────────────────────────────
+    # ── Geo coordinates & Visual Regularization ──────────────────────────────
     x_g, y_g = geo_coords_vectorised(transform, h, w)
-    z_display = Z * exaggeration           # display-only scale; does NOT alter Z
+    
+    # Phase 31E: Edge-preserving bilateral filter strictly on visualization surface coordinates
+    Z_vis = cv2.bilateralFilter(Z.astype(np.float32), d=5, sigmaColor=3.0, sigmaSpace=3.0)
+    z_display = Z_vis * exaggeration           # display-only scale; does NOT alter Z
     points = np.stack(
         [x_g.ravel(), y_g.ravel(), z_display.ravel()], axis=1
     ).astype(np.float64)
 
-    # ── Per-quad ΔZ (vectorised, no Python loops) ─────────────────────────────
+    # ── Per-quad ΔZ (vectorised, calculated on exact scientific Z) ───────────
     z00 = Z[:-1, :-1]; z01 = Z[:-1, 1:]
     z10 = Z[1:, :-1];  z11 = Z[1:, 1:]
     cell_max = np.maximum(np.maximum(z00, z01), np.maximum(z10, z11))
@@ -490,13 +490,16 @@ def build_edge_aware_mesh(Z_dsm, transform, exaggeration=1.0):
     ]).ravel()
 
     mesh = pv.PolyData(points, face_arr)
-    mesh['Elevation'] = Z.ravel().astype(np.float32)   # scientific values, display only
+    mesh['Elevation'] = Z.ravel().astype(np.float32)   # exact scientific values
     mesh.set_active_scalars('Elevation')
 
-    # UV coords (row/col → [0,1]) — identical to original mapping
+    # UV coords (row/col → [0,1]) — 1:1 mapping
     u_g, v_g = np.meshgrid(np.linspace(0, 1, w), np.linspace(1, 0, h))
     mesh.active_texture_coordinates = np.stack(
         [u_g.ravel(), v_g.ravel()], axis=1)
+
+    # Phase 31E: compute point normals for smooth lighting
+    mesh.compute_normals(cell_normals=False, point_normals=True, inplace=True)
 
     # ── DSM integrity check (post-mesh) ──────────────────────────────────────
     dsm_min_post = float(Z.min())
@@ -505,7 +508,7 @@ def build_edge_aware_mesh(Z_dsm, transform, exaggeration=1.0):
                abs(dsm_max_pre - dsm_max_post) < 1e-4)
 
     topology_stats = {
-        "method":                 "phase31d_edge_aware_quad_filter",
+        "method":                 "phase31e_edge_preserving_visual_mesh",
         "dz_threshold_m":         _EDGE_DZ_THRESHOLD,
         "n_quads_total":          int(len(valid)),
         "n_quads_removed":        int((~valid).sum()),
@@ -519,7 +522,7 @@ def build_edge_aware_mesh(Z_dsm, transform, exaggeration=1.0):
 
 def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
                           exaggeration, camera_angle, render_mode):
-    """Phase 32A: render with Phase 31D edge-aware mesh → headless PNG bytes."""
+    """Phase 31E: render with edge-preserving visualization mesh → headless PNG bytes."""
     import time
     t0 = time.perf_counter()
 
@@ -527,15 +530,19 @@ def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
     mesh, topo = build_edge_aware_mesh(dsm_pred, transform, exaggeration)
     t_mesh = time.perf_counter() - t0
 
-    # Camera positions (relative to mesh bounds)
+    # Camera positions (proportional to scene bounding box extent)
     pts_np = np.array(mesh.points)
     x_mid = float(pts_np[:, 0].mean())
     y_mid = float(pts_np[:, 1].mean())
     z_mid = float(pts_np[:, 2].mean())
+    span_x = float(pts_np[:, 0].max() - pts_np[:, 0].min())
+    span_y = float(pts_np[:, 1].max() - pts_np[:, 1].min())
+    extent = max(span_x, span_y)
+
     cameras = {
-        "Overhead":    [(x_mid, y_mid, z_mid + 400), (x_mid, y_mid, z_mid), (0, 1, 0)],
-        "Oblique":     [(x_mid - 250, y_mid - 250, z_mid + 200), (x_mid, y_mid, z_mid), (0, 0, 1)],
-        "Perspective": [(x_mid, y_mid - 300, z_mid + 150), (x_mid, y_mid, z_mid), (0, 0, 1)],
+        "Oblique":     [(x_mid - extent*0.75, y_mid - extent*0.75, z_mid + extent*0.5), (x_mid, y_mid, z_mid), (0, 0, 1)],
+        "Overhead":    [(x_mid, y_mid, z_mid + extent*1.1), (x_mid, y_mid, z_mid), (0, 1, 0)],
+        "Perspective": [(x_mid, y_mid - extent*0.65, z_mid + extent*0.35), (x_mid, y_mid, z_mid), (0, 0, 1)],
     }
 
     t1 = time.perf_counter()
@@ -548,13 +555,13 @@ def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
         if img_rgb.shape[0] != h or img_rgb.shape[1] != w:
             img_rgb = cv2.resize(img_rgb, (w, h), interpolation=cv2.INTER_LINEAR)
         tex = pv.numpy_to_texture(img_rgb)
-        plotter.add_mesh(mesh, texture=tex, show_edges=False)
+        plotter.add_mesh(mesh, texture=tex, show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.8, specular=0.1)
     elif render_mode == "Elevation-Colored":
-        plotter.add_mesh(mesh, scalars='Elevation', cmap="plasma", show_edges=False)
+        plotter.add_mesh(mesh, scalars='Elevation', cmap="plasma", show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.8)
         plotter.add_scalar_bar("Elevation (m)", title_font_size=14)
     else:   # Contour Lines
         contours = mesh.contour(isosurfaces=15, scalars='Elevation')
-        plotter.add_mesh(mesh, color="#2C3E50", opacity=0.7, show_edges=False)
+        plotter.add_mesh(mesh, color="#2C3E50", opacity=0.7, show_edges=False, smooth_shading=True)
         plotter.add_mesh(contours, color="#FF4B4B", line_width=2)
 
     plotter.camera_position = cameras[camera_angle]
