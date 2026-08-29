@@ -368,11 +368,15 @@ file_bytes_cache = None  # Keep raw bytes in case rasterio fails
 
 if demo_scene:
     active_filename = "SV_NewYork_40.7401_-73.9915.tif"
+
+    # Look in full data dir first, then fall back to the bundled demo/ folder
     rgb_demo_path = DATA_DIR / "rgb" / active_filename
+    if not rgb_demo_path.exists():
+        rgb_demo_path = Path("demo/demo_rgb.tif")
+
     if rgb_demo_path.exists():
         with rasterio.open(rgb_demo_path) as src:
             bands = src.read()
-            # Clamp to first 3 bands and convert to uint8
             bands = bands[:3] if src.count >= 3 else np.stack([bands[0]] * 3)
             bands_u8 = np.clip(bands, 0, 255).astype(np.uint8)
             active_image = np.transpose(bands_u8, (1, 2, 0))
@@ -384,7 +388,7 @@ if demo_scene:
                 "gsd": (abs(src.transform.a), abs(src.transform.e)),
             }
     else:
-        st.error(f"Demo file not found: `{rgb_demo_path}`")
+        st.error("Demo file not found even in `demo/` folder. Please re-clone the repository.")
 
 elif uploaded_file is not None:
     active_filename = uploaded_file.name
@@ -479,6 +483,8 @@ if run_wizard:
 
         if is_georeferenced:
             dsm_truth_path = DATA_DIR / "dsm" / active_filename
+            if not dsm_truth_path.exists():
+                dsm_truth_path = Path("demo/demo_dsm.tif")  # bundled fallback
             if not dsm_truth_path.exists():
                 st.warning(
                     "⚠️ Metric-scale auxiliary elevation source required for "
