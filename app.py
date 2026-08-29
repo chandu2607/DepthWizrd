@@ -267,41 +267,125 @@ def geo_coords_vectorised(transform, h, w):
     return x_g, y_g
 
 
-def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
-                          exaggeration, camera_angle, render_mode):
-    """Build PyVista mesh and render headless screenshot → returns bytes."""
-    h, w = dsm_pred.shape
+# ──────────────────────────────────────────────────────────────────────────────
+# Phase 31D — Edge-Aware Mesh Builder
+# Validated: MESH_REPAIR_SUCCESS (dZ_threshold=10m, 1.24% quads removed)
+# DSM raster is NEVER modified by this function.
+# ──────────────────────────────────────────────────────────────────────────────
+_EDGE_DZ_THRESHOLD = 10.0   # metres — locked from Phase 31D
+
+
+def build_edge_aware_mesh(Z_dsm, transform, exaggeration=1.0):
+    """Phase 31D Mesh B: edge-aware quad filter.
+
+    Removes quads where any corner elevation difference > _EDGE_DZ_THRESHOLD.
+    This eliminates near-vertical curtain faces at building boundaries
+    without modifying the scientific DSM array.
+
+    Physical basis: Phase 31C P99 adjacent gradient = 2.27 m (normal building
+    surfaces); curtain triangles span 10–35 m in one pixel. Threshold=10 m
+    retains 98.76% of all quads; removes only boundary curtain faces.
+
+    Args:
+        Z_dsm:       float32 (h, w) DSM array — read-only, never modified.
+        transform:   rasterio.Affine geotransform.
+        exaggeration: vertical display-only scale factor.
+
+    Returns:
+        mesh (pv.PolyData), topology_stats (dict)
+    """
+    Z = Z_dsm   # alias — we only read, never write
+    h, w = Z.shape
+
+    # ── DSM integrity snapshot (pre-mesh) ────────────────────────────────────
+    dsm_min_pre  = float(Z.min())
+    dsm_max_pre  = float(Z.max())
+
+    # ── Geo coordinates ──────────────────────────────────────────────────────
     x_g, y_g = geo_coords_vectorised(transform, h, w)
-    z_ex = dsm_pred * exaggeration
+    z_display = Z * exaggeration           # display-only scale; does NOT alter Z
+    points = np.stack(
+        [x_g.ravel(), y_g.ravel(), z_display.ravel()], axis=1
+    ).astype(np.float64)
 
-    points = np.stack([x_g.ravel(), y_g.ravel(), z_ex.ravel()], axis=1)
-    grid = pv.StructuredGrid()
-    grid.points = points.astype(np.float64)
-    grid.dimensions = (w, h, 1)
-    mesh = grid.extract_surface(algorithm='dataset_surface')
+    # ── Per-quad ΔZ (vectorised, no Python loops) ─────────────────────────────
+    z00 = Z[:-1, :-1]; z01 = Z[:-1, 1:]
+    z10 = Z[1:, :-1];  z11 = Z[1:, 1:]
+    cell_max = np.maximum(np.maximum(z00, z01), np.maximum(z10, z11))
+    cell_min = np.minimum(np.minimum(z00, z01), np.minimum(z10, z11))
+    cell_dz  = (cell_max - cell_min).ravel()          # shape (h-1)*(w-1)
+    valid    = cell_dz <= _EDGE_DZ_THRESHOLD
 
-    # UV coords
-    u_grid, v_grid = np.meshgrid(np.linspace(0, 1, w), np.linspace(1, 0, h))
-    mesh.active_texture_coordinates = np.stack(
-        [u_grid.ravel(), v_grid.ravel()], axis=1)
-    mesh['Elevation'] = dsm_pred.ravel().astype(np.float32)
+    # ── Quad vertex indices (vectorised) ─────────────────────────────────────
+    row_idx, col_idx = np.mgrid[0:h-1, 0:w-1]
+    p00 = (row_idx * w + col_idx).ravel().astype(np.int64)
+    p01 = (row_idx * w + col_idx + 1).ravel().astype(np.int64)
+    p11 = ((row_idx+1) * w + col_idx + 1).ravel().astype(np.int64)
+    p10 = ((row_idx+1) * w + col_idx).ravel().astype(np.int64)
+
+    # ── Build PolyData from valid quads only ─────────────────────────────────
+    n_valid = int(valid.sum())
+    face_arr = np.column_stack([
+        np.full(n_valid, 4, dtype=np.int64),
+        p00[valid], p01[valid], p11[valid], p10[valid]
+    ]).ravel()
+
+    mesh = pv.PolyData(points, face_arr)
+    mesh['Elevation'] = Z.ravel().astype(np.float32)   # scientific values, display only
     mesh.set_active_scalars('Elevation')
 
-    x_mid, y_mid, z_mid = float(x_g.mean()), float(y_g.mean()), float(z_ex.mean())
+    # UV coords (row/col → [0,1]) — identical to original mapping
+    u_g, v_g = np.meshgrid(np.linspace(0, 1, w), np.linspace(1, 0, h))
+    mesh.active_texture_coordinates = np.stack(
+        [u_g.ravel(), v_g.ravel()], axis=1)
+
+    # ── DSM integrity check (post-mesh) ──────────────────────────────────────
+    dsm_min_post = float(Z.min())
+    dsm_max_post = float(Z.max())
+    dsm_ok = (abs(dsm_min_pre - dsm_min_post) < 1e-4 and
+               abs(dsm_max_pre - dsm_max_post) < 1e-4)
+
+    topology_stats = {
+        "method":                 "phase31d_edge_aware_quad_filter",
+        "dz_threshold_m":         _EDGE_DZ_THRESHOLD,
+        "n_quads_total":          int(len(valid)),
+        "n_quads_removed":        int((~valid).sum()),
+        "pct_removed":            float((~valid).sum() / len(valid) * 100),
+        "max_dz_remaining_m":     float(cell_dz[valid].max()) if n_valid > 0 else 0.0,
+        "dsm_integrity_ok":       dsm_ok,
+        "exaggeration":           exaggeration,
+    }
+    return mesh, topology_stats
+
+
+def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
+                          exaggeration, camera_angle, render_mode):
+    """Phase 32A: render with Phase 31D edge-aware mesh → headless PNG bytes."""
+    import time
+    t0 = time.perf_counter()
+
+    h, w = dsm_pred.shape
+    mesh, topo = build_edge_aware_mesh(dsm_pred, transform, exaggeration)
+    t_mesh = time.perf_counter() - t0
+
+    # Camera positions (relative to mesh bounds)
+    pts_np = np.array(mesh.points)
+    x_mid = float(pts_np[:, 0].mean())
+    y_mid = float(pts_np[:, 1].mean())
+    z_mid = float(pts_np[:, 2].mean())
     cameras = {
         "Overhead":    [(x_mid, y_mid, z_mid + 400), (x_mid, y_mid, z_mid), (0, 1, 0)],
         "Oblique":     [(x_mid - 250, y_mid - 250, z_mid + 200), (x_mid, y_mid, z_mid), (0, 0, 1)],
         "Perspective": [(x_mid, y_mid - 300, z_mid + 150), (x_mid, y_mid, z_mid), (0, 0, 1)],
     }
 
+    t1 = time.perf_counter()
     plotter = pv.Plotter(off_screen=True, window_size=(1200, 700))
     if render_mode == "RGB Texture":
         img_rgb = active_image if active_image.dtype == np.uint8 else (
             (active_image - active_image.min()) /
             (active_image.max() - active_image.min() + 1e-6) * 255
         ).astype(np.uint8)
-        # Always resize texture to exactly match DSM grid dimensions
-        # (prevents torn/jagged render when image ≠ DSM resolution)
         if img_rgb.shape[0] != h or img_rgb.shape[1] != w:
             img_rgb = cv2.resize(img_rgb, (w, h), interpolation=cv2.INTER_LINEAR)
         tex = pv.numpy_to_texture(img_rgb)
@@ -309,7 +393,7 @@ def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
     elif render_mode == "Elevation-Colored":
         plotter.add_mesh(mesh, scalars='Elevation', cmap="plasma", show_edges=False)
         plotter.add_scalar_bar("Elevation (m)", title_font_size=14)
-    else:
+    else:   # Contour Lines
         contours = mesh.contour(isosurfaces=15, scalars='Elevation')
         plotter.add_mesh(mesh, color="#2C3E50", opacity=0.7, show_edges=False)
         plotter.add_mesh(contours, color="#FF4B4B", line_width=2)
@@ -321,10 +405,19 @@ def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
         tmp_path = tmp.name
     plotter.screenshot(tmp_path, transparent_background=False)
     plotter.close()
+    t_render = time.perf_counter() - t1
 
     with open(tmp_path, "rb") as f:
         img_bytes = f.read()
     os.remove(tmp_path)
+
+    # Store timing + topology in session state for UI badge
+    import streamlit as _st
+    _st.session_state["last_mesh_stats"] = {
+        **topo,
+        "mesh_build_s": round(t_mesh, 2),
+        "render_s":     round(t_render, 2),
+    }
     return img_bytes
 
 
@@ -346,6 +439,20 @@ camera_angle = st.sidebar.selectbox("Camera Angle", ["Oblique", "Overhead", "Per
 render_mode = st.sidebar.selectbox("Render Mode", ["RGB Texture", "Elevation-Colored", "Contour Lines"])
 if st.sidebar.button("🔄 Re-render 3D View"):
     st.session_state.pop("render_cache", None)
+    st.session_state.pop("render_cache_key", None)
+
+# Mesh status badge
+st.sidebar.markdown("---")
+st.sidebar.markdown("**🧱 3D Mesh**")
+st.sidebar.success("✔ Edge-Aware (Phase 31D)")
+st.sidebar.caption(f"Filter: {_EDGE_DZ_THRESHOLD:.0f}m edge threshold")
+if "last_mesh_stats" in st.session_state:
+    ms = st.session_state["last_mesh_stats"]
+    st.sidebar.caption(
+        f"Removed: {ms.get('n_quads_removed', 0)} quads "
+        f"({ms.get('pct_removed', 0):.1f}%)\n"
+        f"Build: {ms.get('mesh_build_s', 0)}s  Render: {ms.get('render_s', 0)}s"
+    )
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -683,13 +790,10 @@ def write_geotiff(arr):
     return data
 
 def write_vtp(dsm, transform):
-    h2, w2 = dsm.shape
-    x_g, y_g = geo_coords_vectorised(transform, h2, w2)
-    pts = np.stack([x_g.ravel(), y_g.ravel(), dsm.ravel()], axis=1)
-    grid = pv.StructuredGrid()
-    grid.points = pts.astype(np.float64)
-    grid.dimensions = (w2, h2, 1)
-    mesh = grid.extract_surface(algorithm='dataset_surface')
+    """Export Phase 31D repaired visualization mesh as .vtp.
+    Scientific DSM values are preserved; only curtain quads are removed.
+    """
+    mesh, _ = build_edge_aware_mesh(dsm, transform, exaggeration=1.0)
     with tempfile.NamedTemporaryFile(delete=False, suffix=".vtp") as f:
         p = f.name
     mesh.save(p)
