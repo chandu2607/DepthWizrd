@@ -300,6 +300,10 @@ def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
             (active_image - active_image.min()) /
             (active_image.max() - active_image.min() + 1e-6) * 255
         ).astype(np.uint8)
+        # Always resize texture to exactly match DSM grid dimensions
+        # (prevents torn/jagged render when image ≠ DSM resolution)
+        if img_rgb.shape[0] != h or img_rgb.shape[1] != w:
+            img_rgb = cv2.resize(img_rgb, (w, h), interpolation=cv2.INTER_LINEAR)
         tex = pv.numpy_to_texture(img_rgb)
         plotter.add_mesh(mesh, texture=tex, show_edges=False)
     elif render_mode == "Elevation-Colored":
@@ -483,8 +487,10 @@ if run_wizard:
 
         if is_georeferenced:
             dsm_truth_path = DATA_DIR / "dsm" / active_filename
-            if not dsm_truth_path.exists():
-                dsm_truth_path = Path("demo/demo_dsm.tif")  # bundled fallback
+            # Only use bundled demo DSM when demo button was pressed,
+            # NOT for arbitrary user uploads (wrong scene → jagged terrain)
+            if not dsm_truth_path.exists() and active_filename == "SV_NewYork_40.7401_-73.9915.tif":
+                dsm_truth_path = Path("demo/demo_dsm.tif")
             if not dsm_truth_path.exists():
                 st.warning(
                     "⚠️ Metric-scale auxiliary elevation source required for "
