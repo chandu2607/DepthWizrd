@@ -67,7 +67,7 @@ st.markdown("""
         color: #A0AEC0;
     }
 </style>
-""", unsafe_allowed_html=True)
+""", unsafe_allow_html=True)
 
 # 1. Caching locked model resources
 @st.cache_resource
@@ -138,8 +138,8 @@ camera_angle = st.sidebar.selectbox("Camera View Angle", ["Oblique", "Overhead",
 render_mode = st.sidebar.selectbox("Render Mode", ["RGB Texture", "Elevation-Colored", "Contour Lines"])
 
 # Dashboard Title
-st.markdown("<div class='main-title'>DepthWizard</div>", unsafe_allowed_html=True)
-st.markdown("<div class='subtitle'>Absolute Elevation Reconstruction & 3D Interactive Viewer Prototype</div>", unsafe_allowed_html=True)
+st.markdown("<div class='main-title'>DepthWizard</div>", unsafe_allow_html=True)
+st.markdown("<div class='subtitle'>Absolute Elevation Reconstruction & 3D Interactive Viewer Prototype</div>", unsafe_allow_html=True)
 
 # Helper function to create synthetic terrain
 def create_synthetic_dtm(shape):
@@ -281,7 +281,7 @@ else:
     # Dashboard Content
     if active_image is not None:
         # 1. Metadata and Input preview section
-        st.markdown("<div class='section-header'>1. Input Specifications</div>", unsafe_allowed_html=True)
+        st.markdown("<div class='section-header'>1. Input Specifications</div>", unsafe_allow_html=True)
         col1, col2 = st.columns([1, 1])
         
         with col1:
@@ -301,7 +301,7 @@ else:
                 st.info("No spatial tags or coordinate reference systems detected. Outputs will be normalized relative scales.")
 
         # 2. Trigger run button
-        st.markdown("<div class='section-header'>2. Reconstruct Elevation Surface</div>", unsafe_allowed_html=True)
+        st.markdown("<div class='section-header'>2. Reconstruct Elevation Surface</div>", unsafe_allow_html=True)
         run_wizard = st.button("RUN DEPTHWIZARD", type="primary")
         
         if run_wizard or 'dsm_pred' in st.session_state:
@@ -380,7 +380,7 @@ else:
             dsm_pred = st.session_state.dsm_pred
             
             if dsm_pred is not None:
-                st.markdown("<div class='section-header'>3. Elevation Model Outputs</div>", unsafe_allowed_html=True)
+                st.markdown("<div class='section-header'>3. Elevation Model Outputs</div>", unsafe_allow_html=True)
                 col3, col4 = st.columns([1, 1])
                 
                 with col3:
@@ -393,23 +393,23 @@ else:
                     st.image(dsm_pred / (dsm_pred.max() + 1e-6), caption=f"Reconstructed Surface ({label_title})", use_container_width=True, clamp=True)
                     
                 # Height Statistics section
-                st.markdown("<div class='section-header'>4. Height & Structural Statistics</div>", unsafe_allowed_html=True)
+                st.markdown("<div class='section-header'>4. Height & Structural Statistics</div>", unsafe_allow_html=True)
                 m1, m2, m3, m4 = st.columns(4)
                 
                 with m1:
-                    st.markdown(f"<div class='metric-card'><div class='metric-value'>{dsm_pred.min():.1f}m</div><div class='metric-label'>Min Elevation</div></div>", unsafe_allowed_html=True)
+                    st.markdown(f"<div class='metric-card'><div class='metric-value'>{dsm_pred.min():.1f}m</div><div class='metric-label'>Min Elevation</div></div>", unsafe_allow_html=True)
                 with m2:
-                    st.markdown(f"<div class='metric-card'><div class='metric-value'>{dsm_pred.max():.1f}m</div><div class='metric-label'>Max Elevation</div></div>", unsafe_allowed_html=True)
+                    st.markdown(f"<div class='metric-card'><div class='metric-value'>{dsm_pred.max():.1f}m</div><div class='metric-label'>Max Elevation</div></div>", unsafe_allow_html=True)
                 with m3:
-                    st.markdown(f"<div class='metric-card'><div class='metric-value'>{np.mean(dsm_pred):.1f}m</div><div class='metric-label'>Mean Elevation</div></div>", unsafe_allowed_html=True)
+                    st.markdown(f"<div class='metric-card'><div class='metric-value'>{np.mean(dsm_pred):.1f}m</div><div class='metric-label'>Mean Elevation</div></div>", unsafe_allow_html=True)
                 with m4:
                     if is_georeferenced:
-                        st.markdown(f"<div class='metric-card'><div class='metric-value'>{st.session_state.refined_ndsm.max():.1f}m</div><div class='metric-label'>Estimated Max Structure Height</div></div>", unsafe_allowed_html=True)
+                        st.markdown(f"<div class='metric-card'><div class='metric-value'>{st.session_state.refined_ndsm.max():.1f}m</div><div class='metric-label'>Estimated Max Structure Height</div></div>", unsafe_allow_html=True)
                     else:
-                        st.markdown(f"<div class='metric-card'><div class='metric-value'>N/A</div><div class='metric-label'>Estimated Max Structure Height</div></div>", unsafe_allowed_html=True)
+                        st.markdown(f"<div class='metric-card'><div class='metric-value'>N/A</div><div class='metric-label'>Estimated Max Structure Height</div></div>", unsafe_allow_html=True)
                         
                 # 3D Visualizer
-                st.markdown("<div class='section-header'>5. 3D Terrain mesh Viewer (Interactive Render)</div>", unsafe_allowed_html=True)
+                st.markdown("<div class='section-header'>5. 3D Terrain mesh Viewer (Interactive Render)</div>", unsafe_allow_html=True)
                 
                 # Compute mesh coordinates
                 h, w = dsm_pred.shape
@@ -480,7 +480,7 @@ else:
                 st.image(tmp_img_path, caption=f"3D Render View: {render_mode} ({camera_angle})", use_container_width=True)
                 
                 # Provide downloads/export section
-                st.markdown("<div class='section-header'>6. Export Asset Downloads</div>", unsafe_allowed_html=True)
+                st.markdown("<div class='section-header'>6. Export Asset Downloads</div>", unsafe_allow_html=True)
                 
                 # Export GeoTIFF files
                 with tempfile.NamedTemporaryFile(delete=False, suffix=".tif") as tmp_dsm:
