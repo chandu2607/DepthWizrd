@@ -435,9 +435,9 @@ _EDGE_DZ_THRESHOLD = 10.0   # metres — locked from Phase 31D
 
 
 def build_building_aware_mesh(Z_dsm, Z_dtm=None, mask_bldg=None, transform=None, exaggeration=1.0, min_area=15):
-    """Phase 31G: Building-Aware Hybrid 3D City Scene Generator.
-    Layer 1: Base DTM Terrain.
-    Layer 2: Building Objects (Extruded Vertical Side Walls + DSM Roof Surfaces).
+    """Phase 33B: Building-Aware Hybrid 3D City Scene Generator with Repaired Solid Roofs.
+    Layer 1: Base DTM Terrain + Solid DSM Roof Tops.
+    Layer 2: Extruded Vertical Side Walls seamlessly connecting ground to roof boundaries.
 
     Scientific DSM raster Z_dsm is 100% read-only and untouched.
     """
@@ -464,50 +464,40 @@ def build_building_aware_mesh(Z_dsm, Z_dtm=None, mask_bldg=None, transform=None,
         d_smooth = cv2.resize(d_coarse, (w, h), interpolation=cv2.INTER_LINEAR)
         mask_bldg = (Z_ndsm - d_smooth) > 2.5
 
-    # ── Layer 1: Base Terrain ─────────────────────────────────────────────
-    pts_terrain = np.stack([x_g.ravel(), y_g.ravel(), (Z_dtm * exaggeration).ravel()], axis=1).astype(np.float64)
-    
+    # ── Combined Surface Array (Terrain + DSM Roof Tops) ──────────────────────
+    Z_roof_vis = cv2.bilateralFilter(Z.astype(np.float32), d=5, sigmaColor=3.0, sigmaSpace=3.0)
+    Z_surface = np.where(mask_bldg, Z_roof_vis, Z_dtm)
+    Z_scientific = np.where(mask_bldg, Z, Z_dtm)
+
+    z_disp = Z_surface * exaggeration
+    pts_surface = np.stack([x_g.ravel(), y_g.ravel(), z_disp.ravel()], axis=1).astype(np.float64)
+
     ri, ci = np.mgrid[0:h-1, 0:w-1]
     p00 = (ri * w + ci).ravel().astype(np.int64)
     p01 = (ri * w + ci + 1).ravel().astype(np.int64)
     p11 = ((ri + 1) * w + ci + 1).ravel().astype(np.int64)
     p10 = ((ri + 1) * w + ci).ravel().astype(np.int64)
 
-    quad_is_bldg = (mask_bldg[:-1, :-1] | mask_bldg[:-1, 1:] | mask_bldg[1:, :-1] | mask_bldg[1:, 1:]).ravel()
-    valid_terrain = ~quad_is_bldg
-
-    n_valid_t = int(valid_terrain.sum())
-    faces_terrain = np.column_stack([
-        np.full(n_valid_t, 4, dtype=np.int64),
-        p00[valid_terrain], p01[valid_terrain], p11[valid_terrain], p10[valid_terrain]
+    n_quads = len(p00)
+    faces_surface = np.column_stack([
+        np.full(n_quads, 4, dtype=np.int64), p00, p01, p11, p10
     ]).ravel()
 
     u_g, v_g = np.meshgrid(np.linspace(0, 1, w), np.linspace(1, 0, h))
     uv_base = np.stack([u_g.ravel(), v_g.ravel()], axis=1)
 
-    # ── Layer 2: Roof Surfaces from DSM ──────────────────────────────────
-    Z_roof_vis = cv2.bilateralFilter(Z.astype(np.float32), d=5, sigmaColor=3.0, sigmaSpace=3.0)
-    z_roof_disp = Z_roof_vis * exaggeration
-    pts_roof = np.stack([x_g.ravel(), y_g.ravel(), z_roof_disp.ravel()], axis=1).astype(np.float64)
-
-    valid_roof = quad_is_bldg
-    n_valid_r = int(valid_roof.sum())
-    faces_roof = np.column_stack([
-        np.full(n_valid_r, 4, dtype=np.int64),
-        p00[valid_roof], p01[valid_roof], p11[valid_roof], p10[valid_roof]
-    ]).ravel()
-
-    # ── Layer 3: Extruded Vertical Side Walls ────────────────────────────
+    # ── Layer 2: Extruded Vertical Side Walls ────────────────────────────
     num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(mask_bldg.astype(np.uint8))
 
-    all_points = list(pts_terrain)
-    all_faces = list(faces_terrain) + list(faces_roof)
-    all_elevations = list(Z.ravel().astype(np.float32))
+    all_points = list(pts_surface)
+    all_faces = list(faces_surface)
+    all_elevations = list(Z_scientific.ravel().astype(np.float32))
     all_bldg_heights = list(Z_ndsm.ravel().astype(np.float32))
     all_uvs = list(uv_base)
 
     building_records = []
-    curr_pt_idx = len(pts_terrain)
+    curr_pt_idx = len(pts_surface)
+    n_wall_faces = 0
 
     for k in range(1, num_labels):
         area = stats[k, cv2.CC_STAT_AREA]
@@ -554,6 +544,7 @@ def build_building_aware_mesh(Z_dsm, Z_dtm=None, mask_bldg=None, transform=None,
             g2 = wall_start_idx + 2*next_i
             r2 = wall_start_idx + 2*next_i + 1
             all_faces.extend([4, g1, g2, r2, r1])
+            n_wall_faces += 1
 
         building_records.append({"id": k, "height_m": round(bldg_height, 1)})
 
@@ -570,11 +561,10 @@ def build_building_aware_mesh(Z_dsm, Z_dtm=None, mask_bldg=None, transform=None,
     dsm_ok = (abs(dsm_min_pre - dsm_min_post) < 1e-4 and abs(dsm_max_pre - dsm_max_post) < 1e-4)
 
     topology_stats = {
-        "method": "phase31g_building_aware_hybrid_mesh",
+        "method": "phase33b_repaired_roof_hybrid_mesh",
         "dz_threshold_m": _EDGE_DZ_THRESHOLD,
         "num_buildings": len(building_records),
-        "n_quads_removed": 0,
-        "pct_removed": 0.0,
+        "n_wall_faces": n_wall_faces,
         "dsm_integrity_ok": dsm_ok,
         "exaggeration": exaggeration,
     }
