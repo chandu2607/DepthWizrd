@@ -362,85 +362,96 @@ if not models_ready:
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Input routing
+# Input routing — ALL state stored in st.session_state so it survives reruns
+# triggered by clicking "RUN DEPTHWIZARD" or sidebar changes
 # ──────────────────────────────────────────────────────────────────────────────
-active_image = None
-active_filename = None
-is_georeferenced = False
-raster_meta = {}
-file_bytes_cache = None  # Keep raw bytes in case rasterio fails
 
-if demo_scene:
-    active_filename = "SV_NewYork_40.7401_-73.9915.tif"
-
-    # Look in full data dir first, then fall back to the bundled demo/ folder
-    rgb_demo_path = DATA_DIR / "rgb" / active_filename
-    if not rgb_demo_path.exists():
-        rgb_demo_path = Path("demo/demo_rgb.tif")
-
-    if rgb_demo_path.exists():
-        with rasterio.open(rgb_demo_path) as src:
-            bands = src.read()
-            bands = bands[:3] if src.count >= 3 else np.stack([bands[0]] * 3)
-            bands_u8 = np.clip(bands, 0, 255).astype(np.uint8)
-            active_image = np.transpose(bands_u8, (1, 2, 0))
-            is_georeferenced = src.crs is not None
-            raster_meta = {
+def _load_raster(path_or_bytes, is_path=True):
+    """Load raster from file path or bytes. Returns (image_uint8_hwc, is_geo, meta)."""
+    import io
+    if is_path:
+        ctx = rasterio.open(path_or_bytes)
+    else:
+        ctx = rasterio.open(io.BytesIO(path_or_bytes))
+    with ctx as src:
+        if src.count >= 3:
+            bands = src.read([1, 2, 3])
+        else:
+            b = src.read(1)
+            bands = np.stack([b, b, b])
+        def _u8(a):
+            mn, mx = a.min(), a.max()
+            return ((a - mn) / (mx - mn + 1e-6) * 255).astype(np.uint8) if mx > mn else np.zeros_like(a, dtype=np.uint8)
+        img = np.transpose(np.stack([_u8(bands[i]) for i in range(3)]), (1, 2, 0))
+        is_geo = src.crs is not None
+        meta = {}
+        if is_geo:
+            meta = {
                 "crs": str(src.crs),
                 "transform": src.transform,
                 "bounds": src.bounds,
                 "gsd": (abs(src.transform.a), abs(src.transform.e)),
             }
+    return img, is_geo, meta
+
+# ── Handle Demo Button ────────────────────────────────────────────────────────
+if demo_scene:
+    fname = "SV_NewYork_40.7401_-73.9915.tif"
+    rgb_path = DATA_DIR / "rgb" / fname
+    if not rgb_path.exists():
+        rgb_path = Path("demo/demo_rgb.tif")
+    if rgb_path.exists():
+        img, is_geo, meta = _load_raster(rgb_path, is_path=True)
+        st.session_state["input_image"]       = img
+        st.session_state["input_filename"]    = fname
+        st.session_state["input_is_geo"]      = is_geo
+        st.session_state["input_meta"]        = meta
+        # Clear any previous pipeline results when a new image is loaded
+        for k in ["dsm_pred", "refined_ndsm", "dtm_pred", "depth_map",
+                  "is_georeferenced", "raster_meta_cache", "render_cache", "render_cache_key"]:
+            st.session_state.pop(k, None)
     else:
         st.error("Demo file not found even in `demo/` folder. Please re-clone the repository.")
 
+# ── Handle File Upload ────────────────────────────────────────────────────────
 elif uploaded_file is not None:
-    active_filename = uploaded_file.name
-    file_bytes_cache = uploaded_file.read()  # Read once, store in memory
-
-    with tempfile.NamedTemporaryFile(delete=False,
-                                     suffix=Path(active_filename).suffix) as tmp:
-        tmp.write(file_bytes_cache)
-        tmp_path = tmp.name
-
-    try:
-        with rasterio.open(tmp_path) as src:
-            if src.count >= 3:
-                bands = src.read([1, 2, 3])
-            else:
-                b = src.read(1)
-                bands = np.stack([b, b, b])
-            # Normalise to uint8 for display
-            def to_u8(arr):
-                mn, mx = arr.min(), arr.max()
-                if mx > mn:
-                    return ((arr - mn) / (mx - mn) * 255).astype(np.uint8)
-                return np.zeros_like(arr, dtype=np.uint8)
-            active_image = np.transpose(
-                np.stack([to_u8(bands[i]) for i in range(3)]), (1, 2, 0))
-            is_georeferenced = src.crs is not None
-            if is_georeferenced:
-                raster_meta = {
-                    "crs": str(src.crs),
-                    "transform": src.transform,
-                    "bounds": src.bounds,
-                    "gsd": (abs(src.transform.a), abs(src.transform.e)),
-                }
-    except Exception:
-        # Fallback: treat as standard image
-        arr = np.frombuffer(file_bytes_cache, dtype=np.uint8)
-        decoded = cv2.imdecode(arr, cv2.IMREAD_COLOR)
-        if decoded is None:
-            st.error("❌ Cannot read uploaded file. Please upload a valid PNG, JPEG, or GeoTIFF.")
-        else:
-            active_image = cv2.cvtColor(decoded, cv2.COLOR_BGR2RGB)
-            is_georeferenced = False
-    finally:
+    # Only reload when a NEW file is uploaded (check by filename)
+    if st.session_state.get("input_filename") != uploaded_file.name:
+        raw = uploaded_file.read()
+        # Try as GeoTIFF first
         try:
-            os.remove(tmp_path)
+            with tempfile.NamedTemporaryFile(delete=False, suffix=Path(uploaded_file.name).suffix) as tmp:
+                tmp.write(raw)
+                tmp_path = tmp.name
+            try:
+                img, is_geo, meta = _load_raster(tmp_path, is_path=True)
+            finally:
+                try: os.remove(tmp_path)
+                except: pass
         except Exception:
-            pass
+            # Fallback: standard image
+            arr = np.frombuffer(raw, dtype=np.uint8)
+            decoded = cv2.imdecode(arr, cv2.IMREAD_COLOR)
+            if decoded is None:
+                st.error("❌ Cannot read uploaded file. Please upload a valid PNG, JPEG, or GeoTIFF.")
+                st.stop()
+            img = cv2.cvtColor(decoded, cv2.COLOR_BGR2RGB)
+            is_geo, meta = False, {}
 
+        st.session_state["input_image"]    = img
+        st.session_state["input_filename"] = uploaded_file.name
+        st.session_state["input_is_geo"]   = is_geo
+        st.session_state["input_meta"]     = meta
+        # Clear old pipeline results
+        for k in ["dsm_pred", "refined_ndsm", "dtm_pred", "depth_map",
+                  "is_georeferenced", "raster_meta_cache", "render_cache", "render_cache_key"]:
+            st.session_state.pop(k, None)
+
+# ── Pull active input from session state ──────────────────────────────────────
+active_image    = st.session_state.get("input_image")
+active_filename = st.session_state.get("input_filename")
+is_georeferenced = st.session_state.get("input_is_geo", False)
+raster_meta     = st.session_state.get("input_meta", {})
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Main dashboard content
@@ -448,6 +459,7 @@ elif uploaded_file is not None:
 if active_image is None:
     st.info("👈 Upload a satellite image in the sidebar, or click **Load Demo Scene (NYC)** to begin.")
     st.stop()
+
 
 # Section 1 — Input preview
 st.markdown("<div class='section-header'>1. Input Specifications</div>", unsafe_allow_html=True)
