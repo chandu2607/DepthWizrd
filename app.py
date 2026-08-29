@@ -486,17 +486,24 @@ def build_building_aware_mesh(Z_dsm, Z_dtm=None, mask_bldg=None, transform=None,
     u_g, v_g = np.meshgrid(np.linspace(0, 1, w), np.linspace(1, 0, h))
     uv_base = np.stack([u_g.ravel(), v_g.ravel()], axis=1)
 
-    # ── Layer 2: Extruded Vertical Side Walls ────────────────────────────
+    # ── Surface Mesh (Terrain + Roof Tops) ─────────────────────────────────
+    mesh_surface = pv.PolyData(pts_surface, faces_surface)
+    mesh_surface['Elevation'] = Z_scientific.ravel().astype(np.float32)
+    mesh_surface['BuildingHeight'] = Z_ndsm.ravel().astype(np.float32)
+    mesh_surface.set_active_scalars('Elevation')
+    mesh_surface.active_texture_coordinates = np.array(uv_base, dtype=np.float32)
+    mesh_surface.compute_normals(cell_normals=False, point_normals=True, inplace=True)
+
+    # ── Extruded Vertical Side Walls (Separate Mesh) ──────────────────────
     num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(mask_bldg.astype(np.uint8))
 
-    all_points = list(pts_surface)
-    all_faces = list(faces_surface)
-    all_elevations = list(Z_scientific.ravel().astype(np.float32))
-    all_bldg_heights = list(Z_ndsm.ravel().astype(np.float32))
-    all_uvs = list(uv_base)
+    wall_points = []
+    wall_faces = []
+    wall_elevations = []
+    wall_heights = []
 
     building_records = []
-    curr_pt_idx = len(pts_surface)
+    curr_pt_idx = 0
     n_wall_faces = 0
 
     for k in range(1, num_labels):
@@ -522,18 +529,14 @@ def build_building_aware_mesh(Z_dsm, Z_dtm=None, mask_bldg=None, transform=None,
         for col_i, row_i in pts_cnt:
             x_val = transform.a * col_i + transform.c
             y_val = transform.e * row_i + transform.f
-            u_val = col_i / (w - 1)
-            v_val = 1.0 - (row_i / (h - 1))
 
-            all_points.append([x_val, y_val, z_ground * exaggeration])
-            all_elevations.append(z_ground)
-            all_bldg_heights.append(bldg_height)
-            all_uvs.append([u_val, v_val])
+            wall_points.append([x_val, y_val, z_ground * exaggeration])
+            wall_elevations.append(z_ground)
+            wall_heights.append(bldg_height)
 
-            all_points.append([x_val, y_val, z_roof_p95 * exaggeration])
-            all_elevations.append(z_roof_p95)
-            all_bldg_heights.append(bldg_height)
-            all_uvs.append([u_val, v_val])
+            wall_points.append([x_val, y_val, z_roof_p95 * exaggeration])
+            wall_elevations.append(z_roof_p95)
+            wall_heights.append(bldg_height)
 
             curr_pt_idx += 2
 
@@ -543,46 +546,46 @@ def build_building_aware_mesh(Z_dsm, Z_dtm=None, mask_bldg=None, transform=None,
             r1 = wall_start_idx + 2*i + 1
             g2 = wall_start_idx + 2*next_i
             r2 = wall_start_idx + 2*next_i + 1
-            all_faces.extend([4, g1, g2, r2, r1])
+            wall_faces.extend([4, g1, g2, r2, r1])
             n_wall_faces += 1
 
         building_records.append({"id": k, "height_m": round(bldg_height, 1)})
 
-    pts_combined = np.array(all_points, dtype=np.float64)
-    mesh_combined = pv.PolyData(pts_combined, np.array(all_faces, dtype=np.int64))
-    mesh_combined['Elevation'] = np.array(all_elevations, dtype=np.float32)
-    mesh_combined['BuildingHeight'] = np.array(all_bldg_heights, dtype=np.float32)
-    mesh_combined.set_active_scalars('Elevation')
-    mesh_combined.active_texture_coordinates = np.array(all_uvs, dtype=np.float32)
-    mesh_combined.compute_normals(cell_normals=False, point_normals=True, inplace=True)
+    mesh_walls = None
+    if wall_points:
+        mesh_walls = pv.PolyData(np.array(wall_points, dtype=np.float64), np.array(wall_faces, dtype=np.int64))
+        mesh_walls['Elevation'] = np.array(wall_elevations, dtype=np.float32)
+        mesh_walls['BuildingHeight'] = np.array(wall_heights, dtype=np.float32)
+        mesh_walls.compute_normals(cell_normals=True, point_normals=False, inplace=True)
 
     dsm_min_post = float(Z.min())
     dsm_max_post = float(Z.max())
     dsm_ok = (abs(dsm_min_pre - dsm_min_post) < 1e-4 and abs(dsm_max_pre - dsm_max_post) < 1e-4)
 
     topology_stats = {
-        "method": "phase33b_repaired_roof_hybrid_mesh",
+        "method": "phase33c_final_polished_multi_mesh",
         "dz_threshold_m": _EDGE_DZ_THRESHOLD,
         "num_buildings": len(building_records),
         "n_wall_faces": n_wall_faces,
         "dsm_integrity_ok": dsm_ok,
         "exaggeration": exaggeration,
     }
-    return mesh_combined, topology_stats
+    return mesh_surface, mesh_walls, topology_stats
 
 
 def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
                           exaggeration, camera_angle, render_mode):
-    """Phase 31G: render building-aware hybrid 3D city scene → headless PNG bytes."""
+    """Phase 33C: render polished building-aware 3D city scene → headless PNG bytes."""
     import time
     t0 = time.perf_counter()
 
     h, w = dsm_pred.shape
     dtm_input = st.session_state.get("dtm_pred", None)
-    mesh, topo = build_building_aware_mesh(dsm_pred, Z_dtm=dtm_input, transform=transform, exaggeration=exaggeration)
+    mesh_surf, mesh_walls, topo = build_building_aware_mesh(
+        dsm_pred, Z_dtm=dtm_input, transform=transform, exaggeration=exaggeration)
     t_mesh = time.perf_counter() - t0
 
-    pts_np = np.array(mesh.points)
+    pts_np = np.array(mesh_surf.points)
     x_mid = float(pts_np[:, 0].mean())
     y_mid = float(pts_np[:, 1].mean())
     z_mid = float(pts_np[:, 2].mean())
@@ -595,14 +598,11 @@ def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
         "Urban":         [(x_mid - extent*0.45, y_mid - extent*0.45, z_mid + extent*0.25), (x_mid, y_mid, z_mid), (0, 0, 1)],
         "Inspection":    [(x_mid - extent*0.30, y_mid - extent*0.30, z_mid + extent*0.18), (x_mid, y_mid, z_mid), (0, 0, 1)],
         "Top View":      [(x_mid, y_mid, z_mid + extent*1.1), (x_mid, y_mid, z_mid), (0, 1, 0)],
-        "Urban Street":  [(x_mid - extent*0.45, y_mid - extent*0.45, z_mid + extent*0.25), (x_mid, y_mid, z_mid), (0, 0, 1)],
-        "Oblique":       [(x_mid - extent*0.75, y_mid - extent*0.75, z_mid + extent*0.55), (x_mid, y_mid, z_mid), (0, 0, 1)],
-        "Overhead":      [(x_mid, y_mid, z_mid + extent*1.1), (x_mid, y_mid, z_mid), (0, 1, 0)],
-        "Perspective":   [(x_mid, y_mid - extent*0.65, z_mid + extent*0.35), (x_mid, y_mid, z_mid), (0, 0, 1)],
     }
 
     t1 = time.perf_counter()
     plotter = pv.Plotter(off_screen=True, window_size=(1200, 700))
+    
     if render_mode in ["RGB City", "RGB Texture"]:
         img_rgb = active_image if active_image.dtype == np.uint8 else (
             (active_image - active_image.min()) /
@@ -611,24 +611,30 @@ def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
         if img_rgb.shape[0] != h or img_rgb.shape[1] != w:
             img_rgb = cv2.resize(img_rgb, (w, h), interpolation=cv2.INTER_LINEAR)
         tex = pv.numpy_to_texture(img_rgb)
-        plotter.add_mesh(mesh, texture=tex, show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.85, specular=0.1)
+        plotter.add_mesh(mesh_surf, texture=tex, show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.85, specular=0.1)
+        if mesh_walls is not None:
+            plotter.add_mesh(mesh_walls, color="#1E293B", show_edges=False, smooth_shading=False, ambient=0.25, diffuse=0.8, specular=0.05)
+            
     elif render_mode == "Elevation-Colored":
-        plotter.add_mesh(mesh, scalars='Elevation', cmap="plasma", show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.85)
+        plotter.add_mesh(mesh_surf, scalars='Elevation', cmap="plasma", show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.85)
+        if mesh_walls is not None:
+            plotter.add_mesh(mesh_walls, scalars='Elevation', cmap="plasma", show_edges=False, smooth_shading=False, ambient=0.25, diffuse=0.8)
         plotter.add_scalar_bar("Elevation (m)", title_font_size=14)
+        
     elif render_mode == "Building Height Structure":
-        plotter.add_mesh(mesh, scalars='BuildingHeight', cmap="viridis", show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.85)
+        plotter.add_mesh(mesh_surf, scalars='BuildingHeight', cmap="viridis", show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.85)
+        if mesh_walls is not None:
+            plotter.add_mesh(mesh_walls, scalars='BuildingHeight', cmap="viridis", show_edges=False, smooth_shading=False, ambient=0.25, diffuse=0.8)
         plotter.add_scalar_bar("Building Height Above Ground (m)", title_font_size=14)
-    else:   # Contour Lines
-        contours = mesh.contour(isosurfaces=15, scalars='Elevation')
-        plotter.add_mesh(mesh, color="#2C3E50", opacity=0.7, show_edges=False, smooth_shading=True)
-        plotter.add_mesh(contours, color="#FF4B4B", line_width=2)
 
-    plotter.camera_position = cameras.get(camera_angle, cameras["City Overview"])
+    cam_pos = cameras.get(camera_angle, cameras["City Overview"])
+    plotter.camera_position = cam_pos
     plotter.set_background("#0D1117")
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp:
         tmp_path = tmp.name
-    plotter.screenshot(tmp_path, transparent_background=False)
+
+    plotter.screenshot(tmp_path)
     plotter.close()
     t_render = time.perf_counter() - t1
 
@@ -1097,14 +1103,16 @@ def write_geotiff(arr):
     return data
 
 def write_vtp(dsm, transform):
-    """Export Phase 31G Building-Aware visualization mesh as .vtp.
-    Scientific DSM values are preserved; building-aware hybrid visualization is exported.
-    """
+    """Export Phase 33C Polished Building-Aware 3D City mesh as .vtp."""
     dtm_input = st.session_state.get("dtm_pred", None)
-    mesh, _ = build_building_aware_mesh(dsm, Z_dtm=dtm_input, transform=transform, exaggeration=1.0)
+    mesh_surf, mesh_walls, _ = build_building_aware_mesh(dsm, Z_dtm=dtm_input, transform=transform, exaggeration=1.0)
     with tempfile.NamedTemporaryFile(delete=False, suffix=".vtp") as f:
         p = f.name
-    mesh.save(p)
+    if mesh_walls is not None:
+        combined = mesh_surf.merge(mesh_walls)
+        combined.save(p)
+    else:
+        mesh_surf.save(p)
     with open(p, "rb") as f:
         data = f.read()
     os.remove(p)
