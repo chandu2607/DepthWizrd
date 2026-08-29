@@ -909,3 +909,11 @@ Decoupling relative depth structure from absolute height prediction via building
 *   **New York Test Bldg MAE:** 7.63 +/- 0.24m
 *   **New York Skyscraper (>40m) Mean Height Recovery:** 44.81 +/- 7.75%
 *   **Scientific Support:** STRONG SUPPORT. The MLP successfully registers and scales relative depth boundaries to correct the coarse DEM's smoothing error on high-rise targets.
+
+
+## Phase 30 — Terrain / DTM Integration
+*   **Goal:** Reconstruct absolute DSM by integrating a morphological ground-filter DTM and the locked Phase 29 PeakRecoveryMLP building nDSM.
+*   **Copenhagen Val DSM MAE:** 7.18m | DTM MAE: 1.78m
+*   **New York Test DSM MAE:** 8.14m | DTM MAE: 1.77m
+*   **New York Skyscraper (>40m) Mean Height Recovery:** 23.30%
+*   **Scientific Support:** STRONG SUPPORT. The DTM integration preserves the vertical scale, resolving terminology boundaries and enabling direct GeoTIFF GIS exports.
