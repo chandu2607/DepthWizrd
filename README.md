@@ -1,171 +1,191 @@
-# DepthWizard — Phase 1: Feasibility Before We Build
+# 🌐 DepthWizard — Absolute 3D Elevation Reconstruction
 
-Single-view optical RGB → **object height (nDSM)** → (later) absolute DSM → (later)
-3D flythrough. This repository is **Phase 1 only**: a disciplined experiment to
-decide whether the core idea is worth building, **before** writing a full system.
-
-> **The one question Phase 1 answers:** *Can a small learned RGB + relative-depth
-> fusion head estimate height (nDSM) meaningfully better than trivial affine
-> calibration of the depth prior — especially on a **city it never saw in
-> training**?* The answer gates everything else via a **GO / MODIFY / ABANDON**
-> checkpoint.
+> **SIH 2024 Demonstration Project**  
+> Monocular RGB → Absolute Digital Surface Model (DSM) → Interactive 3D Scene
 
 ---
 
-## The hypothesis under test
+## 📸 What It Does
 
+DepthWizard turns an ordinary satellite RGB image into a fully georeferenced, metric-scale 3D terrain model using:
+
+1. **Depth Anything V2** — monocular relative depth estimation
+2. **Phase 29 PeakRecoveryMLP** — building peak height recovery
+3. **Phase 30 DTM integration** — absolute terrain ground extraction
+4. **Phase 31 PyVista mesh pipeline** — interactive 3D scene generation
+5. **Phase 32 Streamlit MVP** — one-page demo dashboard
+
+---
+
+## 🚀 Quick Start — Running the Demo Locally
+
+### Prerequisites
+- Python **3.11** (not 3.12 or 3.13 — pyvista/rasterio wheels require 3.11)
+- Git
+- ~4 GB free disk space
+
+---
+
+### Step 1 — Clone the Repository
+
+```bash
+git clone https://github.com/chandu2607/DepthWizrd.git
+cd DepthWizrd
 ```
-RGB image
-   │
-   ├─► Depth Anything V2 (FROZEN)  ──►  relative depth  (a structural prior, NOT meters)
-   │                                        │
-   └────────────────────────────┬──────────┘
-                                 ▼
-              small learned fusion head (RGB + depth → nDSM, ~few 100k params)
-                                 ▼
-                       nDSM  (object height above ground, meters)
-                                 │
-                     (Phase 3+)  ├─► + DTM (from a DEM)  ──►  DSM
-                                 └─► 3D flythrough
-```
-
-Phase 1 builds and measures **only the left half** (→ nDSM). The `+ DTM → DSM` and
-3D steps are deliberately deferred until the checkpoint says GO.
-
-### Baselines (each is a swappable `HeightEstimator`)
-
-| ID | Method | Metric? | Why it exists |
-|----|--------|:------:|---------------|
-| **A** | Raw relative depth | no | Ceiling of any monotonic scaling. If Pearson *r* ≈ 0 here, nothing downstream can help → the premise fails. |
-| **B** | Global affine `h = a·d + b` (fit on train city) | yes | The "just calibrate the depth" strawman. **The bar C must beat.** |
-| **C** | Small learned RGB+depth fusion U-Net → nDSM | yes | **The hypothesis.** Tiny on purpose, so any win is from *learned fusion*, not capacity. |
-| **D** | RDAH-Net (published reference) | yes | *Optional*, bounded-effort. We report only numbers **we** measured — never RDAH-Net's published accuracy as ours. |
-
-Also reported: a per-image **oracle affine** upper bound (peeks at each tile's GT;
-not deployable) to separate *"the signal is there but scale drifts per scene"*
-from *"there is no signal."*
 
 ---
 
-## Key concepts
-
-- **nDSM** (normalized DSM) = height of objects **above the local ground** (a
-  building's height, a tree's height). This is what C predicts, in meters. Also
-  called **AGL** (above-ground level) in DFC2019.
-- **DTM** = bare-earth terrain elevation (no objects).
-- **DSM** = **DTM + nDSM** = full surface elevation. Producing an accurate DSM
-  needs an accurate DTM (from a DEM), whose error compounds with nDSM error. Phase
-  1 evaluates **nDSM only** and does not claim DSM accuracy.
-- **Relative vs metric depth:** Depth Anything V2 outputs *dimensionless,
-  scale/shift-ambiguous* depth. For near-nadir overhead imagery, true camera-depth
-  variation across a scene is negligible, so the model expresses **learned
-  appearance priors**, not measured geometry. We treat it strictly as a frozen
-  prior — never as a height sensor.
-
----
-
-## Why the split is city-held-out (and not random)
-
-Random same-city tile splits leak context (same buildings, same sun angle, same
-sensor) and **overstate generalization**. The mandatory protocol here trains on
-one city (`JAX`), keeps a small in-domain validation set of held-out `JAX` tiles,
-and reports the **headline number on an entirely unseen city (`OMA`)**. Even that
-is only a *within-DFC2019* proxy; the real deployment risk is **cross-sensor /
-cross-country shift to Indian ISRO imagery**, which Phase 1 cannot measure and
-does not claim.
-
----
-
-## Run it
-
-### Colab / Kaggle GPU (recommended)
-
-Open [`notebooks/phase1_feasibility_colab.ipynb`](notebooks/phase1_feasibility_colab.ipynb)
-and run top to bottom. It does a fast **self-check** on synthetic data first, then
-the real run, then displays the report + error maps and stops at the checkpoint.
-
-### Local
+### Step 2 — Install Dependencies
 
 ```bash
 pip install -r requirements.txt
-
-# offline plumbing self-check (synthetic + fake depth; NOT evidence)
-python scripts/run_phase1.py --config configs/smoke.yaml --allow-fake-depth
-
-# confirm your real tiles are discoverable
-python scripts/00_fetch_dataset.py configs/phase1.yaml
-
-# the real experiment (needs DFC2019 tiles under data/dfc2019/ and torch)
-python scripts/run_phase1.py --config configs/phase1.yaml
 ```
 
-Outputs land in `runs/phase1/`: `results.json`, `EXPERIMENT_RESULTS.md` (also
-copied to the repo root), and `figures/` (RGB | reference | prediction | error,
-plus a pred-vs-GT scatter). Depth-prior outputs are cached, so re-runs are fast.
-
-### Get the data
-
-DFC2019 Track-1 (US3D) needs a free IEEE DataPort login + EULA (or a Kaggle/HF
-mirror). Place `*_RGB.tif` / `*_AGL.tif` / `*_CLS.tif` under `data/dfc2019/`.
-See `depthwizard/data/fetch.py` and notebook §4.
+> ⚠️ **Windows users:** If `rasterio` fails, install the pre-built wheel:
+> ```bash
+> pip install rasterio --find-links https://girder.github.io/large_image_wheels
+> ```
+> Or download from: https://github.com/cgohlke/geospatial-wheels/releases
 
 ---
 
-## Reading the decision
+### Step 3 — Download the Demo Data
 
-`depthwizard/eval/decision.py` maps **measured** metrics to a recommendation via
-transparent, editable criteria (`DecisionThresholds`). Thresholds are either
-signal sanity checks or the **user-supplied reference points** (learned methods
-sit in a rough **2–4 m RMSE** band; a shadow-based reference was **~3.84 m RMSE**)
-— **context, not pass/fail targets**. The verdict is a decision *aid*; a human
-makes the final call using the numbers **and** the error maps.
+The satellite GeoTIFF tiles and model checkpoints are **not stored in Git** (too large).  
+Ask the project owner (Chandu) to share the `data/` and `runs/` folders via Google Drive or a USB drive.
 
-- **GO** — C beats B cross-city, within/near the reference band, gap acceptable.
-- **MODIFY** — signal exists but C doesn't beat B cross-city, or a guardrail fails.
-- **ABANDON** — the frozen depth prior carries ~no monotone height signal.
-- **INCONCLUSIVE** — synthetic/fake run, or C missing (no torch). Not a verdict.
-
----
-
-## What Phase 1 does **not** prove
-
-- Accuracy on **Indian ISRO optical imagery** (domain shift — the top open risk).
-- Full **DSM** accuracy (nDSM only; DTM error is not included).
-- That a bigger model wouldn't do better (C is intentionally tiny).
-
----
-
-## Project layout
-
+**Required folder structure after copying:**
 ```
-depthwizard/
-  config.py              dataclass config tree (YAML-loaded, reproducible)
-  data/datasets.py       DFC2019 canonical loader, city grouping, synthetic gen
-  data/fetch.py          bounded-effort acquisition + synthetic fallback
-  depth/depth_anything.py frozen Depth Anything V2 wrapper (disk-cached)
-  depth/fake.py          offline fake-depth stub (self-check only, NOT evidence)
-  models/base.py         HeightEstimator interface (swappable methods)
-  models/affine.py       Baseline A (raw) + B (global affine) + oracle
-  models/fusion_head.py  Baseline C (small learned RGB+depth U-Net)
-  models/rdah_net.py     Baseline D adapter (optional, TODO-gated)
-  metrics/height_metrics.py  MAE/RMSE/Pearson, class split, aggregation (numpy-only)
-  eval/evaluate.py       in-domain vs cross-city eval loops
-  eval/decision.py       GO/MODIFY/ABANDON from measured metrics
-  eval/report.py         renders EXPERIMENT_RESULTS.md
-  viz/plots.py           qualitative maps + scatter
-scripts/                 00_fetch_dataset, run_phase1, 03_make_report
-configs/                 phase1.yaml (real), smoke.yaml (synthetic)
-tests/                   metrics + decision unit tests
-notebooks/               phase1_feasibility_colab.ipynb
+DepthWizrd/
+├── data/
+│   └── dfc2023_multicity/
+│       ├── rgb/
+│       │   ├── SV_NewYork_40.7401_-73.9915.tif   ← demo tile
+│       │   ├── SV_NewYork_40.7372_-73.9901.tif
+│       │   └── SV_NewYork_40.7373_-74.0034.tif
+│       └── dsm/
+│           ├── SV_NewYork_40.7401_-73.9915.tif
+│           └── ...
+└── runs/
+    └── phase29_peak_recovery/
+        ├── seed_0/model.pt                        ← MLP checkpoint
+        └── normalization_stats.json
 ```
 
-Run the tests with `python tests/test_metrics.py && python tests/test_decision.py`
-(or `pytest`).
+---
+
+### Step 4 — Launch the App
+
+```bash
+python -m streamlit run app.py
+```
+
+The app will open automatically at: **http://localhost:8501**
 
 ---
 
-## Hardware
+### Step 5 — Run the Demo
 
-Baselines A/B and all metrics are numpy-only and run anywhere. Baseline C and the
-Depth Anything V2 prior want a GPU (free Colab/Kaggle is plenty for Phase 1);
-CPU works but is slow. Nothing here trains a large model from scratch.
+Once the app is open in your browser:
+
+| Step | Action |
+|------|--------|
+| 1 | Click **🏙️ Load Demo Scene (NYC)** in the left sidebar |
+| 2 | Verify the satellite image loads in **Section 1** |
+| 3 | Click **🚀 RUN DEPTHWIZARD** |
+| 4 | Wait ~10–20 seconds for depth inference + DSM reconstruction |
+| 5 | See the **3D rendered mesh** in Section 5 |
+| 6 | Change **Camera Angle** / **Render Mode** in the sidebar to explore |
+| 7 | Download outputs from **Section 6** (GeoTIFF, nDSM, .vtp mesh) |
+
+---
+
+## 📂 Repository Structure
+
+```
+DepthWizrd/
+├── app.py                          ← Streamlit demo dashboard (Phase 32)
+├── requirements.txt
+├── depthwizard/                    ← Core library
+│   ├── config.py
+│   ├── depth/                      ← Depth Anything V2 wrapper
+│   └── models/                     ← U-Net footprint + MLP models
+├── scripts/
+│   ├── run_phase29_peak_recovery.py   ← PeakRecoveryMLP training
+│   ├── run_phase30_full.py            ← Absolute DSM pipeline
+│   ├── run_phase31_mesh_gen.py        ← PyVista 3D mesh generation
+│   └── run_phase32_validation.py      ← End-to-end validation
+└── runs/                           ← Experiment outputs (not in Git)
+```
+
+---
+
+## 📊 Key Results
+
+| Metric | Value |
+|--------|-------|
+| Building MAE (New York zero-shot) | **7.63 ± 0.24 m** |
+| Skyscraper height recovery (>40m) | **44.81%** |
+| Absolute DSM MAE | **8.14 m** |
+| Absolute DSM RMSE | **11.29 m** |
+| 3D Mesh vertices per scene | **262,144** |
+
+---
+
+## 🏗️ Pipeline Architecture
+
+```
+RGB Satellite Image
+        │
+        ▼
+ Depth Anything V2
+ (relative depth)
+        │
+        ├──────────────────────────────────────┐
+        │                                      │
+        ▼                                      ▼
+ U-Net Building                     Morphological DTM
+ Footprint Mask                     Ground Extraction
+        │                                      │
+        ▼                                      │
+ PeakRecoveryMLP                              │
+ (Phase 29 — LOCKED)                          │
+        │                                      │
+        ▼                                      ▼
+ Refined nDSM          +            Predicted DTM
+        │                                      │
+        └──────────────┬───────────────────────┘
+                       ▼
+              Absolute DSM (metres)
+                       │
+                       ▼
+           PyVista 3D Textured Mesh
+                       │
+                       ▼
+          Streamlit Interactive Dashboard
+```
+
+---
+
+## ⚙️ Supported Input Formats
+
+| Format | Mode | Output |
+|--------|------|--------|
+| `.tif` / `.tiff` (georeferenced) | **Mode B — Absolute** | Metric DSM in UTM coordinates |
+| `.png` / `.jpg` / `.jpeg` | **Mode A — Relative** | Normalised 0–10 m relative DSM |
+| `.tif` (no CRS) | Mode A fallback | Relative DSM |
+
+---
+
+## 🔒 Locked Components (Do Not Modify)
+
+- Depth Anything V2 weights
+- Phase 29 `PeakRecoveryMLP` checkpoint (`runs/phase29_peak_recovery/`)
+- Phase 30 DTM morphological kernel (91 px = 45.5 m)
+- Phase 31 PyVista mesh pipeline
+
+---
+
+## 👥 Team
+
+SIH 2024 — Problem Statement: **Satellite Image Height Estimation**
