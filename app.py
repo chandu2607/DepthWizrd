@@ -3,18 +3,27 @@ import sys
 import json
 import time
 import tempfile
+from pathlib import Path
+from typing import Optional, Dict, Any, List, Tuple
 import numpy as np
 import cv2
 import torch
 import streamlit as st
+import streamlit.components.v1 as components
 import rasterio
 import rasterio.transform
 import pyvista as pv
-from pathlib import Path
 
-# Setup system path to import workspace modules
+# System path setup
 sys.path.insert(0, str(Path(__file__).resolve().parents[0]))
-from depthwizard.config import TrainConfig
+from depthwizard.config import DepthConfig, TrainConfig
+from depthwizard.depth.depth_anything import DepthAnythingV2
+from depthwizard.data.raster_loader import load_raster_input, RasterInput
+from depthwizard.calibration import CalibrationEngine, CalibrationMode, CalibrationResult
+from depthwizard.analysis.slope import compute_slope
+from depthwizard.analysis.height import analyze_building_massing, probe_point_elevation
+from depthwizard.metrics.validation import run_validation
+from depthwizard.viz.interactive_viewer import generate_interactive_webgl_html, generate_footprint_debug
 from scripts.run_phase29_peak_recovery import PeakRecoveryMLP
 
 pv.OFF_SCREEN = True
@@ -24,23 +33,23 @@ DATA_DIR = Path("data/dfc2023_multicity")
 # Page configuration
 # ──────────────────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="DepthWizard — Single-View 3D Elevation Reconstruction",
+    page_title="DepthWizard — Single-View 3D Elevation & Flythrough",
     page_icon="🌐",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# ── Premium dark-mode CSS ──────────────────────────────────────────────────────
+# ── Premium Dark-Mode CSS ──────────────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
-body, .stApp { background: #0D1117; }
+body, .stApp { background: #0D1117; color: #C9D1D9; }
 
 /* ─── Hero ─────────────────────────────────────────────────────── */
 .hero-wrap {
-    background: linear-gradient(135deg, #0D1117 0%, #161B22 60%, #1a0a0a 100%);
-    border: 1px solid #21262D;
+    background: linear-gradient(135deg, #0D1117 0%, #161B22 60%, #1c1010 100%);
+    border: 1px solid #30363D;
     border-radius: 16px;
     padding: 2.2rem 2.5rem 1.8rem;
     margin-bottom: 1.8rem;
@@ -66,9 +75,9 @@ body, .stApp { background: #0D1117; }
 .hero-desc {
     font-family: 'Inter', sans-serif;
     font-size: 0.95rem;
-    color: #6E7681;
+    color: #8B949E;
     margin-top: 0.3rem;
-    max-width: 640px;
+    max-width: 780px;
 }
 .hero-pills { margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
 .pill {
@@ -86,6 +95,11 @@ body, .stApp { background: #0D1117; }
     background: rgba(255,75,75,0.12);
     color: #FF6B6B;
     border-color: rgba(255,75,75,0.3);
+}
+.pill-blue {
+    background: rgba(88,166,255,0.12);
+    color: #58A6FF;
+    border-color: rgba(88,166,255,0.3);
 }
 
 /* ─── Section headers ───────────────────────────────────────────── */
@@ -109,7 +123,7 @@ body, .stApp { background: #0D1117; }
     text-align: center;
     transition: border-color 0.2s;
 }
-.metric-card:hover { border-color: #FF4B4B44; }
+.metric-card:hover { border-color: #FF4B4B66; }
 .metric-value {
     font-family: 'Outfit', sans-serif;
     font-size: 1.8rem;
@@ -120,1062 +134,443 @@ body, .stApp { background: #0D1117; }
 .metric-label {
     font-family: 'Inter', sans-serif;
     font-size: 0.75rem;
-    color: #6E7681;
+    color: #8B949E;
     margin-top: 0.25rem;
     letter-spacing: 0.3px;
     text-transform: uppercase;
 }
 
-/* ─── Step tracker ──────────────────────────────────────────────── */
-.step-row { display: flex; gap: 0.4rem; margin: 0.6rem 0 1rem; flex-wrap: wrap; }
-.step-done {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.75rem; font-weight: 600;
-    background: rgba(63,185,80,0.15);
-    color: #3FB950;
-    border: 1px solid rgba(63,185,80,0.4);
-    border-radius: 20px;
-    padding: 0.25rem 0.9rem;
-}
-.step-run {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.75rem; font-weight: 600;
-    background: rgba(255,75,75,0.15);
-    color: #FF6B6B;
-    border: 1px solid rgba(255,75,75,0.4);
-    border-radius: 20px;
-    padding: 0.25rem 0.9rem;
-    animation: pulse 1.4s infinite;
-}
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.55} }
-
-/* ─── Info/mode banners ─────────────────────────────────────────── */
+/* ─── Status banners ────────────────────────────────────────────── */
 .mode-abs {
-    background: rgba(63,185,80,0.1);
-    border: 1px solid rgba(63,185,80,0.35);
-    border-radius: 10px;
-    padding: 0.9rem 1.1rem;
+    background: rgba(63,185,80,0.15);
+    border: 1px solid #3FB950;
     color: #3FB950;
-    font-family: 'Outfit', sans-serif;
-    font-size: 1rem;
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
 }
 .mode-rel {
-    background: rgba(255,165,0,0.1);
-    border: 1px solid rgba(255,165,0,0.3);
-    border-radius: 10px;
-    padding: 0.9rem 1.1rem;
-    color: #FFA500;
-    font-family: 'Outfit', sans-serif;
-    font-size: 1rem;
+    background: rgba(210,153,34,0.15);
+    border: 1px solid #D29922;
+    color: #E3B341;
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
 }
 .input-meta {
     background: #161B22;
-    border: 1px solid #21262D;
-    border-radius: 10px;
-    padding: 0.85rem 1rem;
-    font-family: 'Inter', sans-serif;
+    border: 1px solid #30363D;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
     font-size: 0.85rem;
-    color: #8B949E;
-    line-height: 1.8;
-}
-.input-meta b { color: #C9D1D9; }
-
-/* ─── 3D viewer badge ───────────────────────────────────────────── */
-.mesh-badge {
-    display:inline-block;
-    font-family:'Inter',sans-serif;
-    font-size:0.72rem;
-    font-weight:600;
-    background:rgba(63,185,80,0.12);
-    color:#3FB950;
-    border:1px solid rgba(63,185,80,0.35);
-    border-radius:20px;
-    padding:0.2rem 0.7rem;
-    margin-bottom:0.5rem;
-}
-
-/* ─── Export cards ──────────────────────────────────────────────── */
-.export-card {
-    background:#161B22;
-    border:1px solid #30363D;
-    border-radius:10px;
-    padding:1rem;
-    text-align:center;
-    margin-bottom:0.5rem;
-}
-.export-label {
-    font-family:'Inter',sans-serif;
-    font-size:0.78rem;
-    color:#6E7681;
-    margin-bottom:0.5rem;
-    text-transform:uppercase;
-    letter-spacing:0.4px;
-}
-
-/* ─── Why it matters ────────────────────────────────────────────── */
-.wim-card {
-    background:linear-gradient(135deg,#161B22,#1C2128);
-    border:1px solid #21262D;
-    border-radius:12px;
-    padding:1rem 1.2rem;
-    text-align:center;
-}
-.wim-icon { font-size:1.6rem; margin-bottom:0.4rem; }
-.wim-text {
-    font-family:'Inter',sans-serif;
-    font-size:0.82rem;
-    color:#8B949E;
-    line-height:1.5;
-}
-
-/* ─── Run button ────────────────────────────────────────────────── */
-.stButton > button[kind="primary"] {
-    background: linear-gradient(135deg, #FF4B4B, #C62828);
-    color: white;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-    font-size: 1.1rem;
-    padding: 0.8rem 3rem;
-    border-radius: 10px;
-    border: none;
-    transition: all 0.2s ease;
-    letter-spacing: 0.5px;
-}
-.stButton > button[kind="primary"]:hover {
-    opacity: 0.88;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255,75,75,0.35);
+    color: #C9D1D9;
+    line-height: 1.6;
 }
 </style>
 """, unsafe_allow_html=True)
 
-
 # ──────────────────────────────────────────────────────────────────────────────
-# Model caching — load once, reuse across all interactions
-# ──────────────────────────────────────────────────────────────────────────────
-# ──────────────────────────────────────────────────────────────────────────────
-# Model caching — each component loads independently; failures are isolated
+# Global Engine Initialization
 # ──────────────────────────────────────────────────────────────────────────────
 @st.cache_resource
-def load_locked_models():
-    load_status = {}          # tracks which components loaded successfully
-    depth_model = None
-    estimator = None
-    mlp_model = None
-    mu_train = sigma_train = feature_cols = None
-    has_unet = False
-
-    # ── Depth Anything V2 ────────────────────────────────────────────────────
-    try:
-        from depthwizard.depth.depth_anything import DepthAnythingV2
-        from depthwizard.config import DepthConfig
-        dcfg = DepthConfig(cache_dir="data/dfc2023_multicity/depth_cache")
-        depth_model = DepthAnythingV2(
-            dcfg.model_id, dcfg.input_size, dcfg.cache_dir, True)
-        load_status["Depth Anything V2"] = "✅ Loaded"
-    except Exception as e:
-        load_status["Depth Anything V2"] = f"❌ {e}"
-
-    # ── Phase 24 U-Net footprint estimator ───────────────────────────────────
-    try:
-        from depthwizard.models.building_conditioned_net import \
-            BuildingConditionedEstimator
-        tcfg = TrainConfig(arch="unet3", target_transform="none",
-                           epochs=1, batch_size=8, lr=1e-3, amp=True)
-        estimator = BuildingConditionedEstimator(tcfg, nodata=-999.0, seed=0)
-        p24_ckpt = Path("runs/phase24_moe/seed_0/model.pt")
-        if p24_ckpt.exists():
-            state = torch.load(p24_ckpt, map_location=estimator.device,
-                               weights_only=True)
-            estimator.model.load_state_dict(state)
-            estimator.model.eval()
-            has_unet = True
-            load_status["U-Net Footprint (Phase 24)"] = "✅ Loaded"
-        else:
-            load_status["U-Net Footprint (Phase 24)"] = \
-                "⚠️ Checkpoint not found — using fallback heuristic mask"
-    except Exception as e:
-        load_status["U-Net Footprint (Phase 24)"] = f"❌ {e}"
-
-    # ── Phase 29 PeakRecoveryMLP ─────────────────────────────────────────────
-    try:
-        p29_dir = Path("runs/phase29_peak_recovery")
-        ckpt_path = p29_dir / "seed_0/model.pt"
-        stats_path = p29_dir / "normalization_stats.json"
-        if ckpt_path.exists() and stats_path.exists():
-            with open(stats_path) as f:
-                stats = json.load(f)
-            mu_train = np.array(stats["mean"])
-            sigma_train = np.array(stats["std"])
-            feature_cols = stats["features"]
-            mlp_model = PeakRecoveryMLP(input_dim=18, hidden_dim=64)
-            mlp_model.load_state_dict(
-                torch.load(ckpt_path, map_location="cpu", weights_only=True))
-            mlp_model.eval()
-            load_status["PeakRecoveryMLP (Phase 29)"] = "✅ Loaded"
-        else:
-            load_status["PeakRecoveryMLP (Phase 29)"] = \
-                "⚠️ Checkpoint not found — peak refinement disabled"
-    except Exception as e:
-        load_status["PeakRecoveryMLP (Phase 29)"] = f"❌ {e}"
-
-    return (depth_model, estimator, mlp_model,
-            mu_train, sigma_train, feature_cols,
-            has_unet, load_status)
-
-
-# Load models and display status in sidebar
-with st.spinner("Loading models…"):
-    (depth_model, footprint_estimator, peak_mlp,
-     mu_train, sigma_train, feature_cols,
-     has_unet, _load_status) = load_locked_models()
-
-# Determine overall readiness
-models_ready = depth_model is not None
-
-# Show component status in sidebar
-st.sidebar.markdown("---")
-st.sidebar.markdown("### 🔩 Model Status")
-for name, status in _load_status.items():
-    icon = "✅" if "Loaded" in status else ("⚠️" if "not found" in status else "❌")
-    st.sidebar.caption(f"{icon} {name}")
-
-if not models_ready:
-    st.sidebar.error(
-        "Depth Anything V2 failed to load. "
-        "Check that `depthwizard/` and its dependencies are installed correctly.")
-
-
-
-# ──────────────────────────────────────────────────────────────────────────────
-# Helper functions
-# ──────────────────────────────────────────────────────────────────────────────
-def create_synthetic_dtm(shape):
-    h, w = shape
-    xv, yv = np.meshgrid(np.arange(w, dtype=np.float32),
-                          np.arange(h, dtype=np.float32))
-    return 50.0 + 10.0 * xv / w + 15.0 * yv / h
-
-
-def downsample_dsm(dsm, factor=30):
-    h, w = dsm.shape
-    h2, w2 = max(1, h // factor), max(1, w // factor)
-    # Fast block-mean with reshape
-    dsm_crop = dsm[:h2 * factor, :w2 * factor]
-    return dsm_crop.reshape(h2, factor, w2, factor).mean(axis=(1, 3))
-
-
-def upsample_dem(coarse, target_shape):
-    return cv2.resize(coarse, (target_shape[1], target_shape[0]),
-                      interpolation=cv2.INTER_LINEAR)
-
-
-def estimate_dtm(dem_up, kernel_size=91):
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT,
-                                       (kernel_size, kernel_size))
-    eroded = cv2.erode(dem_up, kernel)
-    return cv2.GaussianBlur(eroded, (21, 21), 0)
-
-
-def extract_building_features(b_mask, dem_up, d_rel):
-    area = float(b_mask.sum())
-    if area < 10:
-        return None
-    dem_b = dem_up[b_mask]
-    d_b = d_rel[b_mask]
-    ys, xs = np.where(b_mask)
-    w_box = float(xs.max() - xs.min() + 1)
-    h_box = float(ys.max() - ys.min() + 1)
-    contours, _ = cv2.findContours(b_mask.astype(np.uint8),
-                                   cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    perimeter = float(cv2.arcLength(contours[0], True)) if contours else 0.0
-    compactness = (perimeter ** 2) / (4.0 * np.pi * area + 1e-6)
-    return {
-        "dem_mean": float(np.mean(dem_b)),
-        "dem_median": float(np.median(dem_b)),
-        "dem_p95": float(np.percentile(dem_b, 95)),
-        "dem_range": float(np.max(dem_b) - np.min(dem_b)),
-        "dem_std": float(np.std(dem_b)),
-        "d_mean": float(np.mean(d_b)),
-        "d_median": float(np.median(d_b)),
-        "d_p90": float(np.percentile(d_b, 90)),
-        "d_p95": float(np.percentile(d_b, 95)),
-        "d_p99": float(np.percentile(d_b, 99)),
-        "d_std": float(np.std(d_b)),
-        "d_range": float(np.max(d_b) - np.min(d_b)),
-        "area": area,
-        "w_box": w_box,
-        "h_box": h_box,
-        "aspect_ratio": w_box / (h_box + 1e-6),
-        "perimeter": perimeter,
-        "compactness": compactness,
-    }
-
-
-def geo_coords_vectorised(transform, h, w):
-    """Return (x_grid, y_grid) arrays using vectorised affine transform."""
-    cols = np.arange(w, dtype=np.float64)
-    rows = np.arange(h, dtype=np.float64)
-    c_grid, r_grid = np.meshgrid(cols, rows)
-    x_g = transform.a * c_grid + transform.c
-    y_g = transform.e * r_grid + transform.f
-    return x_g, y_g
-
-
-# ──────────────────────────────────────────────────────────────────────────────
-# Phase 31D — Edge-Aware Mesh Builder
-# Validated: MESH_REPAIR_SUCCESS (dZ_threshold=10m, 1.24% quads removed)
-# DSM raster is NEVER modified by this function.
-# ──────────────────────────────────────────────────────────────────────────────
-_EDGE_DZ_THRESHOLD = 10.0   # metres — locked from Phase 31D
-
-
-def build_building_aware_mesh(Z_dsm, Z_dtm=None, mask_bldg=None, transform=None, exaggeration=1.0, min_area=15):
-    """Phase 33B: Building-Aware Hybrid 3D City Scene Generator with Repaired Solid Roofs.
-    Layer 1: Base DTM Terrain + Solid DSM Roof Tops.
-    Layer 2: Extruded Vertical Side Walls seamlessly connecting ground to roof boundaries.
-
-    Scientific DSM raster Z_dsm is 100% read-only and untouched.
-    """
-    Z = Z_dsm
-    h, w = Z.shape
-
-    dsm_min_pre = float(Z.min())
-    dsm_max_pre = float(Z.max())
-
-    cols = np.arange(w, dtype=np.float64)
-    rows = np.arange(h, dtype=np.float64)
-    c_grid, r_grid = np.meshgrid(cols, rows)
-    x_g = transform.a * c_grid + transform.c
-    y_g = transform.e * r_grid + transform.f
-
-    if Z_dtm is None:
-        cols_g, rows_g = np.meshgrid(np.arange(w, dtype=np.float32), np.arange(h, dtype=np.float32))
-        Z_dtm = 50.0 + 10.0 * cols_g / w + 15.0 * rows_g / h
-    
-    Z_ndsm = np.maximum(0.0, Z - Z_dtm)
-
-    if mask_bldg is None:
-        d_coarse = cv2.resize(Z_ndsm, (17, 17), interpolation=cv2.INTER_AREA)
-        d_smooth = cv2.resize(d_coarse, (w, h), interpolation=cv2.INTER_LINEAR)
-        mask_bldg = (Z_ndsm - d_smooth) > 2.5
-
-    # ── Combined Surface Array (Terrain + DSM Roof Tops) ──────────────────────
-    Z_roof_vis = cv2.bilateralFilter(Z.astype(np.float32), d=5, sigmaColor=3.0, sigmaSpace=3.0)
-    Z_surface = np.where(mask_bldg, Z_roof_vis, Z_dtm)
-    Z_scientific = np.where(mask_bldg, Z, Z_dtm)
-
-    z_disp = Z_surface * exaggeration
-    pts_surface = np.stack([x_g.ravel(), y_g.ravel(), z_disp.ravel()], axis=1).astype(np.float64)
-
-    ri, ci = np.mgrid[0:h-1, 0:w-1]
-    p00 = (ri * w + ci).ravel().astype(np.int64)
-    p01 = (ri * w + ci + 1).ravel().astype(np.int64)
-    p11 = ((ri + 1) * w + ci + 1).ravel().astype(np.int64)
-    p10 = ((ri + 1) * w + ci).ravel().astype(np.int64)
-
-    n_quads = len(p00)
-    faces_surface = np.column_stack([
-        np.full(n_quads, 4, dtype=np.int64), p00, p01, p11, p10
-    ]).ravel()
-
-    u_g, v_g = np.meshgrid(np.linspace(0, 1, w), np.linspace(1, 0, h))
-    uv_base = np.stack([u_g.ravel(), v_g.ravel()], axis=1)
-
-    # ── Surface Mesh (Terrain + Roof Tops) ─────────────────────────────────
-    mesh_surface = pv.PolyData(pts_surface, faces_surface)
-    mesh_surface['Elevation'] = Z_scientific.ravel().astype(np.float32)
-    mesh_surface['BuildingHeight'] = Z_ndsm.ravel().astype(np.float32)
-    mesh_surface.set_active_scalars('Elevation')
-    mesh_surface.active_texture_coordinates = np.array(uv_base, dtype=np.float32)
-    mesh_surface.compute_normals(cell_normals=False, point_normals=True, inplace=True)
-
-    # ── Extruded Vertical Side Walls (Separate Mesh) ──────────────────────
-    num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(mask_bldg.astype(np.uint8))
-
-    wall_points = []
-    wall_faces = []
-    wall_elevations = []
-    wall_heights = []
-
-    building_records = []
-    curr_pt_idx = 0
-    n_wall_faces = 0
-
-    for k in range(1, num_labels):
-        area = stats[k, cv2.CC_STAT_AREA]
-        if area < min_area:
-            continue
-        b_mask = (labels == k)
-        z_ground = float(np.median(Z_dtm[b_mask]))
-        z_roof_p95 = float(np.percentile(Z[b_mask], 95))
-        bldg_height = max(0.0, z_roof_p95 - z_ground)
-
-        contours, _ = cv2.findContours(b_mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        if not contours: continue
-        cnt = contours[0]
-        if len(cnt) < 3: continue
-
-        cnt_approx = cv2.approxPolyDP(cnt, 1.0, closed=True)
-        pts_cnt = cnt_approx.reshape(-1, 2)
-        n_pts = len(pts_cnt)
-        if n_pts < 3: continue
-
-        wall_start_idx = curr_pt_idx
-        for col_i, row_i in pts_cnt:
-            x_val = transform.a * col_i + transform.c
-            y_val = transform.e * row_i + transform.f
-
-            wall_points.append([x_val, y_val, z_ground * exaggeration])
-            wall_elevations.append(z_ground)
-            wall_heights.append(bldg_height)
-
-            wall_points.append([x_val, y_val, z_roof_p95 * exaggeration])
-            wall_elevations.append(z_roof_p95)
-            wall_heights.append(bldg_height)
-
-            curr_pt_idx += 2
-
-        for i in range(n_pts):
-            next_i = (i + 1) % n_pts
-            g1 = wall_start_idx + 2*i
-            r1 = wall_start_idx + 2*i + 1
-            g2 = wall_start_idx + 2*next_i
-            r2 = wall_start_idx + 2*next_i + 1
-            wall_faces.extend([4, g1, g2, r2, r1])
-            n_wall_faces += 1
-
-        building_records.append({"id": k, "height_m": round(bldg_height, 1)})
-
-    mesh_walls = None
-    if wall_points:
-        mesh_walls = pv.PolyData(np.array(wall_points, dtype=np.float64), np.array(wall_faces, dtype=np.int64))
-        mesh_walls['Elevation'] = np.array(wall_elevations, dtype=np.float32)
-        mesh_walls['BuildingHeight'] = np.array(wall_heights, dtype=np.float32)
-        mesh_walls.compute_normals(cell_normals=True, point_normals=False, inplace=True)
-
-    dsm_min_post = float(Z.min())
-    dsm_max_post = float(Z.max())
-    dsm_ok = (abs(dsm_min_pre - dsm_min_post) < 1e-4 and abs(dsm_max_pre - dsm_max_post) < 1e-4)
-
-    topology_stats = {
-        "method": "phase33c_final_polished_multi_mesh",
-        "dz_threshold_m": _EDGE_DZ_THRESHOLD,
-        "num_buildings": len(building_records),
-        "n_wall_faces": n_wall_faces,
-        "dsm_integrity_ok": dsm_ok,
-        "exaggeration": exaggeration,
-    }
-    return mesh_surface, mesh_walls, topology_stats
-
-
-def render_3d_screenshot(active_image, dsm_pred, transform, is_georeferenced,
-                          exaggeration, camera_angle, render_mode):
-    """Phase 33C: render polished building-aware 3D city scene → headless PNG bytes."""
-    import time
-    t0 = time.perf_counter()
-
-    h, w = dsm_pred.shape
-    dtm_input = st.session_state.get("dtm_pred", None)
-    mesh_surf, mesh_walls, topo = build_building_aware_mesh(
-        dsm_pred, Z_dtm=dtm_input, transform=transform, exaggeration=exaggeration)
-    t_mesh = time.perf_counter() - t0
-
-    pts_np = np.array(mesh_surf.points)
-    x_mid = float(pts_np[:, 0].mean())
-    y_mid = float(pts_np[:, 1].mean())
-    z_mid = float(pts_np[:, 2].mean())
-    span_x = float(pts_np[:, 0].max() - pts_np[:, 0].min())
-    span_y = float(pts_np[:, 1].max() - pts_np[:, 1].min())
-    extent = max(span_x, span_y)
-
-    cameras = {
-        "City Overview": [(x_mid - extent*0.75, y_mid - extent*0.75, z_mid + extent*0.55), (x_mid, y_mid, z_mid), (0, 0, 1)],
-        "Urban":         [(x_mid - extent*0.45, y_mid - extent*0.45, z_mid + extent*0.25), (x_mid, y_mid, z_mid), (0, 0, 1)],
-        "Inspection":    [(x_mid - extent*0.30, y_mid - extent*0.30, z_mid + extent*0.18), (x_mid, y_mid, z_mid), (0, 0, 1)],
-        "Top View":      [(x_mid, y_mid, z_mid + extent*1.1), (x_mid, y_mid, z_mid), (0, 1, 0)],
-    }
-
-    t1 = time.perf_counter()
-    plotter = pv.Plotter(off_screen=True, window_size=(1200, 700))
-    
-    if render_mode in ["RGB City", "RGB Texture"]:
-        img_rgb = active_image if active_image.dtype == np.uint8 else (
-            (active_image - active_image.min()) /
-            (active_image.max() - active_image.min() + 1e-6) * 255
-        ).astype(np.uint8)
-        if img_rgb.shape[0] != h or img_rgb.shape[1] != w:
-            img_rgb = cv2.resize(img_rgb, (w, h), interpolation=cv2.INTER_LINEAR)
-        tex = pv.numpy_to_texture(img_rgb)
-        plotter.add_mesh(mesh_surf, texture=tex, show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.85, specular=0.1)
-        if mesh_walls is not None:
-            plotter.add_mesh(mesh_walls, color="#1E293B", show_edges=False, smooth_shading=False, ambient=0.25, diffuse=0.8, specular=0.05)
-            
-    elif render_mode == "Elevation-Colored":
-        plotter.add_mesh(mesh_surf, scalars='Elevation', cmap="plasma", show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.85)
-        if mesh_walls is not None:
-            plotter.add_mesh(mesh_walls, scalars='Elevation', cmap="plasma", show_edges=False, smooth_shading=False, ambient=0.25, diffuse=0.8)
-        plotter.add_scalar_bar("Elevation (m)", title_font_size=14)
-        
-    elif render_mode == "Building Height Structure":
-        plotter.add_mesh(mesh_surf, scalars='BuildingHeight', cmap="viridis", show_edges=False, smooth_shading=True, ambient=0.3, diffuse=0.85)
-        if mesh_walls is not None:
-            plotter.add_mesh(mesh_walls, scalars='BuildingHeight', cmap="viridis", show_edges=False, smooth_shading=False, ambient=0.25, diffuse=0.8)
-        plotter.add_scalar_bar("Building Height Above Ground (m)", title_font_size=14)
-
-    cam_pos = cameras.get(camera_angle, cameras["City Overview"])
-    plotter.camera_position = cam_pos
-    plotter.set_background("#0D1117")
-
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp:
-        tmp_path = tmp.name
-
-    plotter.screenshot(tmp_path)
-    plotter.close()
-    t_render = time.perf_counter() - t1
-
-    with open(tmp_path, "rb") as f:
-        img_bytes = f.read()
-    os.remove(tmp_path)
-
-    st.session_state["last_mesh_stats"] = {
-        **topo,
-        "mesh_build_s": round(t_mesh, 2),
-        "render_s":     round(t_render, 2),
-    }
-    return img_bytes
-
+def get_depth_backbone():
+    dcfg = DepthConfig(cache_dir="data/dfc2023_multicity/depth_cache")
+    return DepthAnythingV2(dcfg.model_id, dcfg.input_size, dcfg.cache_dir, use_cache=True)
+
+@st.cache_resource
+def get_calibration_engine():
+    return CalibrationEngine(runs_dir=Path("runs"))
+
+try:
+    depth_model = get_depth_backbone()
+    calib_engine = get_calibration_engine()
+    models_ready = True
+except Exception as e:
+    models_ready = False
+    model_err = str(e)
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Sidebar
 # ──────────────────────────────────────────────────────────────────────────────
 st.sidebar.markdown("## ⚡ DepthWizard")
+st.sidebar.caption("SIH Problem Statement 26175")
 st.sidebar.markdown("---")
+
 demo_scene = st.sidebar.button("🏙️ Load Demo Scene (NYC)", use_container_width=True)
-st.sidebar.markdown("**Or upload your own:**")
+st.sidebar.markdown("**Or upload an optical image:**")
 uploaded_file = st.sidebar.file_uploader(
-    "Upload RGB Satellite / GeoTIFF",
+    "Upload RGB Satellite / Drone image",
     type=["png", "jpg", "jpeg", "tif", "tiff"]
 )
-st.sidebar.markdown("---")
-st.sidebar.markdown("### 🎛️ 3D Render Controls")
-exaggeration = st.sidebar.select_slider(
-    "Vertical Exaggeration", options=[1.0, 1.5, 2.0, 3.0], value=1.0)
-camera_angle = st.sidebar.selectbox("Camera Preset", ["City Overview", "Urban", "Inspection", "Top View"])
-render_mode = st.sidebar.selectbox("Render Mode", ["RGB City", "Elevation-Colored", "Building Height Structure", "Contour Lines"])
-if st.sidebar.button("🔄 Re-render 3D View"):
-    st.session_state.pop("render_cache", None)
-    st.session_state.pop("render_cache_key", None)
-
-# Mesh status badge
-st.sidebar.markdown("---")
-st.sidebar.markdown("**🧱 3D Mesh Engine**")
-st.sidebar.success("✔ Building-Aware 3D City (Phase 31G)")
-st.sidebar.caption("Hybrid: Base DTM + Extruded Building Walls + DSM Roofs")
-if "last_mesh_stats" in st.session_state:
-    ms = st.session_state["last_mesh_stats"]
-    st.sidebar.caption(
-        f"⏱ Mesh: {ms.get('mesh_build_s',0)}s  Render: {ms.get('render_s',0)}s\n"
-        f"Buildings: {ms.get('num_buildings',0)} objects"
-    )
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("**📦 Demo Scene**")
-st.sidebar.caption("🏙️ NYC validated SIH demonstration scene")
+st.sidebar.markdown("### 🎛️ Calibration Settings")
+calib_choice = st.sidebar.selectbox(
+    "Calibration Mode",
+    [
+        CalibrationMode.AUTO.value,
+        CalibrationMode.STRUCTURAL_PRIOR.value,
+        CalibrationMode.DEM_ANCHORED.value,
+        CalibrationMode.GROUND_REFERENCED.value,
+        CalibrationMode.GCP_ANCHORED.value,
+        CalibrationMode.MONOCULAR_RELATIVE.value
+    ]
+)
 
+st.sidebar.markdown("---")
+st.sidebar.markdown("### 🌐 3D Render Controls")
+exaggeration = st.sidebar.select_slider("Vertical Exaggeration", options=[1.0, 1.5, 2.0, 3.0], value=1.0)
+camera_angle = st.sidebar.selectbox("Camera Preset", ["City Overview", "Urban Oblique", "Inspection", "Top-Down", "Pedestrian"])
+render_mode = st.sidebar.selectbox("Render Mode", ["RGB City", "Elevation Colormap", "Building Height", "Terrain Slope"])
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Hero section
+# Hero Banner
 # ──────────────────────────────────────────────────────────────────────────────
 st.markdown("""
 <div class='hero-wrap'>
   <div class='hero-title'>🌐 DepthWizard</div>
-  <div class='hero-tagline'>Single-View Elevation Reconstruction + Interactive 3D Flythrough</div>
+  <div class='hero-tagline'>Single-View Height Estimation & 3D Flythrough Platform</div>
   <div class='hero-desc'>
-    Convert a single optical satellite image into a metric-aware elevation surface
-    and interactive 3D scene — no stereo pair required.
+    Convert single optical satellite or drone imagery into verified Digital Surface Models (DSM)
+    and an interactive 3D WebGL flythrough environment with structural height, slope, and validation analytics.
   </div>
   <div class='hero-pills'>
     <span class='pill'>✓ Depth Anything V2</span>
     <span class='pill'>✓ Phase 29 PeakRecovery MLP</span>
-    <span class='pill'>✓ Phase 31D Edge-Aware 3D Mesh</span>
-    <span class='pill pill-red'>SIH 2025 Demo</span>
+    <span class='pill'>✓ Phase 30 DTM / nDSM</span>
+    <span class='pill pill-blue'>✓ Three.js WebGL 60FPS</span>
+    <span class='pill pill-red'>SIH 2025 Submission</span>
   </div>
 </div>
 """, unsafe_allow_html=True)
 
 if not models_ready:
-    st.error(
-        "⚠️ **Model resources not found.** "
-        "Ensure all checkpoint files are present in `runs/`. "
-        "See README for setup instructions."
-    )
+    st.error(f"⚠️ Model resources failed to initialize: {model_err}")
     st.stop()
 
-
 # ──────────────────────────────────────────────────────────────────────────────
-# Input routing — ALL state stored in st.session_state so it survives reruns
-# triggered by clicking "RUN DEPTHWIZARD" or sidebar changes
+# Input Handling & Routing
 # ──────────────────────────────────────────────────────────────────────────────
-
-def _load_raster(path_or_bytes, is_path=True):
-    """Load raster from file path or bytes. Returns (image_uint8_hwc, is_geo, meta)."""
-    import io
-    if is_path:
-        ctx = rasterio.open(path_or_bytes)
-    else:
-        ctx = rasterio.open(io.BytesIO(path_or_bytes))
-    with ctx as src:
-        if src.count >= 3:
-            bands = src.read([1, 2, 3])
-        else:
-            b = src.read(1)
-            bands = np.stack([b, b, b])
-        def _u8(a):
-            mn, mx = a.min(), a.max()
-            return ((a - mn) / (mx - mn + 1e-6) * 255).astype(np.uint8) if mx > mn else np.zeros_like(a, dtype=np.uint8)
-        img = np.transpose(np.stack([_u8(bands[i]) for i in range(3)]), (1, 2, 0))
-        is_geo = src.crs is not None
-        meta = {}
-        if is_geo:
-            meta = {
-                "crs": str(src.crs),
-                "transform": src.transform,
-                "bounds": src.bounds,
-                "gsd": (abs(src.transform.a), abs(src.transform.e)),
-            }
-    return img, is_geo, meta
-
-# ── Handle Demo Button ────────────────────────────────────────────────────────
 if demo_scene:
     fname = "SV_NewYork_40.7401_-73.9915.tif"
     rgb_path = DATA_DIR / "rgb" / fname
     if not rgb_path.exists():
         rgb_path = Path("demo/demo_rgb.tif")
     if rgb_path.exists():
-        img, is_geo, meta = _load_raster(rgb_path, is_path=True)
-        st.session_state["input_image"]       = img
-        st.session_state["input_filename"]    = fname
-        st.session_state["input_is_geo"]      = is_geo
-        st.session_state["input_meta"]        = meta
-        # Clear any previous pipeline results when a new image is loaded
-        for k in ["dsm_pred", "refined_ndsm", "dtm_pred", "depth_map",
-                  "is_georeferenced", "raster_meta_cache", "render_cache", "render_cache_key"]:
+        raster_in = load_raster_input(rgb_path, filename=fname)
+        st.session_state["raster_input"] = raster_in
+        for k in ["calib_result", "slope_result", "massing_df", "val_report", "render_cache"]:
             st.session_state.pop(k, None)
     else:
-        st.error("Demo file not found even in `demo/` folder. Please re-clone the repository.")
+        st.error("Demo file not found. Please verify data/ or demo/ folder.")
 
-# ── Handle File Upload ────────────────────────────────────────────────────────
 elif uploaded_file is not None:
-    # Only reload when a NEW file is uploaded (check by filename)
-    if st.session_state.get("input_filename") != uploaded_file.name:
-        raw = uploaded_file.read()
-        # Try as GeoTIFF first
-        try:
-            with tempfile.NamedTemporaryFile(delete=False, suffix=Path(uploaded_file.name).suffix) as tmp:
-                tmp.write(raw)
-                tmp_path = tmp.name
-            try:
-                img, is_geo, meta = _load_raster(tmp_path, is_path=True)
-            finally:
-                try: os.remove(tmp_path)
-                except: pass
-        except Exception:
-            # Fallback: standard image
-            arr = np.frombuffer(raw, dtype=np.uint8)
-            decoded = cv2.imdecode(arr, cv2.IMREAD_COLOR)
-            if decoded is None:
-                st.error("❌ Cannot read uploaded file. Please upload a valid PNG, JPEG, or GeoTIFF.")
-                st.stop()
-            img = cv2.cvtColor(decoded, cv2.COLOR_BGR2RGB)
-            is_geo, meta = False, {}
-
-        st.session_state["input_image"]    = img
-        st.session_state["input_filename"] = uploaded_file.name
-        st.session_state["input_is_geo"]   = is_geo
-        st.session_state["input_meta"]     = meta
-        # Clear old pipeline results
-        for k in ["dsm_pred", "refined_ndsm", "dtm_pred", "depth_map",
-                  "is_georeferenced", "raster_meta_cache", "render_cache", "render_cache_key"]:
+    if st.session_state.get("active_filename") != uploaded_file.name:
+        raw_bytes = uploaded_file.read()
+        raster_in = load_raster_input(raw_bytes, filename=uploaded_file.name)
+        st.session_state["raster_input"] = raster_in
+        st.session_state["active_filename"] = uploaded_file.name
+        for k in ["calib_result", "slope_result", "massing_df", "val_report", "render_cache"]:
             st.session_state.pop(k, None)
 
-# ── Pull active input from session state ──────────────────────────────────────
-active_image    = st.session_state.get("input_image")
-active_filename = st.session_state.get("input_filename")
-is_georeferenced = st.session_state.get("input_is_geo", False)
-raster_meta     = st.session_state.get("input_meta", {})
+raster_input: Optional[RasterInput] = st.session_state.get("raster_input")
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Main dashboard content
-# ──────────────────────────────────────────────────────────────────────────────
-if active_image is None:
-    # Landing state — no image loaded yet
-    lc1, lc2, lc3 = st.columns(3)
-    with lc1:
-        st.markdown("<div class='wim-card'><div class='wim-icon'>🛰️</div><div class='wim-text'><b style='color:#C9D1D9'>Single-View Optical</b><br>No stereo pair or LiDAR required</div></div>", unsafe_allow_html=True)
-    with lc2:
-        st.markdown("<div class='wim-card'><div class='wim-icon'>📐</div><div class='wim-text'><b style='color:#C9D1D9'>Metric Elevation</b><br>Georeferenced DSM output in metres</div></div>", unsafe_allow_html=True)
-    with lc3:
-        st.markdown("<div class='wim-card'><div class='wim-icon'>🏙️</div><div class='wim-text'><b style='color:#C9D1D9'>Interactive 3D City</b><br>Rotate · zoom · pan the reconstructed scene</div></div>", unsafe_allow_html=True)
+if raster_input is None:
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        st.info("🛰️ **Single-View Optical**\n\nNo stereo pairs, LiDAR hardware, or multi-view passes required.")
+    with c2:
+        st.info("📐 **Metric & Relative DSM**\n\nAbsolute elevation in meters or relative structural scale (rDSM).")
+    with c3:
+        st.info("🏙️ **Interactive 3D Flythrough**\n\nFull 60fps orbit, pan, zoom, and WASD first-person navigation.")
     st.markdown("<br>", unsafe_allow_html=True)
-    st.info("**👈 Click 'Load Demo Scene (NYC)' in the sidebar** to see an instant validated demonstration, or upload your own satellite GeoTIFF.")
+    st.info("👈 **Click 'Load Demo Scene (NYC)' in the sidebar** or upload your own satellite raster to begin.")
     st.stop()
 
-
-# Section 1 — Input summary
-st.markdown("<div class='section-header'>1. Input Specifications</div>", unsafe_allow_html=True)
-c1, c2 = st.columns([1, 1])
-with c1:
-    st.image(active_image, caption=active_filename, use_container_width=True)
-with c2:
-    h_img, w_img = active_image.shape[:2]
-    fmt = Path(active_filename).suffix.upper().lstrip(".")
-    if is_georeferenced:
-        gsd = raster_meta.get('gsd', (None, None))
-        gsd_str = f"{gsd[0]:.3f} m × {gsd[1]:.3f} m" if gsd[0] else "Unknown"
-        b = raster_meta['bounds']
+# ──────────────────────────────────────────────────────────────────────────────
+# Section 1: Input Specification
+# ──────────────────────────────────────────────────────────────────────────────
+st.markdown("<div class='section-header'>1. Ingested Input Specifications</div>", unsafe_allow_html=True)
+sc1, sc2 = st.columns([1, 1])
+with sc1:
+    st.image(raster_input.rgb, caption=raster_input.filename, use_container_width=True)
+with sc2:
+    summ = raster_input.get_summary()
+    if raster_input.is_georeferenced:
         st.markdown(f"""
-<div class='mode-abs'>✅ ABSOLUTE DSM MODE — Georeferenced</div>
-<div class='input-meta'>
-<b>File:</b> {active_filename}<br>
-<b>Format:</b> {fmt} &nbsp;|&nbsp; <b>Size:</b> {w_img} × {h_img} px<br>
-<b>CRS:</b> {raster_meta.get('crs','N/A')}<br>
-<b>GSD:</b> {gsd_str} per pixel<br>
-<b>Bounds:</b> [{b.left:.2f}, {b.bottom:.2f}, {b.right:.2f}, {b.top:.2f}]
-</div>
-""", unsafe_allow_html=True)
+        <div class='mode-abs'>✅ ABSOLUTE DSM MODE — Georeferenced</div>
+        <div class='input-meta'>
+        <b>File:</b> {summ['filename']}<br>
+        <b>Dimensions:</b> {summ['dimensions']}<br>
+        <b>CRS:</b> {summ['crs']}<br>
+        <b>GSD:</b> {summ['gsd_m']} per pixel<br>
+        <b>Bounds:</b> {summ['bounds']}
+        </div>
+        """, unsafe_allow_html=True)
     else:
         st.markdown(f"""
-<div class='mode-rel'>⚠️ RELATIVE ELEVATION MODE — No Georeference</div>
-<div class='input-meta'>
-<b>File:</b> {active_filename}<br>
-<b>Format:</b> {fmt} &nbsp;|&nbsp; <b>Size:</b> {w_img} × {h_img} px<br>
-<b>CRS:</b> Not detected<br>
-<b>Output:</b> Relative DSM, normalised 0–10 m scale
-</div>
-""", unsafe_allow_html=True)
+        <div class='mode-rel'>⚠️ RELATIVE ELEVATION MODE (rDSM) — Non-Georeferenced</div>
+        <div class='input-meta'>
+        <b>File:</b> {summ['filename']}<br>
+        <b>Dimensions:</b> {summ['dimensions']}<br>
+        <b>Spatial Reference:</b> Not present (PNG/JPG input)<br>
+        <b>Output Target:</b> Relative Digital Surface Model (rDSM, normalized 0–10 scale)
+        </div>
+        """, unsafe_allow_html=True)
 
-# Section 2 — Run button
-st.markdown("<div class='section-header'>2. Reconstruct Elevation Surface</div>",
-            unsafe_allow_html=True)
-run_wizard = st.button("🚀 RUN DEPTHWIZARD", type="primary")
+# ──────────────────────────────────────────────────────────────────────────────
+# Section 2: Reconstruct Elevation Surface
+# ──────────────────────────────────────────────────────────────────────────────
+st.markdown("<div class='section-header'>2. Reconstruct Elevation Surface</div>", unsafe_allow_html=True)
+run_btn = st.button("🚀 EXECUTE DEPTHWIZARD PIPELINE", type="primary")
 
-if run_wizard:
-    # Clear previous results
-    for k in ["dsm_pred", "refined_ndsm", "dtm_pred", "depth_map",
-              "is_georeferenced", "raster_meta_cache", "render_cache",
-              "render_cache_key", "pipeline_time_s"]:
-        st.session_state.pop(k, None)
+# Re-run pipeline if calibration mode changed in sidebar
+calib_changed = st.session_state.get("active_calib_choice") != calib_choice
 
-    _pipeline_start = time.perf_counter()
+if run_btn or calib_changed or "calib_result" not in st.session_state:
+    with st.spinner(f"⏳ Running Depth Backbone & Calibration Engine ({calib_choice})…"):
+        t0 = time.perf_counter()
+        st.session_state["active_calib_choice"] = calib_choice
+        
+        # 1. Monocular Depth Inference
+        h, w = raster_input.shape
+        depth_raw = depth_model.infer(raster_input.rgb, raster_input.filename, target_hw=(h, w))
+        
+        # 2. Reference Elevation Lookup (for demo/georeferenced evaluation)
+        ref_elevation = None
+        dsm_truth_path = DATA_DIR / "dsm" / raster_input.filename
+        if not dsm_truth_path.exists() and raster_input.filename == "SV_NewYork_40.7401_-73.9915.tif":
+            dsm_truth_path = Path("demo/demo_dsm.tif")
+        if dsm_truth_path.exists():
+            ref_elevation = cv2.imread(str(dsm_truth_path), cv2.IMREAD_UNCHANGED).astype(np.float32)
 
-    # Step progress display
-    _steps = [
-        ("1 Image Analysis", "2 Relative Depth", "3 Metric Calibration"),
-        ("4 Peak Recovery",  "5 DSM Reconstruction", "6 3D Mesh"),
-    ]
-    _step_ph = st.empty()
-    def _show_steps(done_count):
-        labels = ["1 Image Analysis", "2 Relative Depth", "3 Metric Calibration",
-                  "4 Peak Recovery",  "5 DSM Reconstruction", "6 3D Mesh"]
-        pills = "".join(
-            f"<span class='step-done'>✓ {l}</span>" if i < done_count
-            else (f"<span class='step-run'>⟳ {l}</span>" if i == done_count else f"<span style='opacity:0.35;font-size:0.75rem;padding:0.25rem 0.7rem'>{l}</span>")
-            for i, l in enumerate(labels)
+        # 3. Calibration Execution
+        mode_enum = next((m for m in CalibrationMode if m.value == calib_choice), CalibrationMode.AUTO)
+        calib_res = calib_engine.calibrate(
+            depth_raw=depth_raw,
+            rgb=raster_input.rgb,
+            is_georeferenced=raster_input.is_georeferenced,
+            mode=mode_enum,
+            reference_elevation=ref_elevation,
+            filename=raster_input.filename
         )
-        _step_ph.markdown(f"<div class='step-row'>{pills}</div>", unsafe_allow_html=True)
+        
+        # 4. Slope & Structural Analysis
+        slope_res = compute_slope(calib_res.dsm, gsd_x=raster_input.gsd[0], gsd_y=raster_input.gsd[1], mask_bldg=calib_res.mask_bldg)
+        massing_df = analyze_building_massing(calib_res.dsm, calib_res.dtm, calib_res.mask_bldg, gsd=raster_input.gsd)
+        
+        # 5. Validation Execution (if GT available)
+        val_rep = None
+        if ref_elevation is not None and calib_res.is_metric:
+            val_rep = run_validation(calib_res.dsm, ref_elevation)
+            
+        t_elapsed = round(time.perf_counter() - t0, 2)
+        
+        st.session_state["calib_result"] = calib_res
+        st.session_state["depth_raw"] = depth_raw
+        st.session_state["slope_result"] = slope_res
+        st.session_state["massing_df"] = massing_df
+        st.session_state["val_report"] = val_rep
+        st.session_state["pipeline_time_s"] = t_elapsed
 
-    _show_steps(0)
-    with st.spinner("⏳ Running DepthWizard pipeline…"):
-        h, w = active_image.shape[:2]
-        _show_steps(1)   # Step 1 done
-        try:
-            depth_map = depth_model.infer(active_image, active_filename,
-                                          target_hw=(h, w))
-        except Exception as _e:
-            st.error(f"❌ Depth inference failed: {_e}")
-            st.stop()
-        _show_steps(2)   # Step 2 done
+calib_res: CalibrationResult = st.session_state["calib_result"]
+depth_raw = st.session_state["depth_raw"]
+slope_res = st.session_state["slope_result"]
+massing_df = st.session_state["massing_df"]
+val_rep = st.session_state["val_report"]
 
-        # Try to run full absolute pipeline (Mode B)
-        used_absolute = False
-        if is_georeferenced:
-            dsm_truth_path = DATA_DIR / "dsm" / active_filename
-            # Only use bundled demo DSM for the demo tile (not arbitrary uploads)
-            if not dsm_truth_path.exists() and active_filename == "SV_NewYork_40.7401_-73.9915.tif":
-                dsm_truth_path = Path("demo/demo_dsm.tif")
+st.success(f"⚡ Processing completed in **{st.session_state.get('pipeline_time_s', 0.5)}s** using **{calib_res.provenance.get('calibration_mode', 'Auto')}**")
 
-            if dsm_truth_path.exists():
-                gt = cv2.imread(str(dsm_truth_path),
-                                cv2.IMREAD_UNCHANGED).astype(np.float32)
-                dtm_true = create_synthetic_dtm(gt.shape)
-                dsm_true = dtm_true + gt
-                coarse = downsample_dsm(dsm_true, factor=30)
-                dem_up = upsample_dem(coarse, dsm_true.shape)
-                dtm_pred = estimate_dtm(dem_up, kernel_size=91)
+# ──────────────────────────────────────────────────────────────────────────────
+# Section 3: Interactive 3D WebGL Flythrough (HERO COMPONENT)
+# ──────────────────────────────────────────────────────────────────────────────
+st.markdown("<div class='section-header'>3. Interactive 3D WebGL Flythrough & Orbit Viewer</div>", unsafe_allow_html=True)
+st.caption("🎮 **Full 60FPS WebGL Interaction**: Click and drag to orbit · Right-click to pan · Scroll to zoom · Use **WASD/Arrow keys** for ground navigation · Click **Cinematic Flythrough**.")
 
-                # Footprint mask
-                if has_unet:
-                    res = footprint_estimator.cfg.train_res
-                    s = {"id": active_filename, "rgb": active_image,
-                         "gt": gt, "depth": depth_map, "nodata": -999.0}
-                    x_in = footprint_estimator._prep_x(s, res)
-                    xt = torch.from_numpy(x_in[None]).float().to(
-                        footprint_estimator.device)
-                    depth_r = cv2.resize(depth_map, (res, res),
-                                         interpolation=cv2.INTER_LINEAR)
-                    raw_d = torch.from_numpy(depth_r[None]).float().to(
-                        footprint_estimator.device)
-                    with torch.no_grad():
-                        mask_logits, *_ = footprint_estimator.model(
-                            xt, raw_d, device=footprint_estimator.device)
-                    probs = torch.sigmoid(mask_logits).squeeze(0).cpu().numpy()
-                    mask_bldg = (cv2.resize(
-                        (probs > 0.5).astype(np.uint8), (w, h),
-                        interpolation=cv2.INTER_NEAREST) > 0)
-                else:
-                    d_coarse = cv2.resize(depth_map, (17, 17),
-                                          interpolation=cv2.INTER_AREA)
-                    d_smooth = cv2.resize(d_coarse, (w, h),
-                                          interpolation=cv2.INTER_LINEAR)
-                    mask_bldg = (depth_map - d_smooth) > 2.0
+preset_map = {
+    "City Overview": "overview",
+    "Urban Oblique": "urban",
+    "Inspection": "inspection",
+    "Top-Down": "top",
+    "Pedestrian": "street"
+}
+mode_map = {
+    "RGB City": "rgb",
+    "Elevation Colormap": "elev",
+    "Building Height": "height",
+    "Terrain Slope": "slope"
+}
 
-                coarse_ndsm_up = np.maximum(0.0, dem_up - dtm_pred)
-                pred_delta_dense = np.zeros_like(dem_up)
-                num_labels, labels_im = cv2.connectedComponents(
-                    mask_bldg.astype(np.uint8))
-                for label_id in range(1, num_labels):
-                    b_mask = labels_im == label_id
-                    feat = extract_building_features(b_mask, coarse_ndsm_up,
-                                                     depth_map)
-                    if feat is not None and peak_mlp is not None:
-                        x_feat = np.array([feat[c] for c in feature_cols])
-                        x_feat_norm = (x_feat - mu_train) / (sigma_train + 1e-6)
-                        with torch.no_grad():
-                            delta = peak_mlp(
-                                torch.from_numpy(x_feat_norm[None]).float()
-                            ).numpy()[0]
-                        pred_delta_dense[b_mask] = delta
+webgl_html = generate_interactive_webgl_html(
+    rgb_img=raster_input.rgb,
+    dsm=calib_res.dsm,
+    dtm=calib_res.dtm,
+    mask_bldg=calib_res.mask_bldg,
+    gsd=raster_input.gsd,
+    exaggeration=exaggeration,
+    stride=4,
+    default_preset=preset_map.get(camera_angle, "overview"),
+    default_mode=mode_map.get(render_mode, "rgb")
+)
+components.html(webgl_html, height=720)
 
-                _show_steps(3)   # Step 3 done
-                refined_ndsm = coarse_ndsm_up + pred_delta_dense
-                _show_steps(4)   # Step 4 done
-                dsm_pred = dtm_pred + refined_ndsm
-                _show_steps(5)   # Step 5 done
-                used_absolute = True
+with st.expander("🔍 Inspection & Geometry Debug: Extracted Building Footprints", expanded=False):
+    fp_debug_img = generate_footprint_debug(raster_input.rgb, calib_res.mask_bldg, gsd=raster_input.gsd)
+    st.image(fp_debug_img, caption="Building Footprints (Green = Valid Building Object, Red = Rejected Mega-Component)", use_container_width=True)
 
-                st.session_state["dsm_pred"] = dsm_pred
-                st.session_state["refined_ndsm"] = refined_ndsm
-                st.session_state["dtm_pred"] = dtm_pred
-                st.session_state["depth_map"] = depth_map
-                st.session_state["is_georeferenced"] = True
-                st.session_state["raster_meta_cache"] = raster_meta
+# ──────────────────────────────────────────────────────────────────────────────
+# Section 4: 2D Surface, Depth, and Slope Maps
+# ──────────────────────────────────────────────────────────────────────────────
+st.markdown("<div class='section-header'>4. Multi-Layer 2D Raster Suite</div>", unsafe_allow_html=True)
+c2a, c2b, c2c = st.columns(3)
+with c2a:
+    d_vis = (depth_raw - depth_raw.min()) / (depth_raw.max() - depth_raw.min() + 1e-6)
+    st.image(d_vis, caption="Monocular Relative Depth (Depth Anything V2)", use_container_width=True, clamp=True)
+with c2b:
+    dsm_vis = (calib_res.dsm - calib_res.dsm.min()) / (calib_res.dsm.max() - calib_res.dsm.min() + 1e-6)
+    st.image(dsm_vis, caption=f"Reconstructed Surface ({calib_res.units})", use_container_width=True, clamp=True)
+with c2c:
+    slope_vis = (slope_res.slope_deg / 60.0).clip(0, 1)
+    st.image(slope_vis, caption=f"Terrain Slope Map (Mean: {slope_res.stats['mean_terrain_slope_deg']}°)", use_container_width=True, clamp=True)
 
-        # ── Fallback: always generate relative DSM so 3D mesh is shown ─────
-        if not used_absolute:
-            if is_georeferenced:
-                st.info(
-                    "ℹ️ No metric elevation source found for this tile — "
-                    "showing **RELATIVE DSM** from monocular depth. "
-                    "For absolute metric output, use a pre-validated NYC/Copenhagen tile.")
-            depth_norm = ((depth_map - depth_map.min()) /
-                          (depth_map.max() - depth_map.min() + 1e-6))
-            relative_dsm = depth_norm * 10.0
-            st.session_state["dsm_pred"] = relative_dsm
-            st.session_state["refined_ndsm"] = relative_dsm
-            st.session_state["dtm_pred"] = np.zeros_like(relative_dsm)
-            st.session_state["depth_map"] = depth_map
-            st.session_state["is_georeferenced"] = False
-            st.session_state["raster_meta_cache"] = {}
-        _show_steps(6)   # All steps done
-        st.session_state["pipeline_time_s"] = round(time.perf_counter() - _pipeline_start, 1)
-
-# ─── Display results from session state ──────────────────────────────────────
-if "dsm_pred" not in st.session_state:
-    st.stop()
-
-dsm_pred = st.session_state["dsm_pred"]
-if dsm_pred is None:
-    st.stop()
-
-depth_map = st.session_state["depth_map"]
-refined_ndsm = st.session_state["refined_ndsm"]
-_is_geo = st.session_state.get("is_georeferenced", False)
-_rm = st.session_state.get("raster_meta_cache", {})
-_transform = _rm.get("transform",
-                      rasterio.transform.from_origin(0, dsm_pred.shape[0], 1.0, 1.0))
-
-# Pipeline timing banner
-if "pipeline_time_s" in st.session_state:
-    _pt = st.session_state["pipeline_time_s"]
-    st.success(f"⚡ Processing completed in **{_pt}s**")
-
-# Section 3 — Reconstructed 3D City Viewport (HERO COMPONENT)
-st.markdown("<div class='section-header'>3. Reconstructed 3D City Scene</div>",
-            unsafe_allow_html=True)
-st.markdown(
-    "<span class='mesh-badge'>✓ Building-Aware 3D City &nbsp;·&nbsp; "
-    "Hybrid Base DTM + Extruded Building Side Walls + DSM Roof Topology</span>",
-    unsafe_allow_html=True)
-
-render_key = f"{camera_angle}_{render_mode}_{exaggeration}"
-if st.session_state.get("render_cache_key") != render_key:
-    with st.spinner("🔧 Building hybrid 3D city scene and rendering…"):
-        render_bytes = render_3d_screenshot(
-            active_image, dsm_pred, _transform, _is_geo,
-            exaggeration, camera_angle, render_mode)
-    st.session_state["render_cache"] = render_bytes
-    st.session_state["render_cache_key"] = render_key
-else:
-    render_bytes = st.session_state["render_cache"]
-
-st.image(render_bytes,
-         caption=f"3D City Scene — {render_mode}  |  {camera_angle} Preset  |  {exaggeration}× vertical display",
-         use_container_width=True)
-st.caption("💡 Change Camera Preset or Render Mode in the left sidebar to inspect urban massing.")
-
-# Section 4 — 2D Depth & Elevation Outputs
-st.markdown("<div class='section-header'>4. 2D Depth & Elevation Maps</div>",
-            unsafe_allow_html=True)
-c3, c4 = st.columns(2)
-with c3:
-    depth_viz = ((depth_map - depth_map.min()) /
-                 (depth_map.max() - depth_map.min() + 1e-6))
-    st.image(depth_viz, caption="Relative Optical Depth — Depth Anything V2",
-             use_container_width=True, clamp=True)
-with c4:
-    label = "ABSOLUTE DSM" if _is_geo else "RELATIVE DSM (0–10 m scale)"
-    dsm_viz = (dsm_pred - dsm_pred.min()) / (dsm_pred.max() - dsm_pred.min() + 1e-6)
-    st.image(dsm_viz, caption=f"Reconstructed Surface — {label}",
-             use_container_width=True, clamp=True)
-
-# Section 5 — Statistics dashboard
-st.markdown("<div class='section-header'>5. Height & Structural Statistics</div>",
-            unsafe_allow_html=True)
+# ──────────────────────────────────────────────────────────────────────────────
+# Section 5: Height & Structural Statistics Dashboard
+# ──────────────────────────────────────────────────────────────────────────────
+st.markdown("<div class='section-header'>5. Elevation & Structural Statistics</div>", unsafe_allow_html=True)
 m1, m2, m3, m4, m5, m6 = st.columns(6)
-mode_str = "Absolute" if _is_geo else "Relative"
-stats_pairs = [
-    (m1, f"{dsm_pred.min():.1f} m",              f"Min Elevation ({mode_str})"),
-    (m2, f"{dsm_pred.max():.1f} m",              f"Max Elevation ({mode_str})"),
-    (m3, f"{dsm_pred.mean():.1f} m",             "Mean Elevation"),
-    (m4, f"{np.percentile(dsm_pred, 95):.1f} m", "P95 Elevation"),
-    (m5, f"{np.percentile(dsm_pred, 99):.1f} m", "P99 Elevation"),
-    (m6, f"{refined_ndsm.max():.1f} m" if _is_geo else "N/A", "Est. Max Structure (nDSM)"),
+unit_s = "m" if calib_res.is_metric else "rel"
+stat_list = [
+    (m1, f"{calib_res.stats.get('min', 0.0):.1f} {unit_s}", "Min Surface Z"),
+    (m2, f"{calib_res.stats.get('max', 0.0):.1f} {unit_s}", "Max Surface Z"),
+    (m3, f"{calib_res.stats.get('mean', 0.0):.1f} {unit_s}", "Mean Surface Z"),
+    (m4, f"{calib_res.stats.get('p95', 0.0):.1f} {unit_s}", "P95 Elevation"),
+    (m5, f"{calib_res.ndsm.max():.1f} {unit_s}", "Max Structure (nDSM)"),
+    (m6, f"{len(massing_df)}", "Extruded Buildings"),
 ]
-for col, val, lbl in stats_pairs:
+for col, val, lbl in stat_list:
     with col:
-        st.markdown(
-            f"<div class='metric-card'>"
-            f"<div class='metric-value'>{val}</div>"
-            f"<div class='metric-label'>{lbl}</div>"
-            f"</div>", unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class='metric-card'>
+          <div class='metric-value'>{val}</div>
+          <div class='metric-label'>{lbl}</div>
+        </div>
+        """, unsafe_allow_html=True)
 
-# Section 6 — Export
-st.markdown("<div class='section-header'>6. Export Assets</div>",
-            unsafe_allow_html=True)
+# ──────────────────────────────────────────────────────────────────────────────
+# Section 6: Structural Height Measurement & Massing Analysis
+# ──────────────────────────────────────────────────────────────────────────────
+st.markdown("<div class='section-header'>6. Building Massing & Interactive Height Measurement</div>", unsafe_allow_html=True)
+tab_bldg, tab_probe = st.tabs(["🏢 Building Massing Table", "📍 Point Elevation Probe"])
 
-h, w = dsm_pred.shape
-if _is_geo:
+with tab_bldg:
+    if not massing_df.empty:
+        st.dataframe(massing_df, use_container_width=True, height=260)
+        st.caption(f"Showing {len(massing_df)} segmented urban structures. Height $H = Z_{{\\text{{roof}}}} - Z_{{\\text{{ground}}}}$.")
+    else:
+        st.info("No discrete buildings detected in this raster.")
+
+with tab_probe:
+    col_px, col_py, col_probe_out = st.columns([1, 1, 2])
+    with col_px:
+        x_probe = st.number_input("Pixel X Coordinate", min_value=0, max_value=raster_input.width-1, value=raster_input.width//2)
+    with col_py:
+        y_probe = st.number_input("Pixel Y Coordinate", min_value=0, max_value=raster_input.height-1, value=raster_input.height//2)
+    with col_probe_out:
+        probe_res = probe_point_elevation(calib_res.dsm, calib_res.dtm, calib_res.mask_bldg, x_probe, y_probe, is_metric=calib_res.is_metric)
+        st.markdown(f"""
+        <div class='input-meta'>
+        <b>Target:</b> ({probe_res['x']}, {probe_res['y']}) &nbsp;|&nbsp; <b>Class:</b> {'Building' if probe_res['is_building'] else 'Ground Terrain'}<br>
+        <b>Surface Elevation:</b> {probe_res['elevation']}<br>
+        <b>Ground Elevation (DTM):</b> {probe_res['ground_elevation']}<br>
+        <b>Structural Height:</b> <b style='color:#3FB950'>{probe_res['structural_height']}</b>
+        </div>
+        """, unsafe_allow_html=True)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Section 7: Terrain & Facade Slope Analysis
+# ──────────────────────────────────────────────────────────────────────────────
+st.markdown("<div class='section-header'>7. Terrain & Facade Slope Analysis</div>", unsafe_allow_html=True)
+s1, s2, s3, s4 = st.columns(4)
+with s1:
+    st.markdown(f"<div class='metric-card'><div class='metric-value'>{slope_res.stats['mean_terrain_slope_deg']}°</div><div class='metric-label'>Mean Terrain Slope</div></div>", unsafe_allow_html=True)
+with s2:
+    st.markdown(f"<div class='metric-card'><div class='metric-value'>{slope_res.stats['p95_terrain_slope_deg']}°</div><div class='metric-label'>P95 Terrain Slope</div></div>", unsafe_allow_html=True)
+with s3:
+    st.markdown(f"<div class='metric-card'><div class='metric-value'>{slope_res.stats['steep_slope_pct_area']}%</div><div class='metric-label'>Steep Slope Area (>25°)</div></div>", unsafe_allow_html=True)
+with s4:
+    st.markdown(f"<div class='metric-card'><div class='metric-value'>{slope_res.stats['max_slope_deg']}°</div><div class='metric-label'>Max Facade Gradient</div></div>", unsafe_allow_html=True)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Section 8: Quantitative Validation Dashboard
+# ──────────────────────────────────────────────────────────────────────────────
+if val_rep is not None:
+    st.markdown("<div class='section-header'>8. Quantitative Validation vs Reference Ground Truth</div>", unsafe_allow_html=True)
+    v1, v2, v3, v4, v5 = st.columns(5)
+    with v1:
+        st.markdown(f"<div class='metric-card'><div class='metric-value'>{val_rep.summary_metrics['MAE (m)']} m</div><div class='metric-label'>MAE</div></div>", unsafe_allow_html=True)
+    with v2:
+        st.markdown(f"<div class='metric-card'><div class='metric-value'>{val_rep.summary_metrics['RMSE (m)']} m</div><div class='metric-label'>RMSE</div></div>", unsafe_allow_html=True)
+    with v3:
+        st.markdown(f"<div class='metric-card'><div class='metric-value'>{val_rep.summary_metrics['Pearson R']}</div><div class='metric-label'>Pearson R</div></div>", unsafe_allow_html=True)
+    with v4:
+        st.markdown(f"<div class='metric-card'><div class='metric-value'>{val_rep.summary_metrics['P90 AE (m)']} m</div><div class='metric-label'>P90 Abs Error</div></div>", unsafe_allow_html=True)
+    with v5:
+        st.markdown(f"<div class='metric-card'><div class='metric-value'>{val_rep.summary_metrics['Bias (m)']} m</div><div class='metric-label'>Mean Bias</div></div>", unsafe_allow_html=True)
+    
+    st.markdown("#### Binned Height Accuracy Breakdown")
+    st.dataframe(val_rep.binned_table, use_container_width=True)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Section 9: Export Assets
+# ──────────────────────────────────────────────────────────────────────────────
+st.markdown("<div class='section-header'>9. Export Assets & Scientific Deliverables</div>", unsafe_allow_html=True)
+
+def write_geotiff(arr, is_geo, transform, crs):
+    h, w = arr.shape
     profile = {
         "driver": "GTiff", "dtype": "float32", "nodata": -999.0,
         "width": w, "height": h, "count": 1,
-        "crs": _rm.get("crs"), "transform": _transform,
+        "crs": crs if is_geo else None,
+        "transform": transform if is_geo else rasterio.transform.from_origin(0, h, 1, 1),
     }
-else:
-    profile = {
-        "driver": "GTiff", "dtype": "float32", "nodata": -999.0,
-        "width": w, "height": h, "count": 1,
-        "crs": None, "transform": rasterio.transform.from_origin(0, h, 1, 1),
-    }
-
-def write_geotiff(arr):
     with tempfile.NamedTemporaryFile(delete=False, suffix=".tif") as f:
         p = f.name
     with rasterio.open(p, "w", **profile) as dst:
         dst.write(arr.astype(np.float32), 1)
     with open(p, "rb") as f:
         data = f.read()
-    os.remove(p)
-    return data
-
-def write_vtp(dsm, transform):
-    """Export Phase 33C Polished Building-Aware 3D City mesh as .vtp."""
-    dtm_input = st.session_state.get("dtm_pred", None)
-    mesh_surf, mesh_walls, _ = build_building_aware_mesh(dsm, Z_dtm=dtm_input, transform=transform, exaggeration=1.0)
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".vtp") as f:
-        p = f.name
-    if mesh_walls is not None:
-        combined = mesh_surf.merge(mesh_walls)
-        combined.save(p)
-    else:
-        mesh_surf.save(p)
-    with open(p, "rb") as f:
-        data = f.read()
-    os.remove(p)
+    try: os.remove(p)
+    except: pass
     return data
 
 ex1, ex2, ex3, ex4 = st.columns(4)
 with ex1:
-    st.markdown("<div class='export-label'>📄 Scientific DSM</div>", unsafe_allow_html=True)
-    st.download_button("⬇️ DSM GeoTIFF",
-                       data=write_geotiff(dsm_pred),
-                       file_name=f"DSM_{active_filename}",
-                       mime="image/tiff",
-                       use_container_width=True)
+    st.download_button("⬇️ Download DSM GeoTIFF",
+                       data=write_geotiff(calib_res.dsm, raster_input.is_georeferenced, raster_input.transform, raster_input.crs),
+                       file_name=f"DSM_{raster_input.filename}",
+                       mime="image/tiff", use_container_width=True)
 with ex2:
-    st.markdown("<div class='export-label'>🏗️ nDSM (Building Heights)</div>", unsafe_allow_html=True)
-    st.download_button("⬇️ nDSM GeoTIFF",
-                       data=write_geotiff(refined_ndsm),
-                       file_name=f"nDSM_{active_filename}",
-                       mime="image/tiff",
-                       use_container_width=True)
+    st.download_button("⬇️ Download nDSM GeoTIFF",
+                       data=write_geotiff(calib_res.ndsm, raster_input.is_georeferenced, raster_input.transform, raster_input.crs),
+                       file_name=f"nDSM_{raster_input.filename}",
+                       mime="image/tiff", use_container_width=True)
 with ex3:
-    st.markdown("<div class='export-label'>🌐 3D Mesh (Edge-Aware)</div>", unsafe_allow_html=True)
-    st.download_button("⬇️ 3D Mesh .vtp",
-                       data=write_vtp(dsm_pred, _transform),
-                       file_name=f"Mesh_{Path(active_filename).stem}.vtp",
-                       mime="application/octet-stream",
-                       use_container_width=True)
+    st.download_button("⬇️ Download Building Massing (CSV)",
+                       data=massing_df.to_csv(index=False),
+                       file_name=f"Buildings_{Path(raster_input.filename).stem}.csv",
+                       mime="text/csv", use_container_width=True)
 with ex4:
-    st.markdown("<div class='export-label'>🖼️ 3D Preview Image</div>", unsafe_allow_html=True)
-    st.download_button("⬇️ Preview PNG",
-                       data=st.session_state.get("render_cache", b""),
-                       file_name=f"3DPreview_{Path(active_filename).stem}.png",
-                       mime="image/png",
-                       use_container_width=True,
-                       disabled=("render_cache" not in st.session_state))
-
-# ─── How it works ─────────────────────────────────────────────────────────────
-st.markdown("<br>", unsafe_allow_html=True)
-with st.expander("ℹ️ How DepthWizard works"):
-    st.markdown("""
-    1. **Image Analysis** — A Vision Transformer (Depth Anything V2) analyses the RGB image and extracts structural cues from shading, texture, and context.
-    2. **Relative Depth** — The model outputs a relative depth map (dimensionless 0–1 scale) capturing which objects are near or far.
-    3. **Metric Calibration** — For georeferenced tiles, a reference Digital Surface Model anchors the relative depth to real-world elevation in metres.
-    4. **Peak Recovery** — A lightweight MLP (Phase 29) corrects systematic under-estimation of tall building peaks, using per-building geometric and depth features.
-    5. **DSM Reconstruction** — The final Digital Surface Model (DSM) is assembled as: DTM + refined nDSM, giving absolute elevation at every pixel.
-    6. **3D Surface Mesh** — An edge-aware quad filter (Phase 31D) builds the visualization mesh, removing artificial vertical curtain faces at building edges without altering the scientific DSM values.
-
-    > ⚠️ Monocular RGB alone does not provide absolute metric scale. Absolute output requires a reference elevation source (validated demo tiles included).
-    """)
-
-# ─── Why this matters ─────────────────────────────────────────────────────────
-st.markdown("<div class='section-header'>Why This Matters</div>", unsafe_allow_html=True)
-wc1, wc2, wc3, wc4, wc5 = st.columns(5)
-for wc, icon, txt in [
-    (wc1, "🛰️", "Single-view optical imagery — no stereo or LiDAR"),
-    (wc2, "⚡", "Rapid elevation reconstruction from any satellite pass"),
-    (wc3, "📐", "Georeferenced DSM output ready for GIS workflows"),
-    (wc4, "🏙️", "Interactive 3D scene for visual inspection & reporting"),
-    (wc5, "🔬", "Transparent, auditable pipeline with scientific integrity"),
-]:
-    with wc:
-        st.markdown(
-            f"<div class='wim-card'><div class='wim-icon'>{icon}</div>"
-            f"<div class='wim-text'>{txt}</div></div>",
-            unsafe_allow_html=True)
-
+    if val_rep is not None:
+        st.download_button("⬇️ Download Validation Metrics (JSON)",
+                           data=json.dumps(val_rep.summary_metrics, indent=2),
+                           file_name=f"Validation_{Path(raster_input.filename).stem}.json",
+                           mime="application/json", use_container_width=True)
+    else:
+        st.download_button("⬇️ Download Metadata Summary (JSON)",
+                           data=json.dumps(raster_input.get_summary(), indent=2),
+                           file_name=f"Meta_{Path(raster_input.filename).stem}.json",
+                           mime="application/json", use_container_width=True)

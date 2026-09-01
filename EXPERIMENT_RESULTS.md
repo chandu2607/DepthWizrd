@@ -917,3 +917,11 @@ Decoupling relative depth structure from absolute height prediction via building
 *   **New York Test DSM MAE:** 8.14m | DTM MAE: 1.77m
 *   **New York Skyscraper (>40m) Mean Height Recovery:** 23.30%
 *   **Scientific Support:** STRONG SUPPORT. The DTM integration preserves the vertical scale, resolving terminology boundaries and enabling direct GeoTIFF GIS exports.
+
+
+## Phase 29 — Building Peak-Recovery Network
+*   **Goal:** Learn building-specific peak elevation corrections ($\Delta H$) using PyTorch MLP on top of upsampled DEM reference.
+*   **Copenhagen Val Bldg MAE:** 2.40 +/- 0.12m
+*   **New York Test Bldg MAE:** 7.63 +/- 0.24m
+*   **New York Skyscraper (>40m) Mean Height Recovery:** 44.81 +/- 7.75%
+*   **Scientific Support:** STRONG SUPPORT. The MLP successfully registers and scales relative depth boundaries to correct the coarse DEM's smoothing error on high-rise targets.
