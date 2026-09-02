@@ -1,0 +1,11 @@
+{
+  "himachal_renders": [
+    "01_dem_only.png",
+    "02_dem_plus_footprints.png",
+    "03_dem_plus_extrusions.png",
+    "04_final_textured_scene.png",
+    "himachal_component_id_height_mapping.png"
+  ],
+  "vertical_exaggeration": 1.0,
+  "texture_alignment": "same 512x512 crop and Phase 72 UTM grid"
+}

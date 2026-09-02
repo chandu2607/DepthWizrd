@@ -1,0 +1,32 @@
+{
+  "phase": "57",
+  "title": "Indian Hilly-Region Generalization Audit",
+  "status": "NOT_VALIDATED_FOR_INDIAN_HILLY_DISASTER_MANAGEMENT",
+  "scientific_verdict": "No real Indian hilly-terrain evidence exists in the current repo. Urban-scene results are not enough to claim utility in northern-India disaster scenarios.",
+  "evidence_basis": [
+    "scripts/phase55_clean_selection.py contains explicit placeholder evaluation logic and synthetic results.",
+    "scripts/phase56_forensic_verification.py independently flags the earlier metrics as non-plausible as real inference evidence.",
+    "depthwizard/depth/depth_anything.py documents that Depth Anything V2 is a relative-depth prior, not a metric terrain sensor.",
+    "depthwizard/calibration/engine.py uses geometric and morphological approximations for DTM / nDSM calibration, without Indian terrain validation.",
+    "depthwizard/analysis/slope.py separates terrain slope from facade slope, but it does not validate landslide or flood hazard modeling.",
+    "The workspace data directories are limited to dfc2019 and dfc2023_multicity; no Indian hilly benchmark is present."
+  ],
+  "likely_failure_modes": [
+    "terrain_slope_bias",
+    "dtm_underfit_in_steep_vegetated_topography",
+    "disaster_signal_not_modelled",
+    "single_view_scale_underconstraint",
+    "no_indian_domain_validation"
+  ],
+  "minimum_justified_next_step": {
+    "dataset": "Create a georeferenced Indian hilly benchmark with DEM/LiDAR, slope strata, vegetation, and disaster labels.",
+    "evaluation": "Measure DTM/nDSM error and hazard-region performance separately from ordinary terrain.",
+    "comparisons": [
+      "relative monocular only",
+      "DEM-anchored calibration",
+      "ground-referenced / GCP-anchored calibration"
+    ],
+    "decision_rule": "Only proceed to operational claims after external Indian terrain validation passes the required error and hazard metrics."
+  },
+  "recommended_position": "DepthWizard is promising as a research prototype for urban monocular elevation reconstruction, but it is not yet scientifically defensible for Indian hilly disaster management."
+}

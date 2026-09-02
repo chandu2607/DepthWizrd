@@ -1,0 +1,26 @@
+{
+  "selected_model": "MinimalTerrainRegressor",
+  "epoch": 1,
+  "seed": 0,
+  "normalization_stats": {
+    "mean": 4517.42236328125,
+    "std": 965.2066040039062,
+    "min": 1067.159912109375,
+    "max": 7095.341796875
+  },
+  "validation_metrics": {
+    "mae": NaN,
+    "rmse": NaN,
+    "bias": NaN,
+    "pearson": NaN,
+    "spearman": NaN
+  },
+  "configuration": {
+    "loss": "SmoothL1",
+    "optimizer": "Adam",
+    "lr": 0.001,
+    "gpu": "cpu",
+    "epochs": 3
+  },
+  "timestamp": "2026-09-01T18:18:26Z"
+}

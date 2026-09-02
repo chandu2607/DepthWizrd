@@ -1,0 +1,8 @@
+{
+  "prediction_gradient_x_mae": 0.01621377281844616,
+  "prediction_gradient_y_mae": 0.010779987089335918,
+  "prediction_gradient_magnitude_mean": 0.00011594366515055299,
+  "target_gradient_magnitude_mean": 0.013600067235529423,
+  "prediction_std": 0.011821982450783253,
+  "target_std": 1.4749408960342407
+}

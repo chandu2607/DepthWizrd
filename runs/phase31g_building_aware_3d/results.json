@@ -1,0 +1,38 @@
+{
+  "verdict": "BUILDING_AWARE_3D_SUCCESS",
+  "root_cause_hill_appearance": "Continuous DSM grid interpolation fused roofs and ground into sloped hill-like surfaces without distinct vertical building walls.",
+  "building_extraction_method": "Phase 24 U-Net footprint segmentation mask (p >= 0.5) + connected components + minimum area filter (15 px).",
+  "terrain_representation": "Smooth continuous base DTM surface.",
+  "wall_construction": "Extruded vertical quad wall strips following contour footprints from local DTM ground height to P95 roof height.",
+  "roof_construction": "Sampled DSM roof surface inside footprint polygons.",
+  "rgb_texturing": "Spatially registered 1:1 UV mapping from top-down satellite orthophoto.",
+  "shading": "Computed surface point normals + smooth shading + ambient (0.3) + diffuse (0.85).",
+  "camera_design": {
+    "CITY OVERVIEW": "High oblique isometric framing (0.75x extent) displaying full city block massing.",
+    "URBAN STREET": "Low oblique framing (0.45x extent) highlighting vertical building relief.",
+    "INSPECTION": "Close perspective framing (0.30x extent) for rooftop detail."
+  },
+  "building_count": 36,
+  "mesh_statistics": {
+    "n_points": 264048,
+    "n_cells": 262073,
+    "build_time_s": 3.817
+  },
+  "dsm_integrity": "BYTE-IDENTICAL",
+  "dsm_stats_before": {
+    "min": 53.078128814697266,
+    "max": 166.57180786132812,
+    "mean": 86.76116943359375,
+    "p95": 127.3790512084961,
+    "p99": 148.61131286621094
+  },
+  "dsm_stats_after": {
+    "min": 53.078128814697266,
+    "max": 166.57180786132812,
+    "mean": 86.76116943359375,
+    "p95": 127.3790512084961,
+    "p99": 148.61131286621094
+  },
+  "scene_reads_as_3d_city": true,
+  "next_action": "INTEGRATE_BUILDING_AWARE_MESH_INTO_APP"
+}

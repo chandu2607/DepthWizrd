@@ -1,0 +1,50 @@
+{
+  "dsm_stats_before": {
+    "min": 53.078128814697266,
+    "max": 166.57180786132812,
+    "mean": 86.76116943359375,
+    "p95": 127.3790512084961,
+    "p99": 148.61131286621094
+  },
+  "dsm_stats_after": {
+    "min": 53.078128814697266,
+    "max": 166.57180786132812,
+    "mean": 86.76116943359375,
+    "p95": 127.3790512084961,
+    "p99": 148.61131286621094
+  },
+  "dsm_unchanged": true,
+  "old_mesh": {
+    "n_cells": 261121,
+    "max_cell_dz_m": 35.152381896972656,
+    "build_s": 0.04
+  },
+  "new_mesh": {
+    "n_cells": 257893,
+    "n_removed": 3228,
+    "pct_removed": 1.24,
+    "max_dz_remaining_m": 8.94,
+    "build_s": 0.06
+  },
+  "render_times_s": {
+    "old_elevation": 1.81,
+    "old_rgb": 1.24,
+    "new_elevation": 2.26,
+    "new_rgb": 1.1
+  },
+  "curtain_check": {
+    "before": 4067,
+    "after": 839,
+    "reduction_pct": 79.4
+  },
+  "success_criteria": {
+    "curtain_artifacts_reduced": true,
+    "building_roofs_preserved": true,
+    "dsm_integrity_ok": true,
+    "texture_alignment_ok": true,
+    "demo_scene_ok": true,
+    "export_ready": true
+  },
+  "verdict": "APP_MESH_INTEGRATION_SUCCESS",
+  "next_action": "SHIP_TO_DEMO"
+}

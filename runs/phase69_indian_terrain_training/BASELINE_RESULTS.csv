@@ -1,0 +1,4 @@
+region,state,split,status,runtime_s,slope,intercept,mae,rmse,bias,pearson,notes
+uttarakhand,Uttarakhand,train,OK,26.13153880000027,-42.953692263507314,5383.242597405664,261.6556389412233,312.8976516342553,-4.302336265027407e-12,0.27694971204768243,relative depth mapped to DEM by linear fit only for compatibility diagnostics; not a valid metric terrain sensor
+himachal,Himachal Pradesh,validation,OK,3.839821399997163,82.49708863576458,131.34516213432394,3.146186188645415,3.8120335769001787,-0.012689730724075421,0.25099296114950537,relative depth mapped to DEM by linear fit only for compatibility diagnostics; not a valid metric terrain sensor
+sikkim,Sikkim,test,OK,3.5694216000047163,77.03661399409113,1525.5863658601158,442.10391557455137,534.2998814626391,-3.4923175462608924e-12,0.287712728260807,relative depth mapped to DEM by linear fit only for compatibility diagnostics; not a valid metric terrain sensor

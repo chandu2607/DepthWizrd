@@ -1,0 +1,430 @@
+{
+  "phase": "PHASE_86",
+  "status": "GEOREFERENCED_DEPTH_CALIBRATION_CONTROL",
+  "final_label": "DEPTH_CALIBRATION_INSUFFICIENT",
+  "frozen_data": {
+    "region": "uttarakhand",
+    "train_bbox": [
+      1774,
+      2513,
+      2286,
+      3025
+    ],
+    "val_bbox": [
+      5834,
+      7335,
+      6346,
+      7847
+    ],
+    "target_size": 512,
+    "valid_pixel_count_train": 262144,
+    "valid_pixel_count_val": 262144
+  },
+  "polarity_selection": {
+    "train_only_sign": "depth",
+    "train_sign_analysis": {
+      "depth": {
+        "pearson": 0.5062006243032677,
+        "spearman": 0.4260707006797208
+      },
+      "-depth": {
+        "pearson": -0.5062006243032677,
+        "spearman": -0.42607079123433467
+      }
+    }
+  },
+  "target_definitions": {
+    "absolute_dem": {
+      "min": 3672.767822265625,
+      "max": 6185.8154296875,
+      "mean": 4946.923171530478,
+      "std": 561.3603070934762,
+      "valid_pixels": 262144
+    },
+    "local_relief": {
+      "min": -1327.232177734375,
+      "max": 1185.8154296875,
+      "mean": -53.0768284695223,
+      "std": 561.3603070934762,
+      "valid_pixels": 262144
+    }
+  },
+  "calibration_models": {
+    "absolute_dem": {
+      "linear": {
+        "mae": 518.3556830221787,
+        "rmse": 655.2487611145073,
+        "pearson": -0.04026348912914908,
+        "spearman": null,
+        "mean_bias": 261.5318134063855,
+        "prediction_std": 192.6591912525888,
+        "target_std": 561.3603070934762,
+        "std_ratio": 0.3432005947305208,
+        "gradient_x_mae": NaN,
+        "gradient_y_mae": 7.204856141554895,
+        "a": 467.615081007943,
+        "b": 4383.109466028744,
+        "sign": "depth",
+        "polarity_analysis": {
+          "depth": {
+            "pearson": 0.5062006243032677,
+            "spearman": 0.4260707006797208
+          },
+          "-depth": {
+            "pearson": -0.5062006243032677,
+            "spearman": -0.42607079123433467
+          }
+        }
+      },
+      "robust_linear": {
+        "mae": 519.014692322351,
+        "rmse": 656.0980814485094,
+        "pearson": -0.04026348803855725,
+        "spearman": null,
+        "mean_bias": 263.48910309839994,
+        "prediction_std": 192.85917069240614,
+        "target_std": 561.3603070934762,
+        "std_ratio": 0.3435568355214893,
+        "gradient_x_mae": NaN,
+        "gradient_y_mae": 7.204008008927856,
+        "a": 468.1004538493884,
+        "b": 4384.209899798762,
+        "sign": "depth",
+        "polarity_analysis": {
+          "depth": {
+            "pearson": 0.5062006243032677,
+            "spearman": 0.4260707006797208
+          },
+          "-depth": {
+            "pearson": -0.5062006243032677,
+            "spearman": -0.42607079123433467
+          }
+        }
+      },
+      "rank_mapping": {
+        "mae": 506.42967968340963,
+        "rmse": 633.8418054577786,
+        "pearson": 0.05071656815449986,
+        "spearman": null,
+        "mean_bias": 261.5319025097415,
+        "prediction_std": 166.46179015524544,
+        "target_std": 561.3603070934762,
+        "std_ratio": 0.2965328828059207,
+        "gradient_x_mae": NaN,
+        "gradient_y_mae": 7.359599468223212,
+        "a": 0.0021997091526529643,
+        "b": 4920.135895834545,
+        "sign": "depth",
+        "polarity_analysis": {
+          "depth": {
+            "pearson": 0.5062006243032677,
+            "spearman": 0.4260707006797208
+          },
+          "-depth": {
+            "pearson": -0.5062006243032677,
+            "spearman": -0.42607079123433467
+          }
+        }
+      },
+      "subsample_linear": {
+        "mae": 519.2167940316722,
+        "rmse": 656.3642644513554,
+        "pearson": -0.04026349169865576,
+        "spearman": null,
+        "mean_bias": 264.7310834703967,
+        "prediction_std": 192.14629874310916,
+        "target_std": 561.3603070934762,
+        "std_ratio": 0.3422869346391345,
+        "gradient_x_mae": NaN,
+        "gradient_y_mae": 7.207032302398524,
+        "a": 466.3702087658518,
+        "b": 4388.506014028061,
+        "sign": "depth",
+        "subsample_size": 20000,
+        "polarity_analysis": {
+          "depth": {
+            "pearson": 0.5062006243032677,
+            "spearman": 0.4260707006797208
+          },
+          "-depth": {
+            "pearson": -0.5062006243032677,
+            "spearman": -0.42607079123433467
+          }
+        }
+      },
+      "train_pixel_count": 262144,
+      "subsample_pixel_count": 20000,
+      "train_only_sign": "depth"
+    },
+    "local_relief": {
+      "linear": {
+        "mae": 479.22120944503695,
+        "rmse": 601.1740350383737,
+        "pearson": -0.04026349021466841,
+        "spearman": null,
+        "mean_bias": 21.404920793604106,
+        "prediction_std": 192.65919129178457,
+        "target_std": 561.3603070934762,
+        "std_ratio": 0.3432005948003436,
+        "gradient_x_mae": NaN,
+        "gradient_y_mae": 7.204856128981993,
+        "a": 467.61508100796124,
+        "b": -857.017487096282,
+        "sign": "depth",
+        "polarity_analysis": {
+          "depth": {
+            "pearson": 0.5062006243032677,
+            "spearman": 0.4260707006797208
+          },
+          "-depth": {
+            "pearson": -0.5062006243032677,
+            "spearman": -0.42607079123433467
+          }
+        }
+      },
+      "robust_linear": {
+        "mae": 479.26201399904676,
+        "rmse": 601.3185283700036,
+        "pearson": -0.040263489958753444,
+        "spearman": null,
+        "mean_bias": 23.36208917130716,
+        "prediction_std": 192.85917047433654,
+        "target_std": 561.3603070934762,
+        "std_ratio": 0.34355683513302293,
+        "gradient_x_mae": NaN,
+        "gradient_y_mae": 7.2040078901837745,
+        "a": 468.1004538493867,
+        "b": -855.9170533262359,
+        "sign": "depth",
+        "polarity_analysis": {
+          "depth": {
+            "pearson": 0.5062006243032677,
+            "spearman": 0.4260707006797208
+          },
+          "-depth": {
+            "pearson": -0.5062006243032677,
+            "spearman": -0.42607079123433467
+          }
+        }
+      },
+      "rank_mapping": {
+        "mae": 465.3872039094208,
+        "rmse": 577.7669687438322,
+        "pearson": 0.05071656815432017,
+        "spearman": null,
+        "mean_bias": 21.404949380530624,
+        "prediction_std": 166.46179014730393,
+        "target_std": 561.3603070934762,
+        "std_ratio": 0.2965328827917738,
+        "gradient_x_mae": NaN,
+        "gradient_y_mae": 7.3595995455500685,
+        "a": 0.002199709152653,
+        "b": -319.99105729046425,
+        "sign": "depth",
+        "polarity_analysis": {
+          "depth": {
+            "pearson": 0.5062006243032677,
+            "spearman": 0.4260707006797208
+          },
+          "-depth": {
+            "pearson": -0.5062006243032677,
+            "spearman": -0.42607079123433467
+          }
+        }
+      },
+      "subsample_linear": {
+        "mae": 479.1124828744214,
+        "rmse": 601.1130285105635,
+        "pearson": -0.04026349010027489,
+        "spearman": null,
+        "mean_bias": 24.604312976123765,
+        "prediction_std": 192.14629892837033,
+        "target_std": 561.3603070934762,
+        "std_ratio": 0.34228693496915635,
+        "gradient_x_mae": NaN,
+        "gradient_y_mae": 7.207032264214153,
+        "a": 466.3702087658518,
+        "b": -851.6209390969404,
+        "sign": "depth",
+        "subsample_size": 20000,
+        "polarity_analysis": {
+          "depth": {
+            "pearson": 0.5062006243032677,
+            "spearman": 0.4260707006797208
+          },
+          "-depth": {
+            "pearson": -0.5062006243032677,
+            "spearman": -0.42607079123433467
+          }
+        }
+      },
+      "train_pixel_count": 262144,
+      "subsample_pixel_count": 20000,
+      "train_only_sign": "depth"
+    }
+  },
+  "selected_local_relief_model": {
+    "model_name": "rank_mapping",
+    "metrics": {
+      "mae": 465.3872039094208,
+      "rmse": 577.7669687438322,
+      "pearson": 0.05071656815432017,
+      "spearman": null,
+      "mean_bias": 21.404949380530624,
+      "prediction_std": 166.46179014730393,
+      "target_std": 561.3603070934762,
+      "std_ratio": 0.2965328827917738,
+      "gradient_x_mae": NaN,
+      "gradient_y_mae": 7.3595995455500685,
+      "a": 0.002199709152653,
+      "b": -319.99105729046425,
+      "sign": "depth",
+      "polarity_analysis": {
+        "depth": {
+          "pearson": 0.5062006243032677,
+          "spearman": 0.4260707006797208
+        },
+        "-depth": {
+          "pearson": -0.5062006243032677,
+          "spearman": -0.42607079123433467
+        }
+      }
+    }
+  },
+  "comparison_to_baselines": {
+    "phase82_zero_baseline": {
+      "mae": 462.01953125,
+      "rmse": 563.8639526367188,
+      "pearson": NaN,
+      "mean_bias": 53.07682418823242,
+      "prediction_mean": 0.0,
+      "prediction_std": 0.0,
+      "target_std": 561.3602905273438,
+      "n": 262144
+    },
+    "phase82_training_mean_baseline": {
+      "mae": 462.71649169921875,
+      "rmse": 561.7682495117188,
+      "pearson": NaN,
+      "mean_bias": 21.404945373535156,
+      "prediction_mean": -31.671876907348633,
+      "prediction_std": 5.7220458984375e-06,
+      "target_std": 561.3602905273438,
+      "n": 262144
+    },
+    "phase82_training_median_baseline": {
+      "mae": 462.01953125,
+      "rmse": 563.864013671875,
+      "pearson": NaN,
+      "mean_bias": 53.07706832885742,
+      "prediction_mean": 0.000244140625,
+      "prediction_std": 0.0,
+      "target_std": 561.3602905273438,
+      "n": 262144
+    },
+    "phase83_best_depth_control": {
+      "mae": 465.3872985839844,
+      "rmse": 577.7671508789062,
+      "pearson": 0.050716245778952625,
+      "prediction_mean": -31.671875,
+      "prediction_std": 166.46226501464844,
+      "target_std": 561.3602905273438,
+      "mean_bias": 21.404945373535156,
+      "gradient_x_mae": 5.594277858734131,
+      "gradient_y_mae": 3.000342607498169,
+      "a": 576.6399536132812,
+      "b": -319.9918212890625
+    },
+    "phase86_selected_local_relief": {
+      "mae": 465.3872039094208,
+      "rmse": 577.7669687438322,
+      "pearson": 0.05071656815432017,
+      "spearman": null,
+      "mean_bias": 21.404949380530624,
+      "prediction_std": 166.46179014730393,
+      "target_std": 561.3603070934762,
+      "std_ratio": 0.2965328827917738,
+      "gradient_x_mae": NaN,
+      "gradient_y_mae": 7.3595995455500685,
+      "a": 0.002199709152653,
+      "b": -319.99105729046425,
+      "sign": "depth",
+      "polarity_analysis": {
+        "depth": {
+          "pearson": 0.5062006243032677,
+          "spearman": 0.4260707006797208
+        },
+        "-depth": {
+          "pearson": -0.5062006243032677,
+          "spearman": -0.42607079123433467
+        }
+      }
+    }
+  },
+  "validation_summary": {
+    "pearson": 0.05071656815432017,
+    "spearman": 0.07161577342289625,
+    "mae": 465.3872039094208,
+    "rmse": 577.7669687438322,
+    "mean_bias": 21.404949380530624,
+    "prediction_std": 166.46179014730393,
+    "target_std": 561.3603070934762,
+    "std_ratio": 0.2965328827917738,
+    "gradient_x_mae": NaN,
+    "gradient_y_mae": 7.3595995455500685
+  },
+  "subsample_sensitivity": {
+    "full_fit": {
+      "mae": 465.3872039094208,
+      "rmse": 577.7669687438322,
+      "pearson": 0.05071656815432017,
+      "spearman": null,
+      "mean_bias": 21.404949380530624,
+      "prediction_std": 166.46179014730393,
+      "target_std": 561.3603070934762,
+      "std_ratio": 0.2965328827917738,
+      "gradient_x_mae": NaN,
+      "gradient_y_mae": 7.3595995455500685,
+      "a": 0.002199709152653,
+      "b": -319.99105729046425,
+      "sign": "depth",
+      "polarity_analysis": {
+        "depth": {
+          "pearson": 0.5062006243032677,
+          "spearman": 0.4260707006797208
+        },
+        "-depth": {
+          "pearson": -0.5062006243032677,
+          "spearman": -0.42607079123433467
+        }
+      }
+    },
+    "subsample_fit": {
+      "mae": 479.1124828744214,
+      "rmse": 601.1130285105635,
+      "pearson": -0.04026349010027489,
+      "spearman": null,
+      "mean_bias": 24.604312976123765,
+      "prediction_std": 192.14629892837033,
+      "target_std": 561.3603070934762,
+      "std_ratio": 0.34228693496915635,
+      "gradient_x_mae": NaN,
+      "gradient_y_mae": 7.207032264214153,
+      "a": 466.3702087658518,
+      "b": -851.6209390969404,
+      "sign": "depth",
+      "subsample_size": 20000,
+      "polarity_analysis": {
+        "depth": {
+          "pearson": 0.5062006243032677,
+          "spearman": 0.4260707006797208
+        },
+        "-depth": {
+          "pearson": -0.5062006243032677,
+          "spearman": -0.42607079123433467
+        }
+      }
+    },
+    "materially_different": false
+  }
+}

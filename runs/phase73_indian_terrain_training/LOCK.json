@@ -1,0 +1,36 @@
+{
+  "checkpoint": "phase73_one_epoch_pilot.pt",
+  "epoch": 1,
+  "seed": 1337,
+  "target_mean": 4662.03515625,
+  "target_std": 355.37628173828125,
+  "model_config": {
+    "arch": "SmallFusionUNet",
+    "in_channels": 4,
+    "out_channels": 1,
+    "width": 16,
+    "loss": "SmoothL1",
+    "normalization": "train_only"
+  },
+  "loss": 0.44972753524780273,
+  "validation_metrics": {
+    "mae": 4476.96484375,
+    "rmse": 4476.96533203125,
+    "bias": 4476.96484375,
+    "pearson": 0.03573398734849863,
+    "spearman": 0.27760186414678184,
+    "n": 262144,
+    "pred_min": 4734.8857421875,
+    "pred_max": 4738.96728515625,
+    "pred_mean": 4737.2939453125,
+    "pred_std": 0.31293344497680664,
+    "ref_min": 255.248046875,
+    "ref_max": 283.81787109375,
+    "ref_mean": 260.3289794921875,
+    "ref_std": 2.054396867752075,
+    "validation_region": "himachal"
+  },
+  "locked_region": "himachal",
+  "test_region": "sikkim",
+  "lock_status": "ONE_EPOCH_RUN"
+}

@@ -1,0 +1,11 @@
+{
+  "train_mean": 4662.03515625,
+  "train_std": 355.37628173828125,
+  "target_units": "meters",
+  "target_type": "terrain elevation / DTM-like reference on the common grid",
+  "train_region": "uttarakhand",
+  "validation_region": "himachal",
+  "test_region": "sikkim",
+  "normalization_rule": "target_norm = (target - train_mean) / train_std",
+  "train_only": true
+}

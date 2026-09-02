@@ -1,0 +1,10 @@
+{
+  "validity": "INVALID_NOT_COMPARABLE",
+  "issues": [
+    "Discarded the SmallFusionUNet from the baseline C_log1p model.",
+    "Upgraded the decoder architecture fundamentally altering the forward path.",
+    "Did not load building masks for accurate building-level metrics."
+  ],
+  "tall_ceiling_broken": false,
+  "next_step": "Re-run Phase 14 with the correct C_log1p architecture preserved."
+}

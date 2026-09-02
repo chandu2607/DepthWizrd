@@ -1,0 +1,42 @@
+{
+  "zero_baseline": {
+    "mae": 1.2157599925994873,
+    "rmse": 1.4760127067565918,
+    "pearson": NaN,
+    "mean_bias": 0.056240230798721313,
+    "prediction_mean": 0.0,
+    "prediction_std": 0.0,
+    "target_std": 1.4749408960342407,
+    "n": 262144
+  },
+  "mean_training_target_baseline": {
+    "mae": 1.2190628051757812,
+    "rmse": 1.4749408960342407,
+    "pearson": NaN,
+    "mean_bias": 0.0,
+    "prediction_mean": -0.05624021589756012,
+    "prediction_std": 1.4901161193847656e-08,
+    "target_std": 1.4749408960342407,
+    "n": 262144
+  },
+  "median_training_target_baseline": {
+    "mae": 1.2139289379119873,
+    "rmse": 1.4815189838409424,
+    "pearson": NaN,
+    "mean_bias": 0.13945558667182922,
+    "prediction_mean": 0.08321535587310791,
+    "prediction_std": 0.0,
+    "target_std": 1.4749408960342407,
+    "n": 262144
+  },
+  "stored_phase79_model": {
+    "mae": 1.2236868143081665,
+    "rmse": 1.4768003225326538,
+    "pearson": -0.057983660671387625,
+    "mean_bias": -0.057679273188114166,
+    "prediction_mean": -0.11391951888799667,
+    "prediction_std": 0.011821982450783253,
+    "target_std": 1.4749408960342407,
+    "n": 262144
+  }
+}

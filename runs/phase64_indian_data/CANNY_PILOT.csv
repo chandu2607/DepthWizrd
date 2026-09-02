@@ -1,0 +1,2 @@
+scene,canny_edge_pixels,edge_density_pct,interpretation
+Uttarakhand real crop,106673,2.5433,"Canny edges are a visual analysis tool only; no edge integration into production. Mountains, roads, shadows, and vegetation all produce edges."

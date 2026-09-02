@@ -1,0 +1,32 @@
+{
+  "uttarakhand": {
+    "phase87": {
+      "foreground_percentage": 57.76405334472656,
+      "component_count": 11,
+      "finite_heights": 9,
+      "missing_heights": true
+    },
+    "phase89": {
+      "foreground_percentage": 57.76405334472656,
+      "component_count": 11,
+      "finite_heights": 9,
+      "missing_heights": 2,
+      "mapping_mismatches": 0
+    }
+  },
+  "himachal": {
+    "phase87": {
+      "foreground_percentage": 16.955947875976562,
+      "component_count": 64,
+      "finite_heights": 25,
+      "missing_heights": true
+    },
+    "phase89": {
+      "foreground_percentage": 16.955947875976562,
+      "component_count": 64,
+      "finite_heights": 25,
+      "missing_heights": 39,
+      "mapping_mismatches": 0
+    }
+  }
+}

@@ -1,0 +1,2 @@
+sample_count,IoU,Dice,Precision,Recall,predicted_foreground_pct,predicted_buildings,reference_buildings,matched_buildings,missed_buildings,false_positive_buildings,merged_buildings,fragmented_buildings,collapsed_foreground
+108,0.13646047624605032,0.1974151746990351,0.8872727089128768,0.14697365909009502,5.493432504159433,1018,2432,672,1760,22,79,194,False

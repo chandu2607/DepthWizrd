@@ -1,0 +1,139 @@
+{
+  "phase": "PHASE_83",
+  "status": "DEPTH_ONLY_CONTROL",
+  "final_label": "DEPTH_PRIOR_INSUFFICIENT_FOR_TERRAIN",
+  "raw_depth_stats": {
+    "train": {
+      "min": 1.1398978233337402,
+      "max": 3.1647257804870605,
+      "mean": 1.765007495880127,
+      "std": 0.4120042026042938,
+      "finite": true,
+      "non_constant": true,
+      "spatial_variation": true
+    },
+    "validation": {
+      "min": 1.1398978233337402,
+      "max": 3.1647257804870605,
+      "mean": 1.765007495880127,
+      "std": 0.4120042026042938,
+      "finite": true,
+      "non_constant": true,
+      "spatial_variation": true
+    }
+  },
+  "depth_vs_local_relief_correlation": {
+    "pearson_depth_vs_relief": -0.04026397787777201,
+    "spearman_depth_vs_relief": 0.07161557140858296,
+    "pearson_minus_depth_vs_relief": 0.04026397787777201,
+    "spearman_minus_depth_vs_relief": -0.07161557545229966
+  },
+  "controls": {
+    "A_normalized_depth": {
+      "mae": 539.5443115234375,
+      "rmse": 691.1177978515625,
+      "pearson": -0.04026397995808913,
+      "prediction_mean": -31.67188262939453,
+      "prediction_std": 380.5985107421875,
+      "target_std": 561.3602905273438,
+      "mean_bias": 21.404930114746094,
+      "gradient_x_mae": 4.96873664855957,
+      "gradient_y_mae": 2.7321503162384033
+    },
+    "B_inverted_normalized_depth": {
+      "mae": 564.16064453125,
+      "rmse": 665.758056640625,
+      "pearson": 0.040263975535705876,
+      "prediction_mean": -31.67186737060547,
+      "prediction_std": 380.5985107421875,
+      "target_std": 561.3602905273438,
+      "mean_bias": 21.40497589111328,
+      "gradient_x_mae": 4.96873664855957,
+      "gradient_y_mae": 2.7321503162384033
+    },
+    "C_rank_linear_depth_mapping": {
+      "mae": 465.3872985839844,
+      "rmse": 577.7671508789062,
+      "pearson": 0.050716245778952625,
+      "prediction_mean": -31.671875,
+      "prediction_std": 166.46226501464844,
+      "target_std": 561.3602905273438,
+      "mean_bias": 21.404945373535156,
+      "gradient_x_mae": 5.594277858734131,
+      "gradient_y_mae": 3.000342607498169,
+      "a": 576.6399536132812,
+      "b": -319.9918212890625
+    }
+  },
+  "best_control_name": "C_rank_linear_depth_mapping",
+  "best_control_metrics": {
+    "mae": 465.3872985839844,
+    "rmse": 577.7671508789062,
+    "pearson": 0.050716245778952625,
+    "prediction_mean": -31.671875,
+    "prediction_std": 166.46226501464844,
+    "target_std": 561.3602905273438,
+    "mean_bias": 21.404945373535156,
+    "gradient_x_mae": 5.594277858734131,
+    "gradient_y_mae": 3.000342607498169,
+    "a": 576.6399536132812,
+    "b": -319.9918212890625
+  },
+  "comparison": {
+    "DEPTH_CONTROL": {
+      "method": "C_rank_linear_depth_mapping",
+      "metrics": {
+        "mae": 465.3872985839844,
+        "rmse": 577.7671508789062,
+        "pearson": 0.050716245778952625,
+        "prediction_mean": -31.671875,
+        "prediction_std": 166.46226501464844,
+        "target_std": 561.3602905273438,
+        "mean_bias": 21.404945373535156,
+        "gradient_x_mae": 5.594277858734131,
+        "gradient_y_mae": 3.000342607498169,
+        "a": 576.6399536132812,
+        "b": -319.9918212890625
+      }
+    },
+    "TERRAINUNET": {
+      "mae": 1.2312045097351074,
+      "rmse": 1.5169501304626465,
+      "pearson": -0.11710258502862944,
+      "prediction_std": 0.2192905992269516,
+      "gradient_x_mae": 0.015721695497632027,
+      "gradient_y_mae": 0.010024253278970718,
+      "epoch": 5
+    },
+    "ZERO_BASELINE": {
+      "mae": 462.01953125,
+      "rmse": 563.8639526367188,
+      "pearson": NaN,
+      "mean_bias": 53.07682418823242,
+      "prediction_mean": 0.0,
+      "prediction_std": 0.0,
+      "target_std": 561.3602905273438,
+      "n": 262144
+    },
+    "TRAINING_MEAN_BASELINE": {
+      "mae": 462.71649169921875,
+      "rmse": 561.7682495117188,
+      "pearson": NaN,
+      "mean_bias": 21.404945373535156,
+      "prediction_mean": -31.671876907348633,
+      "prediction_std": 5.7220458984375e-06,
+      "target_std": 561.3602905273438,
+      "n": 262144
+    },
+    "TRAINING_MEDIAN_BASELINE": {
+      "mae": 462.01953125,
+      "rmse": 563.864013671875,
+      "pearson": NaN,
+      "mean_bias": 53.07706832885742,
+      "prediction_mean": 0.000244140625,
+      "prediction_std": 0.0,
+      "target_std": 561.3602905273438,
+      "n": 262144
+    }
+  }
+}

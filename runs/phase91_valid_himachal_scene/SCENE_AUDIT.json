@@ -1,0 +1,85 @@
+{
+  "terrain_source": "REAL GEOREFERENCED DEM",
+  "building_source": "SINGLE-VIEW MODEL PREDICTIONS",
+  "height_mapping": "COMPONENT-ID CORRECTED",
+  "height_accuracy": "UNVALIDATED",
+  "crs": "EPSG:32643",
+  "resolution_m": [
+    10.0,
+    10.0
+  ],
+  "terrain_vertex_count": 262144,
+  "terrain_triangle_count": 522242,
+  "building_count": 1,
+  "finite_height_building_count": 1,
+  "height_unavailable_count": 0,
+  "height_statistics_finite_only_m": {
+    "count": 1,
+    "min": 9.011548042297363,
+    "max": 9.011548042297363,
+    "mean": 9.011548042297363,
+    "median": 9.011548042297363,
+    "std": 0.0,
+    "p95": 9.011548042297363,
+    "p99": 9.011548042297363
+  },
+  "terrain_elevation_m": {
+    "count": 262144,
+    "min": 241.96485900878906,
+    "max": 263.89581298828125,
+    "mean": 246.30031192512251,
+    "median": 246.05883026123047,
+    "std": 1.5648916102893211,
+    "p95": 248.98579330444335,
+    "p99": 251.9276937866211
+  },
+  "roof_elevation_m": {
+    "count": 1,
+    "min": 255.30532836914062,
+    "max": 255.30532836914062,
+    "mean": 255.30532836914062,
+    "median": 255.30532836914062,
+    "std": 0.0,
+    "p95": 255.30532836914062,
+    "p99": 255.30532836914062
+  },
+  "building_mesh_triangle_count": 298,
+  "mesh_triangle_count_total": 522540,
+  "scene_bounds": {
+    "x_m": [
+      0.0,
+      5110.0
+    ],
+    "y_m": [
+      0.0,
+      5110.0
+    ],
+    "z_m": [
+      241.96485900878906,
+      272.9073486328125
+    ]
+  },
+  "geometry_assertions": {
+    "bottom_error_max_m": 0.0,
+    "top_error_max_m": 0.0,
+    "component_id_assertions": true,
+    "no_nan_building_geometry": true
+  },
+  "failure_flags": {
+    "FLOATING_BUILDING": false,
+    "BURIED_BUILDING": false,
+    "NEGATIVE_HEIGHT": false,
+    "NAN_GEOMETRY": false,
+    "MISSING_HEIGHT": false,
+    "TERRAIN_DISCONTINUITY": false,
+    "TEXTURE_ALIGNMENT_FAILURE": false,
+    "EMPTY_SCENE": false
+  },
+  "mesh_records": [
+    {
+      "component_id": 1,
+      "vertices": 200,
+      "triangles": 298
+    }
+  ]
+}

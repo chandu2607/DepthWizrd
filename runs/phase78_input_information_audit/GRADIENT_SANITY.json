@@ -1,0 +1,7 @@
+{
+  "loss": 0.5152711272239685,
+  "gradient_norm": 9.297738193794633,
+  "parameters_with_nonzero_grad": 44,
+  "nan_gradient_elements": 0,
+  "inf_gradient_elements": 0
+}

@@ -1,0 +1,83 @@
+Fetching 2997 files:   0%|          | 0/2997 [00:00<?, ?it/s]Fetching 2997 files:   4%|3         | 111/2997 [00:00<00:02, 1107.06it/s]Fetching 2997 files:  10%|#         | 303/2997 [00:00<00:01, 1583.37it/s]Fetching 2997 files:  17%|#6        | 505/2997 [00:00<00:01, 1780.49it/s]Fetching 2997 files:  23%|##3       | 698/2997 [00:00<00:01, 1838.67it/s]Fetching 2997 files:  30%|###       | 901/2997 [00:00<00:01, 1903.58it/s]Fetching 2997 files:  37%|###6      | 1105/2997 [00:00<00:00, 1944.87it/s]Fetching 2997 files:  44%|####3     | 1313/2997 [00:00<00:00, 1987.93it/s]Fetching 2997 files:  51%|#####     | 1515/2997 [00:00<00:00, 1990.78it/s]Fetching 2997 files:  57%|#####7    | 1715/2997 [00:00<00:00, 1969.33it/s]Fetching 2997 files:  64%|######3   | 1912/2997 [00:01<00:00, 1931.23it/s]Fetching 2997 files:  70%|#######   | 2106/2997 [00:01<00:00, 1882.17it/s]Fetching 2997 files:  77%|#######6  | 2295/2997 [00:01<00:00, 1845.16it/s]Fetching 2997 files:  83%|########2 | 2480/2997 [00:01<00:00, 1824.17it/s]Fetching 2997 files:  89%|########8 | 2663/2997 [00:01<00:00, 1793.76it/s]Fetching 2997 files:  95%|#########4| 2843/2997 [00:01<00:00, 1789.03it/s]Fetching 2997 files: 100%|##########| 2997/2997 [00:01<00:00, 1840.15it/s]
+[fetch] hf_blocks gave 999 records (unofficial mirror, preprocessed nDSM): {'JAX': 343, 'OMA': 656}
+[split] train=102 val=18 test=120
+[B] a=6.458 b=-5.252 | xcity all MAE=4.434155538881187
+C:\Users\chand\OneDrive\Desktop\DepthWizard\depthwizard\models\fusion_head.py:156: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=use_amp)
+C:\Users\chand\OneDrive\Desktop\DepthWizard\depthwizard\models\fusion_head.py:179: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=use_amp):
+[C][seed=0] epoch 1/15 masked-L1=4.952
+[C][seed=0] epoch 2/15 masked-L1=4.324
+[C][seed=0] epoch 3/15 masked-L1=4.254
+[C][seed=0] epoch 4/15 masked-L1=4.136
+[C][seed=0] epoch 5/15 masked-L1=4.027
+[C][seed=0] epoch 6/15 masked-L1=3.902
+[C][seed=0] epoch 7/15 masked-L1=3.829
+[C][seed=0] epoch 8/15 masked-L1=3.781
+[C][seed=0] epoch 9/15 masked-L1=3.594
+[C][seed=0] epoch 10/15 masked-L1=3.516
+[C][seed=0] epoch 11/15 masked-L1=3.456
+[C][seed=0] epoch 12/15 masked-L1=3.402
+[C][seed=0] epoch 13/15 masked-L1=3.297
+[C][seed=0] epoch 14/15 masked-L1=3.333
+[C][seed=0] epoch 15/15 masked-L1=3.313
+[C:none][seed=0] xcity all MAE=2.503137320175325 RMSE=4.665269147970929 | building MAE=5.206196273502708
+[C][seed=1] epoch 1/15 masked-L1=4.456
+[C][seed=1] epoch 2/15 masked-L1=4.124
+[C][seed=1] epoch 3/15 masked-L1=3.993
+[C][seed=1] epoch 4/15 masked-L1=3.849
+[C][seed=1] epoch 5/15 masked-L1=3.712
+[C][seed=1] epoch 6/15 masked-L1=3.551
+[C][seed=1] epoch 7/15 masked-L1=3.513
+[C][seed=1] epoch 8/15 masked-L1=3.478
+[C][seed=1] epoch 9/15 masked-L1=3.409
+[C][seed=1] epoch 10/15 masked-L1=3.362
+[C][seed=1] epoch 11/15 masked-L1=3.259
+[C][seed=1] epoch 12/15 masked-L1=3.255
+[C][seed=1] epoch 13/15 masked-L1=3.311
+[C][seed=1] epoch 14/15 masked-L1=3.288
+[C][seed=1] epoch 15/15 masked-L1=3.332
+[C:none][seed=1] xcity all MAE=3.1911708131162237 RMSE=5.60188375050949 | building MAE=5.761254083362384
+[C][seed=0] epoch 1/15 masked-L1=0.898
+[C][seed=0] epoch 2/15 masked-L1=0.702
+[C][seed=0] epoch 3/15 masked-L1=0.669
+[C][seed=0] epoch 4/15 masked-L1=0.635
+[C][seed=0] epoch 5/15 masked-L1=0.616
+[C][seed=0] epoch 6/15 masked-L1=0.615
+[C][seed=0] epoch 7/15 masked-L1=0.595
+[C][seed=0] epoch 8/15 masked-L1=0.604
+[C][seed=0] epoch 9/15 masked-L1=0.593
+[C][seed=0] epoch 10/15 masked-L1=0.577
+[C][seed=0] epoch 11/15 masked-L1=0.573
+[C][seed=0] epoch 12/15 masked-L1=0.557
+[C][seed=0] epoch 13/15 masked-L1=0.561
+[C][seed=0] epoch 14/15 masked-L1=0.562
+[C][seed=0] epoch 15/15 masked-L1=0.558
+[C:log1p][seed=0] xcity all MAE=2.6303518686285936 RMSE=4.866045453544748 | building MAE=5.477354405449165
+[C][seed=1] epoch 1/15 masked-L1=0.770
+[C][seed=1] epoch 2/15 masked-L1=0.661
+[C][seed=1] epoch 3/15 masked-L1=0.620
+[C][seed=1] epoch 4/15 masked-L1=0.618
+[C][seed=1] epoch 5/15 masked-L1=0.591
+[C][seed=1] epoch 6/15 masked-L1=0.582
+[C][seed=1] epoch 7/15 masked-L1=0.592
+[C][seed=1] epoch 8/15 masked-L1=0.600
+[C][seed=1] epoch 9/15 masked-L1=0.596
+[C][seed=1] epoch 10/15 masked-L1=0.577
+[C][seed=1] epoch 11/15 masked-L1=0.544
+[C][seed=1] epoch 12/15 masked-L1=0.558
+[C][seed=1] epoch 13/15 masked-L1=0.577
+[C][seed=1] epoch 14/15 masked-L1=0.543
+[C][seed=1] epoch 15/15 masked-L1=0.567
+[C:log1p][seed=1] xcity all MAE=3.1815905240808644 RMSE=5.6660054797656665 | building MAE=5.599039642168621
+[report] wrote runs\phase2_modify\PHASE2_COMPARISON.md
+[viz] wrote challenge panels + binned comparison to runs\phase2_modify\figures
+
+========================================================================
+PHASE-2 MODIFY CHECKPOINT — controlled log1p vs original C
+  cross-city all MAE:  none=2.85±0.34  log1p=2.91±0.28  (B=4.43)
+  cross-city bldg MAE: none=5.48  log1p=5.54
+  tall (>14m) bldg MAE: none=17.65  log1p=16.41
+  beats affine xcity: none=True log1p=True
+========================================================================
+STOP: human reviews these numbers + error maps before any GO decision.

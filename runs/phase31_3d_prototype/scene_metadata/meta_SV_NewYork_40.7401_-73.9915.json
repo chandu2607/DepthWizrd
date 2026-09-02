@@ -1,0 +1,16 @@
+{
+  "tile_id": "SV_NewYork_40.7401_-73.9915.tif",
+  "width": 512,
+  "height": 512,
+  "crs": "EPSG:32618",
+  "bounds": [
+    585000.0,
+    4509744.0,
+    585256.0,
+    4510000.0
+  ],
+  "min_elevation": 53.078128814697266,
+  "max_elevation": 166.57180786132812,
+  "vertex_count": 262144,
+  "face_count": 261121
+}

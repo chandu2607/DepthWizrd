@@ -1,0 +1,22 @@
+{
+  "region": "Himachal Pradesh",
+  "state": "Himachal Pradesh",
+  "coordinates": {
+    "bbox": [
+      75.952515,
+      30.723245,
+      76.154692,
+      31.532587
+    ]
+  },
+  "terrain_type": "North-west Himalayan valley and ridge terrain with strong relief and mountain slopes",
+  "elevation_range_m": "approx. 225-1922 in the DEM tile downloaded",
+  "imagery_availability": "real public Sentinel-2 L2A COG bytes acquired and read",
+  "reference_availability": "real public Copernicus DEM tile acquired and read; coarse terrain reference only",
+  "status": "REGION_B_ACQUIRED",
+  "real_optical": true,
+  "real_elevation": true,
+  "building_footprint_reference": "PENDING",
+  "building_height_reference": "PENDING",
+  "notes": "This is a real world-region benchmark candidate for terrain analysis; building-height labels remain unverified."
+}

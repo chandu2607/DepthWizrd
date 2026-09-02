@@ -1,0 +1,5 @@
+method,scale_a,offset_b,outlier_rejection
+Global Affine (OLS),16.4693,-9.5173,None
+Robust Affine (Huber),18.3359,-13.0202,Huber Loss
+Robust Affine (RANSAC),25.1808,-21.5378,Inlier Thresholding
+Ground-Referenced Pseudo-3D,55.6719,1.6359,Physical Ground Reference

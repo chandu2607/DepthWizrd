@@ -1,0 +1,4 @@
+Scene,Valid Buildings,Rejected Mega,Roof Tris,Wall Tris,Acceptance %,Max Height (m),Median Height (m)
+SV_NewYork_40.7401_-73.9915.tif,26,0,113,326,100.0,59.2,22.7
+SV_NewYork_40.7333_-73.9835.tif,10,0,43,126,100.0,26.7,9.3
+SV_NewYork_40.7335_-74.0053.tif,14,0,79,214,100.0,25.4,14.1

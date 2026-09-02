@@ -1,0 +1,47 @@
+{
+  "phase": "Phase 37 \u2014 Geometry Reconstruction",
+  "dsm_hash_expected": "06314e50752869d09296b848ef188ee9399c0111be17e1cc722945ac07590864",
+  "geometry_fixes_applied": [
+    "P1: Mega-component rejection (>65% bbox or >40% area)",
+    "P2: Flat per-building roof elevation (interior P75)",
+    "P3: Adaptive contour simplification (perimeter-relative epsilon)",
+    "P4: Stable per-building DTM base (P30 percentile)",
+    "P5: NaN/Inf guard on all rasters",
+    "P6: Camera framing improved (camDist=maxDim*1.65)"
+  ],
+  "scenes": [
+    {
+      "scene": "SV_NewYork_40.7401_-73.9915.tif",
+      "n_valid_buildings": 26,
+      "n_rejected_mega": 0,
+      "n_roof_triangles": 113,
+      "n_wall_triangles": 326,
+      "n_terrain_triangles": 32258,
+      "acceptance_pct": 100.0,
+      "max_height_m": 59.2,
+      "median_height_m": 22.7
+    },
+    {
+      "scene": "SV_NewYork_40.7333_-73.9835.tif",
+      "n_valid_buildings": 10,
+      "n_rejected_mega": 0,
+      "n_roof_triangles": 43,
+      "n_wall_triangles": 126,
+      "n_terrain_triangles": 32258,
+      "acceptance_pct": 100.0,
+      "max_height_m": 26.7,
+      "median_height_m": 9.3
+    },
+    {
+      "scene": "SV_NewYork_40.7335_-74.0053.tif",
+      "n_valid_buildings": 14,
+      "n_rejected_mega": 0,
+      "n_roof_triangles": 79,
+      "n_wall_triangles": 214,
+      "n_terrain_triangles": 32258,
+      "acceptance_pct": 100.0,
+      "max_height_m": 25.4,
+      "median_height_m": 14.1
+    }
+  ]
+}

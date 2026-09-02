@@ -1,0 +1,17 @@
+{
+  "PHASE_64_STATUS": "REAL_BENCHMARK_ESTABLISHED",
+  "REAL_OPTICAL_FILE": "YES",
+  "REAL_ELEVATION_FILE": "YES",
+  "PIXELS_READ": "YES",
+  "CRS_VERIFIED": "YES",
+  "OVERLAP_VERIFIED": "YES",
+  "ALIGNMENT_VERIFIED": "YES",
+  "INDIAN_BASELINE_RUN": "YES",
+  "REAL_METRICS": "NO",
+  "CANNY_TESTED": "YES",
+  "POINT_CLOUD_TESTED": "YES",
+  "TRAINING_STARTED": "NO",
+  "ARCHITECTURE_CHANGED": "NO",
+  "BENCHMARK_STATUS": "REAL_OPTICAL_AND_ELEVATION_BYTES_EXIST_AND_READ",
+  "NEXT_STEP": "Create a second geographically separate Uttarakhand validation/test region before claiming Indian generalization or training readiness."
+}

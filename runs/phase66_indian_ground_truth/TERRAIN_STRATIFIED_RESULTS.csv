@@ -1,0 +1,8 @@
+region,slope_band_deg,MAE,RMSE,bias,correlation,notes
+Uttarakhand,0-5,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,No accepted terrain ground-truth metric reference beyond coarse DEM context.
+Uttarakhand,5-15,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,No accepted terrain ground-truth metric reference beyond coarse DEM context.
+Uttarakhand,15-30,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,No accepted terrain ground-truth metric reference beyond coarse DEM context.
+Uttarakhand,30-45,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,No accepted terrain ground-truth metric reference beyond coarse DEM context.
+Uttarakhand,>45,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,No accepted terrain ground-truth metric reference beyond coarse DEM context.
+Himachal Pradesh,PENDING,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,Not yet downloaded and aligned.
+Sikkim,PENDING,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,Not yet downloaded and aligned.

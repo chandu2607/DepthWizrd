@@ -1,0 +1,20 @@
+{
+  "uttarakhand": {
+    "off_core_hash": "c0d27d76d67fc530352a8e32f140a4aa1d76badc649ff2b61a7fe4b1bc43e339",
+    "canny_on_core_hash": "c0d27d76d67fc530352a8e32f140a4aa1d76badc649ff2b61a7fe4b1bc43e339",
+    "pointcloud_on_core_hash": "c0d27d76d67fc530352a8e32f140a4aa1d76badc649ff2b61a7fe4b1bc43e339",
+    "core_unchanged_for_toggles": true,
+    "canny_overlay_visible_layer": true,
+    "pointcloud_visible_layer": true,
+    "browser_screenshot": "captured separately in VISUALS"
+  },
+  "himachal": {
+    "off_core_hash": "089e24db95dc58e37997e8773e426c1b3f97575b77f6057cab7c7d98c7b283e4",
+    "canny_on_core_hash": "089e24db95dc58e37997e8773e426c1b3f97575b77f6057cab7c7d98c7b283e4",
+    "pointcloud_on_core_hash": "089e24db95dc58e37997e8773e426c1b3f97575b77f6057cab7c7d98c7b283e4",
+    "core_unchanged_for_toggles": true,
+    "canny_overlay_visible_layer": true,
+    "pointcloud_visible_layer": true,
+    "browser_screenshot": "captured separately in VISUALS"
+  }
+}

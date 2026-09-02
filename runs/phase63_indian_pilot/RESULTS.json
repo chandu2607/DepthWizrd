@@ -1,0 +1,20 @@
+{
+  "PHASE_63_STATUS": "REAL_PILOT_NOT_YET_ACQUIRED",
+  "REGION": "Uttarakhand (candidate)",
+  "OPTICAL_DATA": "Not yet physically acquired",
+  "ELEVATION_DATA": "Not yet physically acquired",
+  "OPTICAL_RESOLUTION": null,
+  "ELEVATION_RESOLUTION": null,
+  "CRS": null,
+  "OVERLAP": null,
+  "ALIGNMENT": "Pending",
+  "REAL_INDIAN_DATA_ACQUIRED": false,
+  "REAL_BASELINE_RUN": false,
+  "BASELINE_METRICS": false,
+  "CANNY_TESTED": false,
+  "POINT_CLOUD_TESTED": false,
+  "TRAINING_STARTED": false,
+  "ARCHITECTURE_CHANGED": false,
+  "BENCHMARK_STATUS": "INVALID_OR_PENDING_REAL_ACQUISITION",
+  "NEXT_STEP": "Acquire one valid Uttarakhand pilot tile, verify overlap and CRS, then run the current model unchanged and report the real baseline before training."
+}

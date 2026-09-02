@@ -1,0 +1,9 @@
+{
+  "buildings": 11,
+  "roof_triangles": 79,
+  "wall_triangles": 202,
+  "terrain_triangles": 32258,
+  "dsm_sha256_match": true,
+  "dtm_sha256_match": true,
+  "ndsm_sha256_match": true
+}

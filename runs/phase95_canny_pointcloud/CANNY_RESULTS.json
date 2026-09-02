@@ -1,0 +1,28 @@
+{
+  "uttarakhand": {
+    "low_threshold": 50,
+    "high_threshold": 150,
+    "aperture_size": 3,
+    "edge_fraction": 0.025951385498046875,
+    "rgb_shape": [
+      512,
+      512,
+      3
+    ],
+    "authoritative_geometry_unchanged": true,
+    "canny_overlay_present": true
+  },
+  "himachal": {
+    "low_threshold": 50,
+    "high_threshold": 150,
+    "aperture_size": 3,
+    "edge_fraction": 0.05645751953125,
+    "rgb_shape": [
+      512,
+      512,
+      3
+    ],
+    "authoritative_geometry_unchanged": true,
+    "canny_overlay_present": true
+  }
+}

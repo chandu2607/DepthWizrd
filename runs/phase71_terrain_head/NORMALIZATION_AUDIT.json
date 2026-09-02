@@ -1,0 +1,13 @@
+{
+  "target_name": "terrain elevation",
+  "train_region": "uttarakhand",
+  "normalization_type": "train-only z-score",
+  "mean": 4517.42236328125,
+  "std": 965.2066040039062,
+  "min": 1067.159912109375,
+  "max": 7095.341796875,
+  "equation": "(target - train_mean) / train_std",
+  "apply_to_validation_test": true,
+  "do_not_recompute_from_validation": true,
+  "inverse_transform": "pred_norm * train_std + train_mean"
+}

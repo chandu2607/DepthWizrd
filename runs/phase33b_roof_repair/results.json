@@ -1,0 +1,18 @@
+{
+  "verdict": "ROOF_REPAIR_SUCCESS",
+  "root_cause": "Roof quads were previously indexed into DTM ground vertices instead of DSM roof elevation surface points, causing building tops to render as empty hollow chimneys.",
+  "roof_construction_method": "Combined Grid Surface array indexing DSM roof elevations for footprint cells and DTM elevations for terrain cells, seamlessly connecting wall top vertices to roof boundary vertices.",
+  "roof_vertex_count": 264048,
+  "roof_face_count": 77110,
+  "wall_face_count": 952,
+  "wall_roof_connection_quality": "Seamless \u2014 zero Z gap between wall top vertices and roof boundary vertices.",
+  "rgb_roof_texture_alignment": "Exact 1:1 UV mapping from satellite orthophoto onto roof tops.",
+  "camera_result": "City Overview, Urban Street, Inspection framing shows solid rooftops and vertical massing.",
+  "dsm_integrity": "BYTE-IDENTICAL",
+  "performance": {
+    "build_time_s": 1.23,
+    "render_time_s": 0.15
+  },
+  "roofs_clearly_visible": true,
+  "next_action": "INTEGRATE_ROOF_REPAIR_INTO_APP"
+}

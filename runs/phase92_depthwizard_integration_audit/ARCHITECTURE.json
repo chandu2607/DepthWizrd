@@ -1,0 +1,45 @@
+{
+  "audit_scope": "Existing DepthWizard application only; no production changes",
+  "application_type": "Streamlit Python application embedding a generated Three.js WebGL document",
+  "backend_api": "No FastAPI, Flask, or HTTP JSON backend endpoint found",
+  "state_management": {
+    "module": "app.py",
+    "mechanism": "st.session_state",
+    "keys": ["raster_input", "active_filename", "active_calib_choice", "calib_result", "depth_raw", "slope_result", "massing_df", "val_report", "render_cache", "pipeline_time_s"]
+  },
+  "current_pipeline": [
+    {"stage": "user_input", "file": "app.py", "function": "sidebar file_uploader / demo_scene button", "output": "uploaded path/bytes or demo raster path"},
+    {"stage": "raster_ingestion", "file": "depthwizard/data/raster_loader.py", "function": "load_raster_input", "output": "RasterInput(rgb, CRS, transform, bounds, GSD)"},
+    {"stage": "relative_depth", "file": "app.py; depthwizard/depth/depth_anything.py", "function": "DepthAnythingV2.infer", "output": "float32 relative depth HxW"},
+    {"stage": "calibration_and_footprint", "file": "depthwizard/calibration/engine.py", "function": "CalibrationEngine.calibrate", "output": "CalibrationResult(dsm, dtm, ndsm, mask_bldg, provenance)"},
+    {"stage": "slope", "file": "depthwizard/analysis/slope.py", "function": "compute_slope", "output": "SlopeAnalysisResult"},
+    {"stage": "massing", "file": "depthwizard/analysis/height.py", "function": "analyze_building_massing", "output": "building DataFrame with derived height records"},
+    {"stage": "geometry_generation", "file": "depthwizard/viz/interactive_viewer.py", "function": "build_city_geometry", "output": "terrain/roofs/walls/buildings JSON geometry"},
+    {"stage": "webgl_render", "file": "depthwizard/viz/interactive_viewer.py", "function": "generate_interactive_webgl_html", "output": "self-contained HTML with Three.js and OrbitControls"},
+    {"stage": "display", "file": "app.py", "function": "components.html", "output": "embedded interactive viewer"}
+  ],
+  "production_models": {
+    "depth": {"class": "DepthAnythingV2", "file": "depthwizard/depth/depth_anything.py", "model_id": "Depth-Anything-V2-Small-hf", "output": "relative float32 depth"},
+    "footprint": {"class": "BuildingConditionedEstimator", "file": "depthwizard/models/building_conditioned_net.py", "active_checkpoint_selection": "runs/phase43_augmented_unet/unet_config_D.pt if present, otherwise runs/phase24_moe/seed_0/model.pt", "input": "RGB + depth, 4 channels", "output": "footprint logits plus object-level predictions inside model forward"},
+    "height": {"production_path": "Phase 29 PeakRecoveryMLP through CalibrationEngine when reference_elevation is available", "file": "depthwizard/calibration/engine.py", "status": "not the Phase 89 component-ID corrected Indian path"}
+  },
+  "viewer": {
+    "entry_point": "depthwizard/viz/interactive_viewer.py:generate_interactive_webgl_html",
+    "geometry_entry": "depthwizard/viz/interactive_viewer.py:build_city_geometry",
+    "terrain": "DTM-like surface downsampled by stride; local x/y/z scene coordinates",
+    "buildings": "watershed-derived building list, ear-clipped roofs, vertical walls",
+    "texture": "RGB encoded as base64 JPEG and applied with UVs",
+    "controls": ["Three.js OrbitControls orbit/pan/zoom", "camera presets", "resetView", "WASD/arrow first-person navigation"],
+    "lifecycle": "HTML string generated per Streamlit rerun and embedded with components.html",
+    "geospatial_bounds": "input RasterInput retains CRS/transform/bounds, but viewer geometry is centered local coordinates and does not carry CRS through the JavaScript scene contract"
+  },
+  "integration_point": {
+    "location": "app.py immediately before generate_interactive_webgl_html",
+    "adapter_needed": "yes",
+    "new_component": "Phase 89/91 scene-fusion adapter producing viewer-compatible terrain, roofs, walls, buildings, provenance, and height_available fields",
+    "minimal_viewer_change": "add an optional prebuilt geometry argument/override to generate_interactive_webgl_html or build_city_geometry while retaining the current default path",
+    "decision": "clear minimal insertion point identified"
+  },
+  "files_reuse": ["app.py session-state and Streamlit shell", "depthwizard/data/raster_loader.py", "depthwizard/depth/depth_anything.py", "depthwizard/models/building_conditioned_net.py", "depthwizard/viz/interactive_viewer.py", "depthwizard/analysis/slope.py", "depthwizard/analysis/height.py"],
+  "files_do_not_modify_in_this_phase": ["app.py", "depthwizard/calibration/engine.py", "depthwizard/models/building_conditioned_net.py", "depthwizard/depth/depth_anything.py", "depthwizard/viz/interactive_viewer.py", "runs/phase87_indian_building_baseline", "runs/phase88_height_pipeline_audit", "runs/phase89_height_mapping_fix", "runs/phase90_indian_3d_scene", "runs/phase91_valid_himachal_scene"]
+}

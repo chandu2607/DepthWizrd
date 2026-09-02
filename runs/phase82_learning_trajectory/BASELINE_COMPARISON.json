@@ -1,0 +1,32 @@
+{
+  "zero_baseline": {
+    "mae": 462.01953125,
+    "rmse": 563.8639526367188,
+    "pearson": NaN,
+    "mean_bias": 53.07682418823242,
+    "prediction_mean": 0.0,
+    "prediction_std": 0.0,
+    "target_std": 561.3602905273438,
+    "n": 262144
+  },
+  "training_mean_baseline": {
+    "mae": 462.71649169921875,
+    "rmse": 561.7682495117188,
+    "pearson": NaN,
+    "mean_bias": 21.404945373535156,
+    "prediction_mean": -31.671876907348633,
+    "prediction_std": 5.7220458984375e-06,
+    "target_std": 561.3602905273438,
+    "n": 262144
+  },
+  "training_median_baseline": {
+    "mae": 462.01953125,
+    "rmse": 563.864013671875,
+    "pearson": NaN,
+    "mean_bias": 53.07706832885742,
+    "prediction_mean": 0.000244140625,
+    "prediction_std": 0.0,
+    "target_std": 561.3602905273438,
+    "n": 262144
+  }
+}

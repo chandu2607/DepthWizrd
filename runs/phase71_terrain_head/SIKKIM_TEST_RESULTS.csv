@@ -1,0 +1,2 @@
+region,mae,rmse,bias,pearson,spearman,valid_pixels,pred_min,pred_max,ref_min,ref_max
+sikkim,nan,nan,nan,nan,nan,0,4243.46337890625,4304.32861328125,nan,nan

@@ -1,0 +1,20 @@
+{
+  "PHASE_65_STATUS": "MULTI_REGION_BENCHMARK_FRAMEWORK_CREATED",
+  "TRAIN_REGION": "Uttarakhand (pilot benchmark)",
+  "VALIDATION_REGION": "Himachal Pradesh (candidate; not yet real benchmark)",
+  "TEST_REGION": "Sikkim (candidate; not yet real benchmark)",
+  "REAL_OPTICAL_REGIONS": 1,
+  "REAL_ELEVATION_REGIONS": 1,
+  "HIGH_RES_BUILDING_REFERENCE": "NO",
+  "HIGH_RES_HEIGHT_REFERENCE": "NO",
+  "GEOGRAPHIC_LEAKAGE_CHECK": "NOT_YET_ACCEPTED",
+  "ALIGNMENT_STATUS": "A_VERIFIED_ONLY; B_AND_C_UNVERIFIED",
+  "CURRENT_MODEL_BASELINE": "YES_ON_REAL_UTTARAKHAND",
+  "REAL_METRICS_AVAILABLE": "NO",
+  "CANNY_ROLE": "EXPERIMENTAL_ONLY",
+  "POINT_CLOUD_ROLE": "EXPERIMENTAL_ONLY",
+  "TRAINING_READY": "NO",
+  "TRAINING_STARTED": "NO",
+  "ARCHITECTURE_CHANGED": "NO",
+  "phase64_reference": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase64_indian_data\\RESULTS.json"
+}

@@ -1,0 +1,4 @@
+stride,point_count,point_density_pts_m2,memory_mb,construction_time_ms,spatial_resolution_m
+1x (Full),262144,4.0,3.0,2.65,0.5
+2x (Subsampled),65536,1.0,0.75,1.07,1.0
+4x (Subsampled),16384,0.25,0.19,0.29,2.0

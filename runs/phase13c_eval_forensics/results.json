@@ -1,0 +1,15 @@
+{
+  "checks": {
+    "1_ground_truth_binning": "passed",
+    "2_new_york_gt_counts": "passed",
+    "3_predicted_class_counts": "passed",
+    "4_confusion_matrix": "passed",
+    "5_resizing_shape": "passed",
+    "6_masking": "passed",
+    "7_argmax": "passed",
+    "8_decoded_height": "passed"
+  },
+  "verdict": "GENUINE_CLASS_COLLAPSE",
+  "evaluation_valid": true,
+  "next_experiment": "UNFREEZE_ENCODER_LORA"
+}

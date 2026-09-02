@@ -1,0 +1,86 @@
+{
+  "phase": "Phase 38 \u2014 Final Building Footprint Forensics + 3D Rebuild",
+  "final_verdict": "FOOTPRINT_3D_SUCCESS",
+  "scientific_raster_integrity": {
+    "SV_NewYork_40.7401_-73.9915.tif": {
+      "dsm_sha256": "9f5e64ab03c5293e227088be74a0cc8866fc6c249bf68cef5512014f787d1670",
+      "dsm_match": true,
+      "dtm_sha256": "d7f38de0f87f9732d73c23921cfdcbfad65e5ce2c39742784e39e06b45e35a6a",
+      "dtm_match": true,
+      "ndsm_sha256": "b34ec2b34142208b8e21ab41fee08396b5a076e90de35dd30817e415206ba1d7",
+      "ndsm_match": true
+    },
+    "SV_NewYork_40.7333_-73.9835.tif": {
+      "dsm_sha256": "29399fbb62c0fe2c49cb361db474471e50afc38ef5c30241be2886b570db9087",
+      "dsm_match": true,
+      "dtm_sha256": "dbf9e8bbe44f22342b13b7c05110d012fc60e5e2f9f7f68cd6fcd231fa77816f",
+      "dtm_match": true,
+      "ndsm_sha256": "4664d200d276ee2921b63db44d9e63e92a7d4ed899420613b3ca2a9fe7bdc195",
+      "ndsm_match": true
+    },
+    "SV_NewYork_40.7335_-74.0053.tif": {
+      "dsm_sha256": "8670a4e89161fe677f1c4db39b2ab9c5efc9d3a00fc528d5e785b8f7083771ba",
+      "dsm_match": true,
+      "dtm_sha256": "1fe6399350026a16ada13eeabd0fe97aa05101e4de7ce71ab1dc7118f32813e9",
+      "dtm_match": true,
+      "ndsm_sha256": "4d6498e246a94cc28dde96d0640274de74a9a7243bc45294a72dc258099faf02",
+      "ndsm_match": true
+    }
+  },
+  "geometry_qa": [
+    {
+      "scene": "SV_NewYork_40.7401_-73.9915.tif",
+      "profile": "Skyscraper-Heavy",
+      "building_count": 25,
+      "roof_triangle_count": 107,
+      "wall_triangle_count": 326,
+      "terrain_triangle_count": 32258,
+      "valid_polygons": 25,
+      "invalid_polygons": 0,
+      "self_intersections": 0,
+      "degenerate_triangles": 0,
+      "roof_area_mismatch": 0,
+      "terrain_building_intersections": 0,
+      "floating_buildings": 0,
+      "wall_seam_errors": 0,
+      "max_height_m": 59.2,
+      "median_height_m": 23.4
+    },
+    {
+      "scene": "SV_NewYork_40.7333_-73.9835.tif",
+      "profile": "Dense High-Rise",
+      "building_count": 10,
+      "roof_triangle_count": 43,
+      "wall_triangle_count": 126,
+      "terrain_triangle_count": 32258,
+      "valid_polygons": 10,
+      "invalid_polygons": 0,
+      "self_intersections": 0,
+      "degenerate_triangles": 0,
+      "roof_area_mismatch": 0,
+      "terrain_building_intersections": 0,
+      "floating_buildings": 0,
+      "wall_seam_errors": 0,
+      "max_height_m": 26.7,
+      "median_height_m": 9.3
+    },
+    {
+      "scene": "SV_NewYork_40.7335_-74.0053.tif",
+      "profile": "Mixed Neighborhood",
+      "building_count": 14,
+      "roof_triangle_count": 78,
+      "wall_triangle_count": 214,
+      "terrain_triangle_count": 32258,
+      "valid_polygons": 14,
+      "invalid_polygons": 0,
+      "self_intersections": 0,
+      "degenerate_triangles": 0,
+      "roof_area_mismatch": 0,
+      "terrain_building_intersections": 0,
+      "floating_buildings": 0,
+      "wall_seam_errors": 0,
+      "max_height_m": 25.4,
+      "median_height_m": 14.1
+    }
+  ]
+}

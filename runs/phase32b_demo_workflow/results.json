@@ -1,0 +1,53 @@
+{
+  "demo_flow": {
+    "step_1_load_demo": "Load Demo Scene (NYC) button in sidebar loads SV_NewYork_40.7401_-73.9915.tif",
+    "step_2_run": "RUN DEPTHWIZARD primary button triggers full pipeline",
+    "step_3_dsm": "Depth + DSM shown in Section 3, metric cards in Section 4",
+    "step_4_3d": "Interactive 3D City Mesh shown in Section 5 with edge-aware badge",
+    "step_5_export": "4-column export panel (DSM, nDSM, 3D Mesh, Preview PNG)"
+  },
+  "upload_support": "PNG, JPEG, GeoTIFF (tif/tiff) via sidebar file uploader",
+  "relative_mode": "Non-georeferenced uploads show RELATIVE ELEVATION MODE banner, output 0-10m scale DSM",
+  "absolute_mode": "Georeferenced tiles show ABSOLUTE DSM MODE banner with CRS/GSD/bounds",
+  "dsm_output": "Section 3: Relative Depth + DSM side-by-side; Section 4: 6 metric cards",
+  "3d_viewer": "Section 5: edge-aware mesh, RGB/Elevation/Contour modes, 1x/1.5x/2x/3x exaggeration, 3 cameras",
+  "mesh_integration": "Phase 31D build_edge_aware_mesh() active; sidebar shows timing and filtered quads",
+  "export": "4 buttons: DSM GeoTIFF, nDSM GeoTIFF, 3D Mesh .vtp, Preview PNG",
+  "performance": {
+    "caching": "Models cached with @st.cache_resource; render cached in session_state by render_key",
+    "no_rerun_on_view_change": "Camera/mode/exaggeration changes use cached render; no pipeline rerun",
+    "step_progress": "Animated step pills shown during processing",
+    "timing_banner": "Processing completed in Xs shown after run"
+  },
+  "error_handling": {
+    "bad_file": "st.error with friendly message, st.stop()",
+    "missing_geo": "Falls back to relative DSM with info banner",
+    "model_fail": "try/except around each model load; status shown in sidebar",
+    "depth_fail": "try/except around inference with st.error + st.stop()"
+  },
+  "new_ui_elements": [
+    "Hero section with gradient title, tagline, description, tech pills",
+    "Landing page with 3 feature cards when no image loaded",
+    "Input metadata cards (mode banner + meta table)",
+    "Step progress tracker (animated pills during processing)",
+    "Processing completed timing banner",
+    "Edge-Aware 3D Mesh badge in Section 5",
+    "Hint caption below 3D viewer",
+    "Export label rows above download buttons",
+    "4th export button: Preview PNG",
+    "How DepthWizard works expander",
+    "Why This Matters 5-card section",
+    "Sidebar: condensed model status, select_slider for exaggeration, demo scene label"
+  ],
+  "unchanged_scientific": [
+    "Phase 29 PeakRecoveryMLP",
+    "Phase 30 DTM/DSM",
+    "Phase 31D mesh threshold (10m)",
+    "build_edge_aware_mesh()",
+    "DSM GeoTIFF values",
+    "pipeline math"
+  ],
+  "verdict": "DEMO_WORKFLOW_READY",
+  "remaining_blocker": "None \u2014 app is fully functional for SIH jury demonstration",
+  "next_action": "PRESENT_TO_JURY"
+}

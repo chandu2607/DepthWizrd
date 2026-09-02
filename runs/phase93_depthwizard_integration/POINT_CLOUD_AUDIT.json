@@ -1,0 +1,8 @@
+{
+  "enabled_by_default": false,
+  "toggle": "Point-cloud XYZ representation (experimental)",
+  "role": "optional representation/export layer only",
+  "repairs_missing_heights": false,
+  "changes_authoritative_predictions": false,
+  "default_scene_behavior": "point cloud disabled; Phase 89 unavailable heights remain null"
+}

@@ -1,0 +1,10 @@
+{
+  "unfrozen_blocks": ["layer.11", "layernorm"],
+  "trainable_parameters": 4978586,
+  "frozen_parameters": 20280576,
+  "smoke_test_passed": true,
+  "peak_vram_mb": 490.8,
+  "gradients_verified": true,
+  "loss_decreased": true,
+  "checkpoint_verified": true
+}

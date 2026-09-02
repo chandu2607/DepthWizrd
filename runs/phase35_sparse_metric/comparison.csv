@@ -1,0 +1,6 @@
+phase,method,ny_mae,recovery_pct,ny_mae_40m
+Ph27,Global Residual MLP,N/A,5.31,
+Ph29,PeakRecoveryMLP (LOCKED),7.63,44.81,13.36
+Ph35,A_coarse (0%),15.310683113348844,,20.781251880484568
+Ph35,D_sparse_mono (0.5%),11.30643805773504,,20.2686292588812
+Ph35,E_sparse_coarse (0.5%),12.805990976979196,,20.547204622080628

@@ -1,0 +1,10 @@
+{
+  "status": "NEEDS_SEMANTIC_CORRECTION",
+  "audit": {
+    "coarse_input_real_identity": "coarse nDSM (above-ground building height)",
+    "contains_building_height": true,
+    "sih_faithfulness": "APPROXIMATE PROXY",
+    "reconstruction_physics": "DSM = DTM + nDSM",
+    "recommended_correction": "Rename DEM-related variables to nDSM/terrain explicitly, and ensure ground elevation DTM is added when reconstructing absolute elevation DSM maps."
+  }
+}

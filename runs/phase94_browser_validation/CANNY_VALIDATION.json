@@ -1,0 +1,7 @@
+{
+  "same_scene": "uttarakhand",
+  "off": {"tested": true, "checkbox_state": false, "authoritative_structure_count": 11, "authoritative_geometry_changed": false},
+  "on": {"tested": true, "checkbox_state": true, "authoritative_structure_count": 11, "authoritative_geometry_changed": false, "rerun_completed": true},
+  "result": "Canny remains an auxiliary optional toggle and does not replace or alter Phase 89 component IDs/heights.",
+  "limitation": "No visible edge overlay is currently rendered in the viewer; ON is an auxiliary adapter cue only."
+}

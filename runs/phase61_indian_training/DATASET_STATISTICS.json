@@ -1,0 +1,9 @@
+{
+  "status": "PILOT_PREPARATION_ONLY",
+  "total_tiles": 0,
+  "total_pixels": 0,
+  "storage_mb": 0,
+  "resolution_m": null,
+  "valid_reference_pixels": 0,
+  "notes": "No real Indian benchmark tile has been downloaded or processed yet. This file is intentionally empty pending real benchmark acceptance."
+}

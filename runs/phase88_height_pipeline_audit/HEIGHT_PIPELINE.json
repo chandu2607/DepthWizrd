@@ -1,0 +1,336 @@
+{
+  "architecture": {
+    "model_class": "BuildingConditionedEstimator / BuildingConditionedHeightNet / SmallFusionUNet",
+    "parameter_count": 479281,
+    "trainable_parameter_count": 479281,
+    "input_channels": 4,
+    "output_channels": "C_feat=16 feature channels + 1 footprint logit",
+    "heads_and_activations": [
+      "backbone dense feature channels and footprint logit",
+      "sigmoid converts footprint logit to probability",
+      "gate MLP uses ReLU and softmax over 3 experts",
+      "three expert MLPs use ReLU then scalar log-residual",
+      "height uses exp(clamped residual)",
+      "high-rise base uses softplus(alpha), softplus(beta)"
+    ],
+    "semantic_building_segmentation": true,
+    "instance_separation": "connected components only; no learned instance head",
+    "building_height_regression": true,
+    "object_level_height_prediction": true
+  },
+  "checkpoint": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase24_moe\\seed_0\\model.pt",
+  "regions": {
+    "uttarakhand": {
+      "mask_logits": {
+        "shape": [
+          256,
+          256
+        ],
+        "dtype": "float32",
+        "min": -2.512566566467285,
+        "max": 5.038207054138184,
+        "mean": 0.2254248559474945,
+        "std": 1.2820019721984863,
+        "finite_count": 65536
+      },
+      "probabilities_256": {
+        "shape": [
+          256,
+          256
+        ],
+        "dtype": "float32",
+        "min": 0.07498189806938171,
+        "max": 0.9935564398765564,
+        "mean": 0.5383384227752686,
+        "std": 0.2587288022041321,
+        "finite_count": 65536
+      },
+      "probabilities_512": {
+        "shape": [
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "min": 0.07621994614601135,
+        "max": 0.9935264587402344,
+        "mean": 0.5383384227752686,
+        "std": 0.258404403924942,
+        "finite_count": 262144
+      },
+      "height_prediction_tensor": {
+        "shape": [
+          9
+        ],
+        "dtype": "float64",
+        "representation": "one scalar per model-selected connected component, area-sorted, capped at 25; not one value per pixel"
+      },
+      "height_predictions": {
+        "shape": [
+          9
+        ],
+        "dtype": "float64",
+        "min": 5.191013336181641,
+        "max": 41.42979431152344,
+        "mean": 17.35407288869222,
+        "median": 12.293121337890625,
+        "std": 10.971451836102299,
+        "p95": 35.94350280761718,
+        "p99": 40.33253601074219,
+        "finite_count": 9,
+        "nan_count": 0,
+        "nan_fraction": 0.0,
+        "positive_count": 9,
+        "zero_count": 0,
+        "negative_count": 0
+      },
+      "model_internal_component_order": [
+        {
+          "component_id": 7,
+          "area_pixels": 128011,
+          "rank": 0
+        },
+        {
+          "component_id": 1,
+          "area_pixels": 14736,
+          "rank": 1
+        },
+        {
+          "component_id": 4,
+          "area_pixels": 4792,
+          "rank": 2
+        },
+        {
+          "component_id": 9,
+          "area_pixels": 2589,
+          "rank": 3
+        },
+        {
+          "component_id": 6,
+          "area_pixels": 677,
+          "rank": 4
+        },
+        {
+          "component_id": 3,
+          "area_pixels": 179,
+          "rank": 5
+        },
+        {
+          "component_id": 10,
+          "area_pixels": 179,
+          "rank": 6
+        },
+        {
+          "component_id": 2,
+          "area_pixels": 92,
+          "rank": 7
+        },
+        {
+          "component_id": 5,
+          "area_pixels": 86,
+          "rank": 8
+        },
+        {
+          "component_id": 8,
+          "area_pixels": 59,
+          "rank": 9
+        },
+        {
+          "component_id": 11,
+          "area_pixels": 25,
+          "rank": 10
+        }
+      ]
+    },
+    "himachal": {
+      "mask_logits": {
+        "shape": [
+          256,
+          256
+        ],
+        "dtype": "float32",
+        "min": -2.0821046829223633,
+        "max": 2.9260799884796143,
+        "mean": -0.48801302909851074,
+        "std": 0.5668708086013794,
+        "finite_count": 65536
+      },
+      "probabilities_256": {
+        "shape": [
+          256,
+          256
+        ],
+        "dtype": "float32",
+        "min": 0.11084835231304169,
+        "max": 0.9491207003593445,
+        "mean": 0.38462013006210327,
+        "std": 0.12875531613826752,
+        "finite_count": 65536
+      },
+      "probabilities_512": {
+        "shape": [
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "min": 0.11338089406490326,
+        "max": 0.9477707743644714,
+        "mean": 0.38462013006210327,
+        "std": 0.12765541672706604,
+        "finite_count": 262144
+      },
+      "height_prediction_tensor": {
+        "shape": [
+          25
+        ],
+        "dtype": "float64",
+        "representation": "one scalar per model-selected connected component, area-sorted, capped at 25; not one value per pixel"
+      },
+      "height_predictions": {
+        "shape": [
+          25
+        ],
+        "dtype": "float64",
+        "min": 4.402091979980469,
+        "max": 10.439148902893066,
+        "mean": 6.55735523223877,
+        "median": 6.321893215179443,
+        "std": 1.3327038618360267,
+        "p95": 9.08435192108154,
+        "p99": 10.170653114318846,
+        "finite_count": 25,
+        "nan_count": 0,
+        "nan_fraction": 0.0,
+        "positive_count": 25,
+        "zero_count": 0,
+        "negative_count": 0
+      },
+      "model_internal_component_order": [
+        {
+          "component_id": 3,
+          "area_pixels": 18476,
+          "rank": 0
+        },
+        {
+          "component_id": 1,
+          "area_pixels": 3151,
+          "rank": 1
+        },
+        {
+          "component_id": 36,
+          "area_pixels": 2932,
+          "rank": 2
+        },
+        {
+          "component_id": 31,
+          "area_pixels": 2490,
+          "rank": 3
+        },
+        {
+          "component_id": 15,
+          "area_pixels": 2168,
+          "rank": 4
+        },
+        {
+          "component_id": 54,
+          "area_pixels": 2142,
+          "rank": 5
+        },
+        {
+          "component_id": 40,
+          "area_pixels": 1229,
+          "rank": 6
+        },
+        {
+          "component_id": 26,
+          "area_pixels": 1211,
+          "rank": 7
+        },
+        {
+          "component_id": 63,
+          "area_pixels": 1180,
+          "rank": 8
+        },
+        {
+          "component_id": 62,
+          "area_pixels": 759,
+          "rank": 9
+        },
+        {
+          "component_id": 58,
+          "area_pixels": 669,
+          "rank": 10
+        },
+        {
+          "component_id": 38,
+          "area_pixels": 592,
+          "rank": 11
+        },
+        {
+          "component_id": 21,
+          "area_pixels": 472,
+          "rank": 12
+        },
+        {
+          "component_id": 73,
+          "area_pixels": 449,
+          "rank": 13
+        },
+        {
+          "component_id": 23,
+          "area_pixels": 394,
+          "rank": 14
+        },
+        {
+          "component_id": 50,
+          "area_pixels": 346,
+          "rank": 15
+        },
+        {
+          "component_id": 9,
+          "area_pixels": 329,
+          "rank": 16
+        },
+        {
+          "component_id": 34,
+          "area_pixels": 314,
+          "rank": 17
+        },
+        {
+          "component_id": 39,
+          "area_pixels": 278,
+          "rank": 18
+        },
+        {
+          "component_id": 71,
+          "area_pixels": 268,
+          "rank": 19
+        },
+        {
+          "component_id": 37,
+          "area_pixels": 256,
+          "rank": 20
+        },
+        {
+          "component_id": 42,
+          "area_pixels": 243,
+          "rank": 21
+        },
+        {
+          "component_id": 13,
+          "area_pixels": 231,
+          "rank": 22
+        },
+        {
+          "component_id": 57,
+          "area_pixels": 230,
+          "rank": 23
+        },
+        {
+          "component_id": 75,
+          "area_pixels": 225,
+          "rank": 24
+        }
+      ]
+    }
+  }
+}

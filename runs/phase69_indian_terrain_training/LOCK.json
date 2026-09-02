@@ -1,0 +1,28 @@
+{
+  "checkpoint": "phase69_terrain_pilot_epoch1.pt",
+  "epoch": 1,
+  "seed": 0,
+  "configuration": "terrain_pilot_cpu_1epoch_mse",
+  "validation_metrics": [
+    {
+      "region": "himachal",
+      "state": "Himachal Pradesh",
+      "split": "validation",
+      "mae": 0.4696850990241064,
+      "rmse": 0.4848154914801315,
+      "bias": -0.4696850990241064,
+      "pearson": -0.22236876938022607
+    },
+    {
+      "region": "sikkim",
+      "state": "Sikkim",
+      "split": "test",
+      "mae": 0.5587155676053546,
+      "rmse": 0.5938657845254632,
+      "bias": -0.5587155676053546,
+      "pearson": -0.04067581093959295
+    }
+  ],
+  "timestamp": "2026-09-01T17:44:45Z",
+  "verdict": "TARGET_NOT_COMPATIBLE_WITH_CURRENT_MODEL"
+}

@@ -1,0 +1,7 @@
+case,mae,rmse,bias,pearson,note
+flat_identical,0.0,0.0,0.0,nan,identical prediction should yield zero MAE
+flat_1m_offset,1.0,1.0,1.0,nan,1m offset should give MAE ~ 1.0
+slope_identical,0.0,0.0,0.0,1.0,identical slope should yield zero MAE
+slope_scaled,11.2,11.793218390244453,11.2,0.9999999999999997,identity under scaling is not a valid metric without inverse transform; this checks the code path
+hill_identical,0.0,0.0,0.0,1.0,hill target exact match should yield zero error
+valley_identical,0.0,0.0,0.0,1.0,valley target exact match should yield zero error

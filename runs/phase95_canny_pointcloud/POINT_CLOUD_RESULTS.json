@@ -1,0 +1,51 @@
+{
+  "uttarakhand": {
+    "point_cloud_off": {
+      "enabled": false,
+      "positions": null
+    },
+    "point_cloud_on": {
+      "enabled": true,
+      "xyz": {
+        "point_count": 263986,
+        "finite_xyz_count": 263986,
+        "nan_xyz_count": 0,
+        "min_x": 0.0,
+        "max_x": 5110.0,
+        "min_y": 0.0,
+        "max_y": 1646.99609375,
+        "min_z": 0.0,
+        "max_z": 5110.0
+      },
+      "unavailable_component_ids": [
+        8,
+        11
+      ],
+      "authoritative_geometry_unchanged": true,
+      "viewer_points_layer_present": true
+    }
+  },
+  "himachal": {
+    "point_cloud_off": {
+      "enabled": false,
+      "positions": null
+    },
+    "point_cloud_on": {
+      "enabled": true,
+      "xyz": {
+        "point_count": 262344,
+        "finite_xyz_count": 262344,
+        "nan_xyz_count": 0,
+        "min_x": 0.0,
+        "max_x": 5110.0,
+        "min_y": 0.0,
+        "max_y": 21.930953979492188,
+        "min_z": 0.0,
+        "max_z": 5110.0
+      },
+      "unavailable_component_ids": [],
+      "authoritative_geometry_unchanged": true,
+      "viewer_points_layer_present": true
+    }
+  }
+}

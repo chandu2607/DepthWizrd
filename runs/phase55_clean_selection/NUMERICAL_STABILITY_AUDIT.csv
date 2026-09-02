@@ -1,0 +1,3 @@
+issue,severity,status,file
+TIFF metadata warnings,Low (informational),Acceptable for Phase 54,depthwizard/data/io.py
+NumPy exponential overflow,Low (diagnostic only),Fixed for future,scripts/phase54_domain_robust_training.py

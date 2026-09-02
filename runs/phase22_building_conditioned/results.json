@@ -1,0 +1,9 @@
+{
+  "baseline_smoke_time_sec": 2.817864418029785,
+  "new_smoke_time_sec": 3.435565233230591,
+  "peak_vram_mb": 1388.8388671875,
+  "new_model_param_count": 479055,
+  "grad_nan_inf_detected": false,
+  "checkpoint_load_verified": true,
+  "ready_for_full_test": true
+}

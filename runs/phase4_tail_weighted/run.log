@@ -1,0 +1,149 @@
+Fetching 2997 files:   0%|          | 0/2997 [00:00<?, ?it/s]Fetching 2997 files:   5%|5         | 159/2997 [00:00<00:01, 1576.33it/s]Fetching 2997 files:  13%|#3        | 403/2997 [00:00<00:01, 2068.92it/s]Fetching 2997 files:  21%|##1       | 636/2997 [00:00<00:01, 2175.18it/s]Fetching 2997 files:  29%|##8       | 868/2997 [00:00<00:00, 2228.16it/s]Fetching 2997 files:  37%|###6      | 1097/2997 [00:00<00:00, 2249.30it/s]Fetching 2997 files:  44%|####4     | 1326/2997 [00:00<00:00, 2255.46it/s]Fetching 2997 files:  52%|#####2    | 1559/2997 [00:00<00:00, 2272.42it/s]Fetching 2997 files:  60%|#####9    | 1787/2997 [00:00<00:00, 2267.76it/s]Fetching 2997 files:  67%|######7   | 2014/2997 [00:00<00:00, 2258.12it/s]Fetching 2997 files:  75%|#######4  | 2243/2997 [00:01<00:00, 2260.54it/s]Fetching 2997 files:  83%|########2 | 2474/2997 [00:01<00:00, 2272.96it/s]Fetching 2997 files:  90%|######### | 2711/2997 [00:01<00:00, 2298.82it/s]Fetching 2997 files:  98%|#########8| 2946/2997 [00:01<00:00, 2310.23it/s]Fetching 2997 files: 100%|##########| 2997/2997 [00:01<00:00, 2249.13it/s]
+[fetch] hf_blocks gave 999 records (unofficial mirror, preprocessed nDSM): {'JAX': 343, 'OMA': 656}
+[split] train=102 val=18 test=120
+[B] a=6.458 b=-5.252 | xcity all MAE=4.434155538881187
+C:\Users\chand\OneDrive\Desktop\DepthWizard\depthwizard\models\fusion_head.py:256: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=use_amp)
+C:\Users\chand\OneDrive\Desktop\DepthWizard\depthwizard\models\fusion_head.py:284: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=use_amp):
+[C][seed=0] epoch 1/15 masked-L1=4.952
+[C][seed=0] epoch 2/15 masked-L1=4.324
+[C][seed=0] epoch 3/15 masked-L1=4.254
+[C][seed=0] epoch 4/15 masked-L1=4.136
+[C][seed=0] epoch 5/15 masked-L1=4.027
+[C][seed=0] epoch 6/15 masked-L1=3.902
+[C][seed=0] epoch 7/15 masked-L1=3.829
+[C][seed=0] epoch 8/15 masked-L1=3.781
+[C][seed=0] epoch 9/15 masked-L1=3.594
+[C][seed=0] epoch 10/15 masked-L1=3.516
+[C][seed=0] epoch 11/15 masked-L1=3.456
+[C][seed=0] epoch 12/15 masked-L1=3.402
+[C][seed=0] epoch 13/15 masked-L1=3.297
+[C][seed=0] epoch 14/15 masked-L1=3.333
+[C][seed=0] epoch 15/15 masked-L1=3.313
+[none/standard][seed=0] xcity all MAE=2.503137320175325 | building MAE=5.206196273502708
+[C][seed=1] epoch 1/15 masked-L1=4.456
+[C][seed=1] epoch 2/15 masked-L1=4.124
+[C][seed=1] epoch 3/15 masked-L1=3.993
+[C][seed=1] epoch 4/15 masked-L1=3.849
+[C][seed=1] epoch 5/15 masked-L1=3.712
+[C][seed=1] epoch 6/15 masked-L1=3.551
+[C][seed=1] epoch 7/15 masked-L1=3.513
+[C][seed=1] epoch 8/15 masked-L1=3.478
+[C][seed=1] epoch 9/15 masked-L1=3.409
+[C][seed=1] epoch 10/15 masked-L1=3.362
+[C][seed=1] epoch 11/15 masked-L1=3.260
+[C][seed=1] epoch 12/15 masked-L1=3.252
+[C][seed=1] epoch 13/15 masked-L1=3.311
+[C][seed=1] epoch 14/15 masked-L1=3.285
+[C][seed=1] epoch 15/15 masked-L1=3.353
+[none/standard][seed=1] xcity all MAE=3.557845029893961 | building MAE=6.463732226967773
+[C][seed=0] epoch 1/15 masked-L1=0.898
+[C][seed=0] epoch 2/15 masked-L1=0.702
+[C][seed=0] epoch 3/15 masked-L1=0.669
+[C][seed=0] epoch 4/15 masked-L1=0.635
+[C][seed=0] epoch 5/15 masked-L1=0.616
+[C][seed=0] epoch 6/15 masked-L1=0.615
+[C][seed=0] epoch 7/15 masked-L1=0.595
+[C][seed=0] epoch 8/15 masked-L1=0.604
+[C][seed=0] epoch 9/15 masked-L1=0.593
+[C][seed=0] epoch 10/15 masked-L1=0.577
+[C][seed=0] epoch 11/15 masked-L1=0.573
+[C][seed=0] epoch 12/15 masked-L1=0.557
+[C][seed=0] epoch 13/15 masked-L1=0.561
+[C][seed=0] epoch 14/15 masked-L1=0.562
+[C][seed=0] epoch 15/15 masked-L1=0.558
+[log1p/standard][seed=0] xcity all MAE=2.6303518686285936 | building MAE=5.477354405449165
+[C][seed=1] epoch 1/15 masked-L1=0.770
+[C][seed=1] epoch 2/15 masked-L1=0.661
+[C][seed=1] epoch 3/15 masked-L1=0.620
+[C][seed=1] epoch 4/15 masked-L1=0.618
+[C][seed=1] epoch 5/15 masked-L1=0.591
+[C][seed=1] epoch 6/15 masked-L1=0.582
+[C][seed=1] epoch 7/15 masked-L1=0.592
+[C][seed=1] epoch 8/15 masked-L1=0.600
+[C][seed=1] epoch 9/15 masked-L1=0.596
+[C][seed=1] epoch 10/15 masked-L1=0.577
+[C][seed=1] epoch 11/15 masked-L1=0.544
+[C][seed=1] epoch 12/15 masked-L1=0.558
+[C][seed=1] epoch 13/15 masked-L1=0.577
+[C][seed=1] epoch 14/15 masked-L1=0.543
+[C][seed=1] epoch 15/15 masked-L1=0.567
+[log1p/standard][seed=1] xcity all MAE=3.1815905240808644 | building MAE=5.599039642168621
+[C][seed=0] epoch 1/15 masked-L1=1.247
+[C][seed=0] epoch 2/15 masked-L1=0.905
+[C][seed=0] epoch 3/15 masked-L1=0.822
+[C][seed=0] epoch 4/15 masked-L1=0.762
+[C][seed=0] epoch 5/15 masked-L1=0.716
+[C][seed=0] epoch 6/15 masked-L1=0.701
+[C][seed=0] epoch 7/15 masked-L1=0.672
+[C][seed=0] epoch 8/15 masked-L1=0.682
+[C][seed=0] epoch 9/15 masked-L1=0.673
+[C][seed=0] epoch 10/15 masked-L1=0.650
+[C][seed=0] epoch 11/15 masked-L1=0.649
+[C][seed=0] epoch 12/15 masked-L1=0.653
+[C][seed=0] epoch 13/15 masked-L1=0.645
+[C][seed=0] epoch 14/15 masked-L1=0.641
+[C][seed=0] epoch 15/15 masked-L1=0.656
+[log1p/height_weighted][seed=0] xcity all MAE=4.229293970998444 | building MAE=6.94088562878012
+[C][seed=1] epoch 1/15 masked-L1=1.006
+[C][seed=1] epoch 2/15 masked-L1=0.779
+[C][seed=1] epoch 3/15 masked-L1=0.710
+[C][seed=1] epoch 4/15 masked-L1=0.728
+[C][seed=1] epoch 5/15 masked-L1=0.684
+[C][seed=1] epoch 6/15 masked-L1=0.679
+[C][seed=1] epoch 7/15 masked-L1=0.679
+[C][seed=1] epoch 8/15 masked-L1=0.691
+[C][seed=1] epoch 9/15 masked-L1=0.679
+[C][seed=1] epoch 10/15 masked-L1=0.680
+[C][seed=1] epoch 11/15 masked-L1=0.650
+[C][seed=1] epoch 12/15 masked-L1=0.656
+[C][seed=1] epoch 13/15 masked-L1=0.678
+[C][seed=1] epoch 14/15 masked-L1=0.633
+[C][seed=1] epoch 15/15 masked-L1=0.646
+[log1p/height_weighted][seed=1] xcity all MAE=4.150993167001224 | building MAE=6.938345064469481
+[C][seed=0] epoch 1/15 masked-L1=0.956
+[C][seed=0] epoch 2/15 masked-L1=0.752
+[C][seed=0] epoch 3/15 masked-L1=0.689
+[C][seed=0] epoch 4/15 masked-L1=0.657
+[C][seed=0] epoch 5/15 masked-L1=0.638
+[C][seed=0] epoch 6/15 masked-L1=0.639
+[C][seed=0] epoch 7/15 masked-L1=0.626
+[C][seed=0] epoch 8/15 masked-L1=0.630
+[C][seed=0] epoch 9/15 masked-L1=0.594
+[C][seed=0] epoch 10/15 masked-L1=0.583
+[C][seed=0] epoch 11/15 masked-L1=0.582
+[C][seed=0] epoch 12/15 masked-L1=0.572
+[C][seed=0] epoch 13/15 masked-L1=0.580
+[C][seed=0] epoch 14/15 masked-L1=0.580
+[C][seed=0] epoch 15/15 masked-L1=0.576
+[log1p/tail_weighted][seed=0] xcity all MAE=2.3432518176769914 | building MAE=5.9768296547184
+[C][seed=1] epoch 1/15 masked-L1=0.820
+[C][seed=1] epoch 2/15 masked-L1=0.708
+[C][seed=1] epoch 3/15 masked-L1=0.671
+[C][seed=1] epoch 4/15 masked-L1=0.658
+[C][seed=1] epoch 5/15 masked-L1=0.638
+[C][seed=1] epoch 6/15 masked-L1=0.611
+[C][seed=1] epoch 7/15 masked-L1=0.630
+[C][seed=1] epoch 8/15 masked-L1=0.638
+[C][seed=1] epoch 9/15 masked-L1=0.637
+[C][seed=1] epoch 10/15 masked-L1=0.611
+[C][seed=1] epoch 11/15 masked-L1=0.573
+[C][seed=1] epoch 12/15 masked-L1=0.588
+[C][seed=1] epoch 13/15 masked-L1=0.606
+[C][seed=1] epoch 14/15 masked-L1=0.564
+[C][seed=1] epoch 15/15 masked-L1=0.582
+[log1p/tail_weighted][seed=1] xcity all MAE=3.313379693583698 | building MAE=6.618991469662671
+[report] wrote runs\phase4_tail_weighted\PHASE4_COMPARISON.md
+[viz] wrote challenge panels + scatters + 3-variant binned comparison to runs\phase4_tail_weighted\figures
+
+========================================================================
+PHASE-4 CHECKPOINT — calibrated tail weight vs C_log1p control
+  cross-city all MAE:  ctrl=2.91±0.28  tail=2.83±0.49  (B=4.43)
+  cross-city bldg MAE: ctrl=5.54  tail=6.30  (B=5.49)
+  LOW 0–14m bldg MAE:  ctrl=4.17  tail=4.89  (Δ=0.72; ≈0=protected)  | bias ctrl=2.52 tail=2.74 agg=5.32
+  TALL >14m bldg MAE: ctrl=16.41  tail=17.49  (Δ=-1.08, pos=better) | bias ctrl=-15.99 tail=-9.52
+  §20 signals: tall_mae↓=False tall_bias↑=True low_stable=False bldg_ok=False xcity_useful=True var_ok=False
+  §24 avoids: short_overpred=False broad_bias=False rmse_ok=True stable=True
+========================================================================
+STOP: human reviews these numbers + error maps before any GO decision.

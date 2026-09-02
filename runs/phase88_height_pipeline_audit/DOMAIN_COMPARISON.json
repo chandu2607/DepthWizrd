@@ -1,0 +1,52 @@
+{
+  "uttarakhand": {
+    "foreground_percentage": 57.76405334472656,
+    "component_count": 11,
+    "finite_height_count": 9,
+    "nan_height_count": 2,
+    "height_distribution": {
+      "shape": [
+        11
+      ],
+      "dtype": "float64",
+      "min": 5.191013336181641,
+      "max": 41.42979431152344,
+      "mean": 17.35407288869222,
+      "median": 12.293121337890625,
+      "std": 10.971451836102299,
+      "p95": 35.94350280761718,
+      "p99": 40.33253601074219,
+      "finite_count": 9,
+      "nan_count": 2,
+      "nan_fraction": 0.18181818181818182,
+      "positive_count": 9,
+      "zero_count": 0,
+      "negative_count": 0
+    }
+  },
+  "himachal": {
+    "foreground_percentage": 16.955947875976562,
+    "component_count": 64,
+    "finite_height_count": 25,
+    "nan_height_count": 39,
+    "height_distribution": {
+      "shape": [
+        64
+      ],
+      "dtype": "float64",
+      "min": 4.402091979980469,
+      "max": 10.439148902893066,
+      "mean": 6.55735523223877,
+      "median": 6.321893215179443,
+      "std": 1.3327038618360267,
+      "p95": 9.08435192108154,
+      "p99": 10.170653114318846,
+      "finite_count": 25,
+      "nan_count": 39,
+      "nan_fraction": 0.609375,
+      "positive_count": 25,
+      "zero_count": 0,
+      "negative_count": 0
+    }
+  }
+}

@@ -1,0 +1,8 @@
+criterion,phase_52,phase_54,improvement
+Individual buildings visible,True,True,False
+Buildings separated,True,True,False
+Roofs visible,True,True,False
+Walls visible,False,True,True
+Streets/courtyards visible,True,True,False
+Buildings sit on terrain,True,True,False
+City recognizable as city,True,True,False

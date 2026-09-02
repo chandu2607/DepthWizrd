@@ -1,0 +1,27 @@
+{
+  "loss_before_step": 0.4457255005836487,
+  "loss_after_step": 0.44068530201911926,
+  "parameter_change_summary": [
+    {
+      "name": "e1.0.weight",
+      "abs_parameter_change_mean": 0.0004816426371689886,
+      "relative_parameter_change_mean": 0.0058817836569372926
+    },
+    {
+      "name": "e2.0.weight",
+      "abs_parameter_change_mean": 0.0004967778222635388,
+      "relative_parameter_change_mean": 0.016776917274171802
+    },
+    {
+      "name": "bottleneck.0.weight",
+      "abs_parameter_change_mean": 0.00038535287603735924,
+      "relative_parameter_change_mean": 0.018456068836407498
+    },
+    {
+      "name": "head.weight",
+      "abs_parameter_change_mean": 0.0008417353965342045,
+      "relative_parameter_change_mean": 0.008687789091539916
+    }
+  ],
+  "optimizer_step_count": 1
+}

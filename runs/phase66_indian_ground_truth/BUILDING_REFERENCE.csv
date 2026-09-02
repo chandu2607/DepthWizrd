@@ -1,0 +1,4 @@
+region,building_footprint_reference,building_height_reference,source,level,notes
+Uttarakhand,NO,NO,None accepted,NONE,No high-resolution building footprint or height labels available in the verified benchmark.
+Himachal Pradesh,PENDING,PENDING,Candidate public datasets,PENDING,Not yet downloaded and aligned.
+Sikkim,PENDING,PENDING,Candidate public datasets,PENDING,Not yet downloaded and aligned.

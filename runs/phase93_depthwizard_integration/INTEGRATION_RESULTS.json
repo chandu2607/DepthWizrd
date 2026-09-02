@@ -1,0 +1,12 @@
+{
+  "phase": "PHASE_93",
+  "decision": "DEPTHWIZARD_INDIAN_SCENE_INTEGRATED",
+  "production_files_modified": ["app.py", "depthwizard/viz/interactive_viewer.py", "depthwizard/integration/__init__.py", "depthwizard/integration/phase89_scene_adapter.py"],
+  "historical_artifacts_modified": false,
+  "default_path": {"tested": true, "viewer_html_generated": true, "orbit_pan_zoom_reset_available": true, "fallback_geometry_preserved": true, "html_generation_seconds": 0.1365, "html_bytes": 75712},
+  "indian_paths": {
+    "uttarakhand": {"source": "Phase 89/90 validated artifacts", "crs": "EPSG:32644", "terrain_vertices": 262144, "building_count": 11, "finite_height_count": 9, "height_unavailable_count": 2, "adapter_seconds": 1.2558, "html_generation_seconds": 1.1242, "html_bytes": 59116176, "viewer_html_generated": true, "mapping_mismatches": 0},
+    "himachal": {"source": "Phase 89/91 validated artifacts", "crs": "EPSG:32643", "terrain_vertices": 262144, "building_count": 1, "finite_height_count": 1, "height_unavailable_count": 0, "adapter_seconds": 1.3331, "html_generation_seconds": 1.1491, "html_bytes": 59213783, "viewer_html_generated": true, "mapping_mismatches": 0}
+  },
+  "scientific_status": {"terrain_source": "REAL GEOREFERENCED DEM", "building_source": "SINGLE-VIEW MODEL", "height_mapping": "PHASE 89 COMPONENT-ID CORRECTED", "height_accuracy": "UNVALIDATED", "canny": "OPTIONAL STRUCTURAL REFINEMENT", "point_cloud": "OPTIONAL XYZ REPRESENTATION", "sikkim": "LOCKED"}
+}

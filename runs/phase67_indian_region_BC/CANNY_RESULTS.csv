@@ -1,0 +1,2 @@
+region,canny_role,mountains_false_edges,vegetation_false_edges,roads_false_edges,rocks_false_edges,shadows_false_edges,notes
+Himachal Pradesh,EXPERIMENTAL_ONLY,YES,YES,YES,YES,YES,Canny is diagnostic only and not integrated into production.

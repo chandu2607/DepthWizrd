@@ -1,0 +1,2592 @@
+{
+  "uttarakhand": {
+    "records": [
+      {
+        "component_id": 1,
+        "area_pixels": 14736,
+        "area_m2_at_10m_gsd": 1473600.0,
+        "selected_by_model": true,
+        "predicted_height_m": 10.312237739562988,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            14736
+          ],
+          "dtype": "float32",
+          "min": 3324.189453125,
+          "max": 4592.90673828125,
+          "mean": 3946.23876953125,
+          "std": 312.91632080078125,
+          "finite_count": 14736
+        },
+        "roof_elevation_m": {
+          "shape": [
+            14736
+          ],
+          "dtype": "float32",
+          "min": 3334.501708984375,
+          "max": 4603.21875,
+          "mean": 3956.551025390625,
+          "std": 312.9162292480469,
+          "finite_count": 14736
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 2,
+        "area_pixels": 92,
+        "area_m2_at_10m_gsd": 9200.0,
+        "selected_by_model": true,
+        "predicted_height_m": 5.191013336181641,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            92
+          ],
+          "dtype": "float32",
+          "min": 3882.290771484375,
+          "max": 4022.856689453125,
+          "mean": 3950.60009765625,
+          "std": 38.1708869934082,
+          "finite_count": 92
+        },
+        "roof_elevation_m": {
+          "shape": [
+            92
+          ],
+          "dtype": "float32",
+          "min": 3887.481689453125,
+          "max": 4028.047607421875,
+          "mean": 3955.791015625,
+          "std": 38.1708869934082,
+          "finite_count": 92
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 3,
+        "area_pixels": 179,
+        "area_m2_at_10m_gsd": 17900.0,
+        "selected_by_model": true,
+        "predicted_height_m": 11.876399993896484,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            179
+          ],
+          "dtype": "float32",
+          "min": 3204.97021484375,
+          "max": 3249.284912109375,
+          "mean": 3228.953125,
+          "std": 10.679205894470215,
+          "finite_count": 179
+        },
+        "roof_elevation_m": {
+          "shape": [
+            179
+          ],
+          "dtype": "float32",
+          "min": 3216.8466796875,
+          "max": 3261.161376953125,
+          "mean": 3240.830078125,
+          "std": 10.679205894470215,
+          "finite_count": 179
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 4,
+        "area_pixels": 4792,
+        "area_m2_at_10m_gsd": 479200.0,
+        "selected_by_model": true,
+        "predicted_height_m": 41.42979431152344,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            4792
+          ],
+          "dtype": "float32",
+          "min": 3242.599853515625,
+          "max": 3507.144287109375,
+          "mean": 3330.656982421875,
+          "std": 63.5162239074707,
+          "finite_count": 4792
+        },
+        "roof_elevation_m": {
+          "shape": [
+            4792
+          ],
+          "dtype": "float32",
+          "min": 3284.029541015625,
+          "max": 3548.573974609375,
+          "mean": 3372.0869140625,
+          "std": 63.51622772216797,
+          "finite_count": 4792
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 5,
+        "area_pixels": 86,
+        "area_m2_at_10m_gsd": 8600.0,
+        "selected_by_model": true,
+        "predicted_height_m": 6.424503326416016,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            86
+          ],
+          "dtype": "float32",
+          "min": 3273.80078125,
+          "max": 3310.541748046875,
+          "mean": 3292.843017578125,
+          "std": 9.11694622039795,
+          "finite_count": 86
+        },
+        "roof_elevation_m": {
+          "shape": [
+            86
+          ],
+          "dtype": "float32",
+          "min": 3280.225341796875,
+          "max": 3316.96630859375,
+          "mean": 3299.267333984375,
+          "std": 9.11694622039795,
+          "finite_count": 86
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 6,
+        "area_pixels": 677,
+        "area_m2_at_10m_gsd": 67700.0,
+        "selected_by_model": true,
+        "predicted_height_m": 21.944406509399414,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            677
+          ],
+          "dtype": "float32",
+          "min": 3417.999267578125,
+          "max": 3583.003173828125,
+          "mean": 3492.865478515625,
+          "std": 38.23179626464844,
+          "finite_count": 677
+        },
+        "roof_elevation_m": {
+          "shape": [
+            677
+          ],
+          "dtype": "float32",
+          "min": 3439.943603515625,
+          "max": 3604.947509765625,
+          "mean": 3514.8095703125,
+          "std": 38.2318000793457,
+          "finite_count": 677
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 7,
+        "area_pixels": 128011,
+        "area_m2_at_10m_gsd": 12801100.0,
+        "selected_by_model": true,
+        "predicted_height_m": 19.001113891601562,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            128011
+          ],
+          "dtype": "float32",
+          "min": 2953.3701171875,
+          "max": 4484.90087890625,
+          "mean": 3685.3251953125,
+          "std": 334.8294677734375,
+          "finite_count": 128011
+        },
+        "roof_elevation_m": {
+          "shape": [
+            128011
+          ],
+          "dtype": "float32",
+          "min": 2972.371337890625,
+          "max": 4503.90185546875,
+          "mean": 3704.32666015625,
+          "std": 334.82940673828125,
+          "finite_count": 128011
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 8,
+        "area_pixels": 59,
+        "area_m2_at_10m_gsd": 5900.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            59
+          ],
+          "dtype": "float32",
+          "min": 3233.930908203125,
+          "max": 3247.5703125,
+          "mean": 3240.89501953125,
+          "std": 3.3975539207458496,
+          "finite_count": 59
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 9,
+        "area_pixels": 2589,
+        "area_m2_at_10m_gsd": 258900.0,
+        "selected_by_model": true,
+        "predicted_height_m": 27.714065551757812,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            2589
+          ],
+          "dtype": "float32",
+          "min": 3198.674072265625,
+          "max": 3618.550537109375,
+          "mean": 3345.5673828125,
+          "std": 108.632080078125,
+          "finite_count": 2589
+        },
+        "roof_elevation_m": {
+          "shape": [
+            2589
+          ],
+          "dtype": "float32",
+          "min": 3226.38818359375,
+          "max": 3646.2646484375,
+          "mean": 3373.281494140625,
+          "std": 108.632080078125,
+          "finite_count": 2589
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 10,
+        "area_pixels": 179,
+        "area_m2_at_10m_gsd": 17900.0,
+        "selected_by_model": true,
+        "predicted_height_m": 12.293121337890625,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            179
+          ],
+          "dtype": "float32",
+          "min": 3040.81103515625,
+          "max": 3092.206787109375,
+          "mean": 3052.12841796875,
+          "std": 9.220254898071289,
+          "finite_count": 179
+        },
+        "roof_elevation_m": {
+          "shape": [
+            179
+          ],
+          "dtype": "float32",
+          "min": 3053.104248046875,
+          "max": 3104.5,
+          "mean": 3064.421875,
+          "std": 9.220254898071289,
+          "finite_count": 179
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 11,
+        "area_pixels": 25,
+        "area_m2_at_10m_gsd": 2500.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            25
+          ],
+          "dtype": "float32",
+          "min": 3040.02880859375,
+          "max": 3049.299560546875,
+          "mean": 3043.509765625,
+          "std": 2.5138607025146484,
+          "finite_count": 25
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      }
+    ],
+    "height_statistics_finite_only": {
+      "shape": [
+        11
+      ],
+      "dtype": "float64",
+      "min": 5.191013336181641,
+      "max": 41.42979431152344,
+      "mean": 17.35407288869222,
+      "median": 12.293121337890625,
+      "std": 10.971451836102299,
+      "p95": 35.94350280761718,
+      "p99": 40.33253601074219,
+      "finite_count": 9,
+      "missing_count": 2,
+      "missing_fraction": 0.18181818181818182
+    }
+  },
+  "himachal": {
+    "records": [
+      {
+        "component_id": 1,
+        "area_pixels": 3151,
+        "area_m2_at_10m_gsd": 315100.0,
+        "selected_by_model": true,
+        "predicted_height_m": 7.434872627258301,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 2,
+        "area_pixels": 35,
+        "area_m2_at_10m_gsd": 3500.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 3,
+        "area_pixels": 18476,
+        "area_m2_at_10m_gsd": 1847600.0,
+        "selected_by_model": true,
+        "predicted_height_m": 10.439148902893066,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 7,
+        "area_pixels": 38,
+        "area_m2_at_10m_gsd": 3800.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 8,
+        "area_pixels": 38,
+        "area_m2_at_10m_gsd": 3800.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 9,
+        "area_pixels": 329,
+        "area_m2_at_10m_gsd": 32900.0,
+        "selected_by_model": true,
+        "predicted_height_m": 4.438207149505615,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 10,
+        "area_pixels": 49,
+        "area_m2_at_10m_gsd": 4900.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 11,
+        "area_pixels": 26,
+        "area_m2_at_10m_gsd": 2600.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 13,
+        "area_pixels": 231,
+        "area_m2_at_10m_gsd": 23100.0,
+        "selected_by_model": true,
+        "predicted_height_m": 4.402091979980469,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 15,
+        "area_pixels": 2168,
+        "area_m2_at_10m_gsd": 216800.0,
+        "selected_by_model": true,
+        "predicted_height_m": 7.192608833312988,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 16,
+        "area_pixels": 50,
+        "area_m2_at_10m_gsd": 5000.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 17,
+        "area_pixels": 145,
+        "area_m2_at_10m_gsd": 14500.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 18,
+        "area_pixels": 18,
+        "area_m2_at_10m_gsd": 1800.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 19,
+        "area_pixels": 105,
+        "area_m2_at_10m_gsd": 10500.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 20,
+        "area_pixels": 49,
+        "area_m2_at_10m_gsd": 4900.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 21,
+        "area_pixels": 472,
+        "area_m2_at_10m_gsd": 47200.0,
+        "selected_by_model": true,
+        "predicted_height_m": 5.87635612487793,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 22,
+        "area_pixels": 120,
+        "area_m2_at_10m_gsd": 12000.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 23,
+        "area_pixels": 394,
+        "area_m2_at_10m_gsd": 39400.0,
+        "selected_by_model": true,
+        "predicted_height_m": 6.020137786865234,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 24,
+        "area_pixels": 48,
+        "area_m2_at_10m_gsd": 4800.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 25,
+        "area_pixels": 165,
+        "area_m2_at_10m_gsd": 16500.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 26,
+        "area_pixels": 1211,
+        "area_m2_at_10m_gsd": 121100.0,
+        "selected_by_model": true,
+        "predicted_height_m": 6.570121765136719,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 27,
+        "area_pixels": 83,
+        "area_m2_at_10m_gsd": 8300.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 28,
+        "area_pixels": 74,
+        "area_m2_at_10m_gsd": 7400.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 29,
+        "area_pixels": 156,
+        "area_m2_at_10m_gsd": 15600.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 30,
+        "area_pixels": 69,
+        "area_m2_at_10m_gsd": 6900.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 31,
+        "area_pixels": 2490,
+        "area_m2_at_10m_gsd": 249000.0,
+        "selected_by_model": true,
+        "predicted_height_m": 7.795652389526367,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 32,
+        "area_pixels": 31,
+        "area_m2_at_10m_gsd": 3100.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 33,
+        "area_pixels": 74,
+        "area_m2_at_10m_gsd": 7400.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 34,
+        "area_pixels": 314,
+        "area_m2_at_10m_gsd": 31400.0,
+        "selected_by_model": true,
+        "predicted_height_m": 4.678033828735352,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 35,
+        "area_pixels": 168,
+        "area_m2_at_10m_gsd": 16800.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 36,
+        "area_pixels": 2932,
+        "area_m2_at_10m_gsd": 293200.0,
+        "selected_by_model": true,
+        "predicted_height_m": 8.140093803405762,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 37,
+        "area_pixels": 256,
+        "area_m2_at_10m_gsd": 25600.0,
+        "selected_by_model": true,
+        "predicted_height_m": 6.218406677246094,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 38,
+        "area_pixels": 592,
+        "area_m2_at_10m_gsd": 59200.0,
+        "selected_by_model": true,
+        "predicted_height_m": 6.3429718017578125,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 39,
+        "area_pixels": 278,
+        "area_m2_at_10m_gsd": 27800.0,
+        "selected_by_model": true,
+        "predicted_height_m": 6.1583452224731445,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 40,
+        "area_pixels": 1229,
+        "area_m2_at_10m_gsd": 122900.0,
+        "selected_by_model": true,
+        "predicted_height_m": 6.467703342437744,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 42,
+        "area_pixels": 243,
+        "area_m2_at_10m_gsd": 24300.0,
+        "selected_by_model": true,
+        "predicted_height_m": 5.719910621643066,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 43,
+        "area_pixels": 39,
+        "area_m2_at_10m_gsd": 3900.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 44,
+        "area_pixels": 120,
+        "area_m2_at_10m_gsd": 12000.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 45,
+        "area_pixels": 205,
+        "area_m2_at_10m_gsd": 20500.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 46,
+        "area_pixels": 212,
+        "area_m2_at_10m_gsd": 21200.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 47,
+        "area_pixels": 84,
+        "area_m2_at_10m_gsd": 8400.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 48,
+        "area_pixels": 113,
+        "area_m2_at_10m_gsd": 11300.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 49,
+        "area_pixels": 180,
+        "area_m2_at_10m_gsd": 18000.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 50,
+        "area_pixels": 346,
+        "area_m2_at_10m_gsd": 34600.0,
+        "selected_by_model": true,
+        "predicted_height_m": 6.07459020614624,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 51,
+        "area_pixels": 22,
+        "area_m2_at_10m_gsd": 2200.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 53,
+        "area_pixels": 217,
+        "area_m2_at_10m_gsd": 21700.0,
+        "selected_by_model": true,
+        "predicted_height_m": 6.045347690582275,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 54,
+        "area_pixels": 2142,
+        "area_m2_at_10m_gsd": 214200.0,
+        "selected_by_model": true,
+        "predicted_height_m": 9.320416450500488,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 57,
+        "area_pixels": 230,
+        "area_m2_at_10m_gsd": 23000.0,
+        "selected_by_model": true,
+        "predicted_height_m": 5.4936299324035645,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 58,
+        "area_pixels": 669,
+        "area_m2_at_10m_gsd": 66900.0,
+        "selected_by_model": true,
+        "predicted_height_m": 6.306990623474121,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 59,
+        "area_pixels": 84,
+        "area_m2_at_10m_gsd": 8400.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 60,
+        "area_pixels": 24,
+        "area_m2_at_10m_gsd": 2400.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 62,
+        "area_pixels": 759,
+        "area_m2_at_10m_gsd": 75900.0,
+        "selected_by_model": true,
+        "predicted_height_m": 6.675451278686523,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 63,
+        "area_pixels": 1180,
+        "area_m2_at_10m_gsd": 118000.0,
+        "selected_by_model": true,
+        "predicted_height_m": 7.048236846923828,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 64,
+        "area_pixels": 24,
+        "area_m2_at_10m_gsd": 2400.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 66,
+        "area_pixels": 39,
+        "area_m2_at_10m_gsd": 3900.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 67,
+        "area_pixels": 105,
+        "area_m2_at_10m_gsd": 10500.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 68,
+        "area_pixels": 47,
+        "area_m2_at_10m_gsd": 4700.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 71,
+        "area_pixels": 268,
+        "area_m2_at_10m_gsd": 26800.0,
+        "selected_by_model": true,
+        "predicted_height_m": 6.321893215179443,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 72,
+        "area_pixels": 65,
+        "area_m2_at_10m_gsd": 6500.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 73,
+        "area_pixels": 449,
+        "area_m2_at_10m_gsd": 44900.0,
+        "selected_by_model": true,
+        "predicted_height_m": 6.75266170501709,
+        "missing_height_reason": null,
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": true
+      },
+      {
+        "component_id": 74,
+        "area_pixels": 108,
+        "area_m2_at_10m_gsd": 10800.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 75,
+        "area_pixels": 225,
+        "area_m2_at_10m_gsd": 22500.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "MODEL_CAPACITY_LIMIT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 76,
+        "area_pixels": 53,
+        "area_m2_at_10m_gsd": 5300.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      },
+      {
+        "component_id": 77,
+        "area_pixels": 38,
+        "area_m2_at_10m_gsd": 3800.0,
+        "selected_by_model": false,
+        "predicted_height_m": null,
+        "missing_height_reason": "NO_FINITE_HEIGHT",
+        "terrain_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "roof_elevation_m": {
+          "shape": [
+            0
+          ],
+          "dtype": "float32",
+          "min": null,
+          "max": null,
+          "mean": null,
+          "std": null,
+          "finite_count": 0
+        },
+        "NEGATIVE_HEIGHT": false,
+        "ZERO_HEIGHT": false,
+        "EXTREME_HEIGHT": false,
+        "VALID_HEIGHT": false
+      }
+    ],
+    "height_statistics_finite_only": {
+      "shape": [
+        64
+      ],
+      "dtype": "float64",
+      "min": 4.402091979980469,
+      "max": 10.439148902893066,
+      "mean": 6.55735523223877,
+      "median": 6.321893215179443,
+      "std": 1.3327038618360265,
+      "p95": 9.08435192108154,
+      "p99": 10.170653114318846,
+      "finite_count": 25,
+      "missing_count": 39,
+      "missing_fraction": 0.609375
+    }
+  }
+}

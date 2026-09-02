@@ -1,0 +1,2 @@
+region,point_cloud_role,continuity,height_preservation,terrain_smoothness,spikes,holes,notes
+Uttarakhand,EXPERIMENTAL_ONLY,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED,Point cloud is a pilot analysis only; it does not replace the production renderer.

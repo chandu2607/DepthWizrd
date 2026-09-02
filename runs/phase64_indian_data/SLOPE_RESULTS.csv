@@ -1,0 +1,11 @@
+metric,value
+mean_overall_slope_deg,30.63
+median_slope_deg,32.23
+max_slope_deg,75.64
+mean_terrain_slope_deg,27.42
+p95_terrain_slope_deg,43.04
+steep_slope_pct_area,67.22
+slope_min_deg,0.0
+slope_max_deg,75.64259338378906
+slope_mean_deg,30.63020896911621
+slope_std_deg,13.399749755859375

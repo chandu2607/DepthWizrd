@@ -1,0 +1,6 @@
+{
+  "verdict": "VALID_NO_SUPPORT",
+  "explanation": "The experiment cleanly implemented the C_log1p + decoder adaptation architecture. The tall-height prediction completely collapsed, mirroring the frozen baseline exactly. The large RMSE in Seed 0 is due to extreme positive spikes caused by seed instability under L1 loss.",
+  "conclusion": "Decoder/neck adaptation alone is insufficient.",
+  "next_step": "Phase 14E (Partial ViT unfreezing)"
+}

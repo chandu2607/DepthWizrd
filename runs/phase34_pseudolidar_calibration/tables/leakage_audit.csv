@@ -1,0 +1,4 @@
+split,n_tiles,cities,zero_shot_holdout
+train,937,"Barcelona, Berlin, Brasilia, NewDelhi, Portsmouth, Rio, SanDiego, SaoLuis, Sydney",No
+val,216,Copenhagen,No
+test,108,NewYork,Yes (Strict)

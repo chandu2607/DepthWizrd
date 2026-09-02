@@ -1,0 +1,31 @@
+{
+  "phase": "24B",
+  "name": "height_regime_moe_safety_check",
+  "timestamp": "2026-08-29T01:30:28Z",
+  "expert_equations": {
+    "E1": "H1 = 5.0 * exp(r1)",
+    "E2": "H2 = 20.0 * exp(r2)",
+    "E3": "H3 = (alpha * depth_range + beta * min(w_box, h_box)) * exp(r3)"
+  },
+  "gate_inputs": [
+    "scaled_geometry_features",
+    "normalized_depth_statistics",
+    "scaled_context_features",
+    "cnn_pooled_features"
+  ],
+  "loss_components": [
+    "binary_cross_entropy_footprint",
+    "cross_entropy_gate_auxiliary",
+    "gating_balance_regularization",
+    "soft_membership_smooth_l1_experts"
+  ],
+  "anti_collapse_mechanism": "joint_auxiliary_classification_and_load_balancing",
+  "success_thresholds": {
+    "copenhagen_val_bldg_mae_m": 9.5,
+    "newyork_zero_shot_all_mae_m": 12.0,
+    "newyork_zero_shot_bldg_mae_m": 15.0,
+    "newyork_skyscraper_gt_40_mae_m": 25.0,
+    "newyork_skyscraper_gt_40_bias_m_greater_than": -25.0
+  },
+  "status": "SAFETY_CHECK_COMPLETE"
+}

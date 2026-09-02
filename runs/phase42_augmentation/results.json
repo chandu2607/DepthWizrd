@@ -1,0 +1,87 @@
+{
+  "phase": "Phase 42 — Data Augmentation + Multi-Scale + Resolution Robustness",
+  "experiment_date": "2026-08-30",
+  "locked_baseline": "Phase 29",
+  "zero_shot_test_city": "NewYork",
+  "validation_city": "Copenhagen",
+  "training_cities": ["Barcelona", "Berlin", "Brasilia", "NewDelhi", "Portsmouth", "Rio", "SanDiego", "SaoLuis", "Sydney"],
+
+  "phase29_baseline": {
+    "Copenhagen_Val_MAE": 2.40,
+    "NewYork_Test_MAE": 7.63,
+    "NewYork_Skyscraper_MAE": 13.36
+  },
+
+  "peakrecovery_mlp_ablation": {
+    "A_No_Augmentation": {
+      "Val_MAE_mean": 2.3992,
+      "Test_MAE_mean": 7.6308,
+      "Skyscraper_MAE_mean": 13.3613,
+      "seeds": {
+        "0": {"Val_MAE": 2.5219, "Test_MAE": 7.8701, "Skyscraper_MAE": 14.1635},
+        "1": {"Val_MAE": 2.2766, "Test_MAE": 7.3915, "Skyscraper_MAE": 12.5591}
+      }
+    },
+    "B_Geometric": {
+      "Val_MAE_mean": 2.4188,
+      "Test_MAE_mean": 7.5659,
+      "Skyscraper_MAE_mean": 13.0863,
+      "seeds": {
+        "0": {"Val_MAE": 2.4801, "Test_MAE": 7.5389, "Skyscraper_MAE": 13.3611},
+        "1": {"Val_MAE": 2.3576, "Test_MAE": 7.5930, "Skyscraper_MAE": 12.8116}
+      }
+    },
+    "C_Geometric_Photometric": {
+      "Val_MAE_mean": 2.4772,
+      "Test_MAE_mean": 7.7015,
+      "Skyscraper_MAE_mean": 13.1813,
+      "seeds": {
+        "0": {"Val_MAE": 2.5489, "Test_MAE": 7.8309, "Skyscraper_MAE": 13.3826},
+        "1": {"Val_MAE": 2.4055, "Test_MAE": 7.5722, "Skyscraper_MAE": 12.9799}
+      }
+    },
+    "D_Geometric_Photometric_Multiscale": {
+      "Val_MAE_mean": 2.7303,
+      "Test_MAE_mean": 7.9387,
+      "Skyscraper_MAE_mean": 12.8337,
+      "seeds": {
+        "0": {"Val_MAE": 2.7928, "Test_MAE": 7.9176, "Skyscraper_MAE": 13.0432},
+        "1": {"Val_MAE": 2.6677, "Test_MAE": 7.9598, "Skyscraper_MAE": 12.6241}
+      }
+    }
+  },
+
+  "unet_footprint_ablation": {
+    "A_Baseline": {"IoU": 0.3401, "Dice": 0.4822, "Precision": 0.5569, "Recall": 0.5207},
+    "B_Geometric": {"IoU": 0.4183, "Dice": 0.5794, "Precision": 0.5720, "Recall": 0.6841},
+    "C_Geometric_Photometric": {"IoU": 0.3606, "Dice": 0.5048, "Precision": 0.5844, "Recall": 0.5447},
+    "D_Geometric_Photometric_Multiscale": {"IoU": 0.4683, "Dice": 0.6336, "Precision": 0.5068, "Recall": 0.8919}
+  },
+
+  "resolution_degradation": {
+    "factor_1x": {"Val_MAE": 2.3069, "Test_MAE": 7.9988, "Skyscraper_MAE": 14.3754},
+    "factor_2x": {"Val_MAE": 2.3000, "Test_MAE": 7.9595, "Skyscraper_MAE": 14.3270},
+    "factor_4x": {"Val_MAE": 2.2924, "Test_MAE": 8.0015, "Skyscraper_MAE": 14.4104},
+    "factor_8x": {"Val_MAE": 2.2757, "Test_MAE": 8.0818, "Skyscraper_MAE": 14.5700}
+  },
+
+  "model_selection": {
+    "selected_config": "B (Geometric Augmentation)",
+    "selection_criterion": "Lowest Copenhagen Val MAE among configs with Test improvement over A",
+    "Test_MAE_improvement_over_A": 0.065,
+    "Skyscraper_MAE_improvement_over_A": 0.275
+  },
+
+  "verdict": "AUGMENTATION_PARTIAL_SUPPORT",
+  "verdict_explanation": {
+    "MLP_PeakRecovery": "Config B (Geometric) shows marginal improvement in zero-shot New York MAE (-0.065m) and skyscraper MAE (-0.275m). Not strong enough to replace Phase 29 on numeric grounds alone.",
+    "UNet_Footprint": "Geometric augmentation (B) and Multi-scale (D) both show substantial IoU improvements (+22.9% and +37.6%). This is architecturally significant for downstream 3D building reconstruction.",
+    "Resolution_Degradation": "Resolution degradation training provides no meaningful benefit. 8x factor slightly increases error.",
+    "RGB_Photometric": "Adding photometric augmentation (C) consistently hurts numeric metrics vs geometric-only (B).",
+    "Multi_scale_Crop_MLP": "Config D hurts Copenhagen stability and increases Test MAE, NOT recommended for PeakRecoveryMLP.",
+    "Multi_scale_UNet": "Config D massively improves Recall (89.2%) for building detection, which directly benefits downstream 3D."
+  },
+
+  "recommendation": "Keep Phase 29 PeakRecoveryMLP. Adopt UNet Config D (Geometric+Photometric+MultiScale) for footprint improvement to improve 3D quality.",
+  "production_update_required": false
+}

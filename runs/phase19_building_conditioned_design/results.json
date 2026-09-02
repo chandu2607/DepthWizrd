@@ -1,0 +1,16 @@
+{
+  "phase18_evidence": {
+    "tile_level_mae": 47.99,
+    "building_level_predicted_p95_mae": 28.84,
+    "building_level_oracle_p95_mae": 26.94,
+    "building_level_pearson_r": 0.312
+  },
+  "recommended_architecture": "Candidate B (OOTS-Net)",
+  "smallest_falsifiable_experiment": {
+    "train_set": "128 tiles DFC2023",
+    "test_set": "New York zero-shot",
+    "falsification_threshold_mae": 32.0,
+    "falsification_threshold_pearson": 0.2
+  },
+  "final_action": "PROCEED TO IMPLEMENTATION"
+}

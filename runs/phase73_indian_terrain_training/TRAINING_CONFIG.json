@@ -1,0 +1,16 @@
+{
+  "phase": "PHASE_73",
+  "train_region": "uttarakhand",
+  "validation_region": "himachal",
+  "test_region": "sikkim",
+  "target_type": "terrain elevation / DTM-like reference on common grid",
+  "target_units": "meters",
+  "normalization": "train_only",
+  "loss": "SmoothL1Loss",
+  "batch_size": 1,
+  "epochs": 1,
+  "seed": 1337,
+  "device": "cpu",
+  "resize": 512,
+  "no_augmentation": true
+}

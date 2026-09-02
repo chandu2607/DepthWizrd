@@ -1,0 +1,47 @@
+{
+  "phase": "PHASE_75",
+  "status": "LOCAL_RELIEF_CONTROL_RUN",
+  "train_region": "uttarakhand",
+  "validation_region": "himachal",
+  "test_region": "sikkim",
+  "target_definition": "LOCAL_RELIEF_TARGET = DEM - median(valid DEM pixels in the crop)",
+  "units": "meters",
+  "target_proof": {
+    "uttarakhand": {
+      "absolute_dem_min_m": 3472.830078125,
+      "absolute_dem_max_m": 5375.1533203125,
+      "absolute_dem_mean_m": 4662.03515625,
+      "absolute_dem_std_m": 355.37628173828125,
+      "local_relief_min_m": -1214.89404296875,
+      "local_relief_max_m": 687.42919921875,
+      "local_relief_mean_m": -25.68881607055664,
+      "local_relief_std_m": 355.37628173828125,
+      "local_median_m": 4687.72412109375
+    },
+    "himachal": {
+      "absolute_dem_min_m": 255.2478485107422,
+      "absolute_dem_max_m": 283.81805419921875,
+      "absolute_dem_mean_m": 260.3289794921875,
+      "absolute_dem_std_m": 2.054396629333496,
+      "local_relief_min_m": -4.7158355712890625,
+      "local_relief_max_m": 23.8543701171875,
+      "local_relief_mean_m": 0.3652685880661011,
+      "local_relief_std_m": 2.054396629333496,
+      "local_median_m": 259.96368408203125
+    }
+  },
+  "validation_local_relief_metrics": {
+    "mae_m": 49.20459747314453,
+    "rmse_m": 49.24799346923828,
+    "pearson": 0.035732719176776166,
+    "prediction_min_m": 47.16195297241211,
+    "prediction_max_m": 51.24330520629883,
+    "prediction_mean_m": 49.56986618041992,
+    "prediction_std_m": 0.3129335939884186,
+    "target_min_m": -4.7158355712890625,
+    "target_max_m": 23.854366302490234,
+    "target_mean_m": 0.3652685880661011,
+    "target_std_m": 2.054396629333496
+  },
+  "decision": "DIAGNOSIS_INCONCLUSIVE"
+}

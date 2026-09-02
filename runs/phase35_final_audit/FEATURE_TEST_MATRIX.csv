@@ -1,0 +1,30 @@
+Feature,UI Control,Expected Behavior,Actual Behavior,Pass/Fail,Notes
+Load Demo Scene,Load Demo Scene (NYC),Loads SV_NewYork_40.7401_-73.9915.tif,Image loaded and displayed in sidebar,PASS,Instant load from DFC2023 dataset
+Upload PNG,Upload File (.png),Loads non-georeferenced RGB image,Loads correctly with is_georeferenced=False,PASS,Switches to Relative rDSM Mode
+Upload GeoTIFF,Upload File (.tif),Parses CRS and GSD metadata,Rasterio extracts EPSG and affine transform,PASS,Switches to Absolute DSM Mode
+Calibration Selector,Select Calibration Mode,Switches between 5 calibration modes,Dispatches to selected CalibrationStrategy,PASS,Supports DEM/GCP/Structural/DTM modes
+Run Pipeline,EXECUTE PIPELINE,Executes end-to-end reconstruction,Generates DSM/DTM/nDSM and WebGL in ~0.5s,PASS,60fps WebGL canvas appears
+City Overview Preset,City Overview Button,Frames 100% of the city block with 20% margin,Camera animates to 45° elevated oblique view,PASS,Dynamically calculated from bounding box
+Urban Oblique Preset,Urban Oblique Button,Lower angle emphasizing facade massing,Camera animates to 30° perspective view,PASS,Smooth cubic bezier camera lerp
+Inspection Preset,Inspection Button,Zooms to tallest high-rise building,Camera frames tallest structural peak,PASS,Identifies tallest building centroid
+Top-Down Preset,Top-Down Button,Nadir orthographic-style view,Camera positions at (0, camDist, 0.1),PASS,Perfect for footprint inspection
+Pedestrian Preset,Pedestrian Button,Ground-level perspective looking up,Camera positions at Z=4m looking at skyline,PASS,Walkable street perspective
+RGB City Mode,RGB City Button,Satellite orthophoto texture on terrain/roofs,Full satellite texture rendered on mesh,PASS,Instant client-side material switch
+Elevation Mode,Elevation Button,Turbo colormap by absolute elevation,Terrain and roofs colored by absolute Z (m),PASS,Shows dynamic metric legend
+Height Mode,Height Button,Buildings colored by height above ground,Structures colored 0-60m with subdued ground,PASS,Instant client-side vertex color toggle
+Slope Mode,Slope Button,Terrain colored by slope gradient,DTM colored Green (0°) to Red (45°+),PASS,Slope legend displayed
+Vertical Exaggeration,Vertical Exaggeration Slider,Scales visual Z without altering scientific DSM,Scales mesh height proportionally in WebGL,PASS,Underlying DSM hash remains unchanged
+Fit to Scene,Fit to Scene Button,Restores default framing and center,Camera animates back to City Overview,PASS,Smooth recentering
+Orbit Navigation,Mouse Left-Click Drag,Rotates camera around scene target,OrbitControls smoothly rotates azimuth/polar,PASS,60 FPS hardware accelerated
+Pan Navigation,Mouse Right-Click Drag,Translates scene relative to camera,OrbitControls smoothly pans XZ plane,PASS,Damped smooth motion
+Zoom Navigation,Mouse Scroll Wheel,Adjusts camera distance smoothly,Camera zooms in and out within [5m, 1500m],PASS,No model distortion
+First-Person Flight,WASD / Arrow Keys,Moves camera in 3D space,Smooth flight with Shift boost,PASS,Camera-aligned forward/right vectors
+Cinematic Flythrough,Cinematic Flythrough Button,Animates camera along orbital path,Camera smoothly traverses sinusoidal orbit,PASS,Button toggles Play/Pause
+Building Selection,Mouse Left-Click on Building,Raycasts to clicked building,Highlights building and opens Inspector Panel,PASS,Finds nearest centroid within threshold
+Building Inspector,Inspector Panel HUD,Displays Structure ID / Ground / Roof / Height / Area,Live values match backend calculations,PASS,Shows metric statistics in real time
+Point Elevation Probe,Interactive Coordinate Probing,Probes pixel (X, Y) elevation and class,Returns Ground Z / Roof Z / Height Delta,PASS,Deployed in Section 6 Probe tab
+Slope Analysis,Section 4 Raster Suite,Computes terrain slope map and stats,Displays mean terrain slope in degrees,PASS,Facade edges properly masked
+DSM Export,Download Metric DSM (GeoTIFF),Exports full-resolution GeoTIFF raster,Preserves 32-bit float elevation values,PASS,Includes georeferencing metadata
+nDSM Export,Download Height (nDSM),Exports normalized above-ground height,Preserves structure elevations,PASS,Exportable for GIS workflows
+Building Table CSV,Download Building Massing (CSV),Exports per-building geometry metrics,CSV includes ID/Ground/Roof/Height/Area,PASS,Standard tabular data export
+Validation Report,Section 7 Validation Dashboard,Computes MAE/RMSE/Pearson vs Reference,Displays binned height accuracy table,PASS,MAE: 13.49m Pearson: 0.721

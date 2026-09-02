@@ -1,0 +1,10 @@
+metric,value
+device,cpu
+gpu,none
+epochs,1
+batch_size,1
+learning_rate,0.001
+optimizer,Adam
+loss,MSE
+runtime_s,0.16207410000060918
+train_loss,0.47890469431877136

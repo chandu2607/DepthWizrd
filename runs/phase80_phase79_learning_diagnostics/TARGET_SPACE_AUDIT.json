@@ -1,0 +1,61 @@
+{
+  "train_crop": {
+    "raw_dem": {
+      "min": 4437.03662109375,
+      "max": 6121.6171875,
+      "mean": 5208.455078125,
+      "std": 380.5985107421875
+    },
+    "raw_local_relief": {
+      "min": -803.09033203125,
+      "max": 881.490234375,
+      "mean": -31.67188262939453,
+      "std": 380.5985107421875
+    },
+    "model_target": {
+      "min": -2.0268561840057373,
+      "max": 2.3992793560028076,
+      "mean": 0.0,
+      "std": 0.9999999403953552
+    },
+    "inverse_transform_reconstruction_error": {
+      "max_abs": 6.103515625e-05,
+      "mean_abs": 2.872686309274286e-06
+    },
+    "normalized_target_formula": "target_normalized = (raw_local_relief - mean_train_target) / std_train_target"
+  },
+  "validation_crop": {
+    "raw_dem": {
+      "min": 3672.767822265625,
+      "max": 6185.8154296875,
+      "mean": 4946.92333984375,
+      "std": 561.3602905273438
+    },
+    "raw_local_relief": {
+      "min": -1327.232177734375,
+      "max": 1185.8154296875,
+      "mean": -53.07682418823242,
+      "std": 561.3602905273438
+    },
+    "model_target": {
+      "min": -3.404007911682129,
+      "max": 3.198875665664673,
+      "mean": -0.056240230798721313,
+      "std": 1.4749408960342407
+    },
+    "inverse_transform_reconstruction_error": {
+      "max_abs": 0.0001220703125,
+      "mean_abs": 4.942477971781045e-06
+    },
+    "normalized_target_formula": "target_normalized = (raw_local_relief - mean_train_target) / std_train_target"
+  },
+  "target_transform": {
+    "target_type": "normalized local relief",
+    "units": "meters",
+    "normalization": {
+      "mean": -31.67188262939453,
+      "std": 380.5985107421875,
+      "formula": "target_normalized = (raw_local_relief - mean_train_target) / std_train_target"
+    }
+  }
+}

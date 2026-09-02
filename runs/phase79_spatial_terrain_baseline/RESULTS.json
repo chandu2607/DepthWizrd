@@ -1,0 +1,154 @@
+{
+  "phase": "PHASE_79",
+  "status": "SPATIAL_TERRAIN_BASELINE",
+  "train_region": "uttarakhand",
+  "validation_region": "uttarakhand",
+  "target_definition": "LOCAL_RELIEF_TARGET = DEM - median(valid DEM pixels in the crop)",
+  "units": "meters",
+  "data": {
+    "train_crop_bbox": [
+      1774,
+      2513,
+      2286,
+      3025
+    ],
+    "validation_crop_bbox": [
+      5834,
+      7335,
+      6346,
+      7847
+    ],
+    "train_valid_pixels": 262144,
+    "validation_valid_pixels": 262144
+  },
+  "input_checks": {
+    "shape": [
+      4,
+      512,
+      512
+    ],
+    "dtype": "torch.float32",
+    "min": -1.5172373056411743,
+    "max": 3.397331476211548,
+    "mean": 0.002012006938457489,
+    "std": 0.5000823736190796,
+    "finite_count": 1048576
+  },
+  "training": {
+    "loss": "SmoothL1Loss",
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "batch_size": 1,
+    "epoch_count": 1,
+    "train_region": "uttarakhand",
+    "validation_region": "uttarakhand"
+  },
+  "metrics": {
+    "zero_relief_baseline": {
+      "mae": 1.2157599925994873,
+      "rmse": 1.4760127067565918,
+      "pearson": NaN,
+      "mean_bias": 0.056240230798721313,
+      "prediction_mean": 0.0,
+      "prediction_std": 0.0,
+      "target_std": 1.4749408960342407,
+      "n": 262144
+    },
+    "mean_relief_baseline": {
+      "mae": 1.2190628051757812,
+      "rmse": 1.4749408960342407,
+      "pearson": NaN,
+      "mean_bias": 0.0,
+      "prediction_mean": -0.05624021589756012,
+      "prediction_std": 1.4901161193847656e-08,
+      "target_std": 1.4749408960342407,
+      "n": 262144
+    },
+    "median_relief_baseline": {
+      "mae": 1.2139289379119873,
+      "rmse": 1.4815189838409424,
+      "pearson": NaN,
+      "mean_bias": 0.13945558667182922,
+      "prediction_mean": 0.08321535587310791,
+      "prediction_std": 0.0,
+      "target_std": 1.4749408960342407,
+      "n": 262144
+    },
+    "terrain_unet": {
+      "mae": 1.2236868143081665,
+      "rmse": 1.4768003225326538,
+      "pearson": -0.057983660671387625,
+      "mean_bias": -0.057679273188114166,
+      "prediction_mean": -0.11391951888799667,
+      "prediction_std": 0.011821982450783253,
+      "target_std": 1.4749408960342407,
+      "n": 262144
+    }
+  },
+  "spatial_diagnostics": {
+    "prediction_gradient_x_mae": 0.01621377281844616,
+    "prediction_gradient_y_mae": 0.010779987089335918,
+    "prediction_gradient_magnitude_mean": 0.00011594366515055299,
+    "target_gradient_magnitude_mean": 0.013600067235529423,
+    "prediction_std": 0.011821982450783253,
+    "target_std": 1.4749408960342407
+  },
+  "sensitivity": {
+    "original": {
+      "prediction_std": 0.0019413911504670978,
+      "gradient_magnitude_mean": 7.963871757965535e-05
+    },
+    "shuffled": {
+      "prediction_std": 0.0023817603942006826,
+      "gradient_magnitude_mean": 0.005155747756361961
+    },
+    "constant": {
+      "prediction_std": 0.00021902984008193016,
+      "gradient_magnitude_mean": 1.9819848603219725e-05
+    }
+  },
+  "old_phase77_reference": {
+    "old_terrainhead": {
+      "mae": 463.50677490234375,
+      "rmse": 570.4995727539062,
+      "pearson": 0.0641815142515434,
+      "prediction_std": 1.4360086917877197,
+      "gradient_x_mae": 6.183000564575195,
+      "gradient_y_mae": 4.136542797088623,
+      "gradient_mae_mean": 5.159771680831909
+    },
+    "phase77_baselines": {
+      "zero_prediction": {
+        "mae": 462.01953125,
+        "rmse": 563.8639526367188,
+        "pearson": NaN,
+        "mean_bias": 53.07682418823242,
+        "prediction_std": 0.0,
+        "target_std": 561.3602905273438,
+        "error_std": 561.3602905273438,
+        "n": 262144
+      },
+      "training_mean_prediction": {
+        "mae": 462.71649169921875,
+        "rmse": 561.7682495117188,
+        "pearson": NaN,
+        "mean_bias": 21.404949188232422,
+        "prediction_std": 5.7220458984375e-06,
+        "target_std": 561.3602905273438,
+        "error_std": 561.3602905273438,
+        "n": 262144
+      },
+      "training_median_prediction": {
+        "mae": 462.0195617675781,
+        "rmse": 563.864013671875,
+        "pearson": NaN,
+        "mean_bias": 53.07707214355469,
+        "prediction_std": 0.0,
+        "target_std": 561.3602905273438,
+        "error_std": 561.3602905273438,
+        "n": 262144
+      }
+    }
+  },
+  "decision": "SPATIAL_TERRAIN_REGRESSION_STILL_FAILS"
+}

@@ -1,0 +1,47 @@
+{
+  "contract_name": "Phase 89/91 scene fusion to existing DepthWizard viewer",
+  "coordinate_policy": {
+    "source": "georeferenced raster pixel coordinates",
+    "projected_coordinates": "source CRS coordinates, normally UTM meters for Indian scenes",
+    "viewer_coordinates": "local meter coordinates derived from projected coordinates minus scene origin; x=easting, z=northing/image-row convention documented by adapter, y=elevation",
+    "origin": "explicit projected coordinate of raster pixel (0,0) or chosen scene origin",
+    "no_implicit_scaling": true
+  },
+  "terrain_fields": {
+    "elevation": {"type": "float32[H,W] or Float32Array", "units": "meters", "coordinate_system": "source projected CRS / local viewer meters", "meaning": "real DEM elevation; nodata remains invalid"},
+    "x": {"type": "float32[W]", "units": "meters", "coordinate_system": "source projected CRS or local viewer meters"},
+    "y": {"type": "float32[H]", "units": "meters", "coordinate_system": "source projected CRS or local viewer meters; viewer vertical axis is separate"},
+    "resolution": {"type": "[float,float]", "units": "meters per pixel", "coordinate_system": "source raster CRS"},
+    "bounds": {"type": "[left,bottom,right,top]", "units": "source CRS units", "coordinate_system": "terrain CRS"},
+    "crs": {"type": "string", "units": "none", "coordinate_system": "CRS identifier, for example EPSG:32643"},
+    "transform": {"type": "six affine coefficients", "units": "source CRS units per pixel", "coordinate_system": "source raster CRS"},
+    "positions": {"type": "Float32Array xyz", "units": "meters", "coordinate_system": "viewer local scene coordinates"},
+    "indices": {"type": "Uint32Array", "units": "triangle indices", "coordinate_system": "viewer mesh"},
+    "nodata_policy": "exclude invalid terrain faces; never convert DEM nodata to zero"
+  },
+  "building_fields": {
+    "component_id": {"type": "integer", "units": "none", "coordinate_system": "source connected-component label identity"},
+    "footprint": {"type": "polygon or polygon vertex array", "units": "pixels plus projected/local meter representation", "coordinate_system": "source raster CRS and derived viewer local coordinates"},
+    "height": {"type": "float or null", "units": "meters above terrain", "coordinate_system": "vertical metric axis", "null_policy": "null when unavailable; never zero-fill or interpolate"},
+    "base_elevation": {"type": "float or null", "units": "meters", "coordinate_system": "terrain CRS vertical datum as supplied by DEM"},
+    "roof_elevation": {"type": "float or null", "units": "meters", "coordinate_system": "same DEM vertical datum", "formula": "base_elevation + height"},
+    "height_available": {"type": "boolean", "units": "none", "coordinate_system": "none", "meaning": "true only when a finite Phase 89 prediction is mapped to this component ID"},
+    "area": {"type": "float", "units": "square meters", "coordinate_system": "source projected CRS"},
+    "centroid": {"type": "[float,float]", "units": "meters", "coordinate_system": "viewer local scene coordinates"},
+    "missing_height_reason": {"type": "string or null", "units": "none", "allowed": ["MODEL_CAPACITY_LIMIT", "NO_FINITE_HEIGHT", null]}
+  },
+  "viewer_compatibility_fields": {
+    "building_id": "component_id",
+    "id": "component_id",
+    "z_ground": "base_elevation",
+    "z_roof": "roof_elevation",
+    "height_m": "height",
+    "area_m2": "area",
+    "orig_id": "component_id as string",
+    "height_available": "new required field for unavailable-height inspector/UI handling"
+  },
+  "serialization": {
+    "current_boundary": "Python geometry dict serialized into generated HTML JSON",
+    "recommended": "validate JSON-safe nulls before serialization; reject NaN/Inf; include CRS, transform, bounds, and provenance metadata"
+  }
+}

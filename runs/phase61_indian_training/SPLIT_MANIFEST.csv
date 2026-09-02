@@ -1,0 +1,2 @@
+tile_id,region,state,split,coordinates,source,image_hash,reference_hash,notes
+NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,"No real Indian benchmark tile has been downloaded or validated yet. Geographic holdout is planned but not executed."

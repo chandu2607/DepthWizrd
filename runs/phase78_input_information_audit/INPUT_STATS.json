@@ -1,0 +1,294 @@
+{
+  "phase": "PHASE_78",
+  "status": "INPUT_INFORMATION_AUDIT",
+  "train_region": "uttarakhand",
+  "data_path": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase72_common_grid_forensics\\common_grid\\uttarakhand",
+  "exact_model_input_path": {
+    "classes": [
+      "TerrainDataset.__init__",
+      "TerrainDataset.__getitem__",
+      "TerrainHead.forward",
+      "SmallFusionUNet.forward"
+    ],
+    "feature_generation_function": "TerrainDataset.__getitem__ -> np.concatenate([self.rgb, self.depth[None, ...]], axis=0)",
+    "input_tensor_shape": [
+      4,
+      512,
+      512
+    ],
+    "input_tensor_dtype": "torch.float32",
+    "input_tensor_min": -1.5172373056411743,
+    "input_tensor_max": 3.397331476211548,
+    "input_tensor_mean": 0.03217294067144394,
+    "input_tensor_std": 0.5033258199691772,
+    "finite_count": 1048576
+  },
+  "depth_anything_usage": {
+    "loaded": true,
+    "model_name": "DepthAnythingV2",
+    "feature_generation_function": "DepthAnythingV2.infer(rgb_u8, key=..., target_hw=(512,512))",
+    "weights_loaded": true,
+    "features_frozen": true,
+    "depth_passed_into_head": true
+  },
+  "input_information": {
+    "rgb": {
+      "channel_stats": [
+        {
+          "channel": 0,
+          "mean": 0.12869176268577576,
+          "std": 0.03050314635038376,
+          "min": 0.019501030445098877,
+          "max": 0.21130692958831787,
+          "nan_frac": 0.0,
+          "inf_frac": 0.0,
+          "spatial_var": 0.0009304419509135187
+        },
+        {
+          "channel": 1,
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "nan_frac": 0.0,
+          "inf_frac": 0.0,
+          "spatial_var": 0.0
+        },
+        {
+          "channel": 2,
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "nan_frac": 0.0,
+          "inf_frac": 0.0,
+          "spatial_var": 0.0
+        }
+      ],
+      "luminance_corr": {
+        "pearson": 0.5045134533956394,
+        "spearman": 0.5357673765328957,
+        "n": 262144
+      },
+      "spatial_gradients": {
+        "horizontal_mean_abs": 0.0004018340550828725,
+        "vertical_mean_abs": 0.00036735745379701257
+      },
+      "safe_stats": {
+        "shape": [
+          3,
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "min": 0.0,
+        "max": 0.21130692958831787,
+        "mean": 0.04289725050330162,
+        "std": 0.06317036598920822,
+        "finite_fraction": 1.0,
+        "nan_fraction": 0.0,
+        "inf_fraction": 0.0
+      }
+    },
+    "depth": {
+      "safe_stats": {
+        "shape": [
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "min": -1.5172373056411743,
+        "max": 3.397331476211548,
+        "mean": -2.9802322387695312e-08,
+        "std": 0.9999974966049194,
+        "finite_fraction": 1.0,
+        "nan_fraction": 0.0,
+        "inf_fraction": 0.0
+      },
+      "channel_stats": [
+        {
+          "channel": 0,
+          "mean": -2.9802322387695312e-08,
+          "std": 0.9999974966049194,
+          "min": -1.5172373056411743,
+          "max": 3.397331476211548,
+          "nan_frac": 0.0,
+          "inf_frac": 0.0,
+          "spatial_var": 0.9999950528144836
+        }
+      ],
+      "corr_with_target": {
+        "pearson": 0.5062018506796298,
+        "spearman": 0.426071987128898,
+        "n": 262144
+      },
+      "spatial_gradients": {
+        "horizontal_mean_abs": 0.003830979811027646,
+        "vertical_mean_abs": 0.009861416183412075
+      }
+    },
+    "feature_tensor": {
+      "safe_stats": {
+        "shape": [
+          4,
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "min": -1.5172373056411743,
+        "max": 3.397331476211548,
+        "mean": 0.03217293322086334,
+        "std": 0.5033255815505981,
+        "finite_fraction": 1.0,
+        "nan_fraction": 0.0,
+        "inf_fraction": 0.0
+      },
+      "channel_stats": [
+        {
+          "channel": 0,
+          "mean": 0.12869176268577576,
+          "std": 0.03050314635038376,
+          "min": 0.019501030445098877,
+          "max": 0.21130692958831787,
+          "nan_frac": 0.0,
+          "inf_frac": 0.0,
+          "spatial_var": 0.0009304419509135187
+        },
+        {
+          "channel": 1,
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "nan_frac": 0.0,
+          "inf_frac": 0.0,
+          "spatial_var": 0.0
+        },
+        {
+          "channel": 2,
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "nan_frac": 0.0,
+          "inf_frac": 0.0,
+          "spatial_var": 0.0
+        },
+        {
+          "channel": 3,
+          "mean": -2.9802322387695312e-08,
+          "std": 0.9999974966049194,
+          "min": -1.5172373056411743,
+          "max": 3.397331476211548,
+          "nan_frac": 0.0,
+          "inf_frac": 0.0,
+          "spatial_var": 0.9999950528144836
+        }
+      ],
+      "corr_with_target": {
+        "pearson": 0.5045134525975854,
+        "spearman": 0.5357673765328957,
+        "n": 262144
+      },
+      "spatial_gradients": {
+        "horizontal_mean_abs": 0.0012055020779371262,
+        "vertical_mean_abs": 0.0011020724195986986
+      }
+    }
+  },
+  "sensitivity": {
+    "original": {
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "min": -1.805009126663208,
+      "max": 2.5207905769348145,
+      "mean": 0.39259523153305054,
+      "std": 0.25813645124435425,
+      "finite_fraction": 1.0,
+      "nan_fraction": 0.0,
+      "inf_fraction": 0.0
+    },
+    "shuffled": {
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "min": -0.9581162929534912,
+      "max": 2.2819948196411133,
+      "mean": 0.4121682643890381,
+      "std": 0.30890700221061707,
+      "finite_fraction": 1.0,
+      "nan_fraction": 0.0,
+      "inf_fraction": 0.0
+    },
+    "constant": {
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "min": -4.237680912017822,
+      "max": 5.013762950897217,
+      "mean": 0.2912434935569763,
+      "std": 0.32031673192977905,
+      "finite_fraction": 1.0,
+      "nan_fraction": 0.0,
+      "inf_fraction": 0.0
+    }
+  },
+  "architecture": {
+    "module_name": "SmallFusionUNet.head",
+    "final_activation": "none",
+    "output_channels": 1,
+    "output_range": "unbounded without final activation",
+    "kernel_size": [
+      1,
+      1
+    ]
+  },
+  "alignment": {
+    "train_crop_bbox": [
+      1774,
+      2513,
+      2286,
+      3025
+    ],
+    "target_shape": [
+      512,
+      512
+    ],
+    "rgb_shape": [
+      3,
+      512,
+      512
+    ],
+    "depth_shape": [
+      512,
+      512
+    ],
+    "feature_tensor_shape": [
+      4,
+      512,
+      512
+    ],
+    "height_equal": true,
+    "width_equal": true,
+    "resize_ops": [
+      "RGB crop from aligned_RGB.tif",
+      "DEM crop from aligned_DEM.tif",
+      "depth model infer with target_hw=(512,512)",
+      "feature concat to [4,512,512]"
+    ]
+  },
+  "gradient_sanity": {
+    "loss": 0.5152711272239685,
+    "gradient_norm": 9.297738193794633,
+    "parameters_with_nonzero_grad": 44,
+    "nan_gradient_elements": 0,
+    "inf_gradient_elements": 0
+  }
+}

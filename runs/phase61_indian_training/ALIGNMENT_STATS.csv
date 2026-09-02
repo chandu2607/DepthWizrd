@@ -1,0 +1,11 @@
+metric,value,notes
+crs_match,NA,"No benchmark selected yet"
+resolution_match,NA,"No benchmark selected yet"
+overlap_percentage,NA,"No benchmark selected yet"
+bounds,NA,"No benchmark selected yet"
+pixel_dimensions,NA,"No benchmark selected yet"
+nodata_percentage,NA,"No benchmark selected yet"
+elevation_min_m,NA,"No benchmark selected yet"
+elevation_max_m,NA,"No benchmark selected yet"
+elevation_mean_m,NA,"No benchmark selected yet"
+elevation_std_m,NA,"No benchmark selected yet"

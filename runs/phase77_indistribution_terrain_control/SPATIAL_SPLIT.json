@@ -1,0 +1,28 @@
+{
+  "split_method": "deterministic geographic partition within the real Uttarakhand valid mask",
+  "train_bbox": [
+    1774,
+    2513,
+    2286,
+    3025
+  ],
+  "validation_bbox": [
+    5834,
+    7335,
+    6346,
+    7847
+  ],
+  "train_center": {
+    "y": 2030,
+    "x": 2769
+  },
+  "validation_center": {
+    "y": 6090,
+    "x": 7591
+  },
+  "overlap_pixels": 0,
+  "valid_mask_shape": [
+    512,
+    512
+  ]
+}

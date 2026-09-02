@@ -1,0 +1,4 @@
+region,elevation_source,MAE,RMSE,bias,correlation,slope_band,notes
+Uttarakhand,Copernicus DEM GLO-30,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,ALL,Real DEM exists but no accepted high-resolution reference for building-scale evaluation.
+Himachal Pradesh,CANDIDATE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,PENDING,Candidate only; no real aligned pair yet.
+Sikkim,CANDIDATE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,PENDING,Candidate only; no real aligned pair yet.

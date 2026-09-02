@@ -1,0 +1,8 @@
+region,slope_band_deg,MAE,RMSE,bias,correlation,notes
+Uttarakhand,0-5,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,"Slope available from DEM crop, but no accepted ground-truth metric reference yet."
+Uttarakhand,5-15,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,"Slope available from DEM crop, but no accepted ground-truth metric reference yet."
+Uttarakhand,15-30,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,"Slope available from DEM crop, but no accepted ground-truth metric reference yet."
+Uttarakhand,30-45,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,"Slope available from DEM crop, but no accepted ground-truth metric reference yet."
+Uttarakhand,>45,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,"Slope available from DEM crop, but no accepted ground-truth metric reference yet."
+Himachal Pradesh,PENDING,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,Not yet acquired.
+Sikkim,PENDING,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,Not yet acquired.

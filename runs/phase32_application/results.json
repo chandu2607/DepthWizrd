@@ -1,0 +1,16 @@
+{
+  "app_status": "SUCCESSFUL_VALIDATION",
+  "supported_formats": [
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".tif",
+    ".tiff"
+  ],
+  "modes_verified": [
+    "Mode A (Non-Georeferenced)",
+    "Mode B (Georeferenced)"
+  ],
+  "georeferencing_audit": "PASSED",
+  "error_handling": "PASSED"
+}

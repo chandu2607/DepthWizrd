@@ -1,0 +1,21 @@
+{
+  "phase": "63",
+  "status": "REAL_PILOT_NOT_YET_ACQUIRED",
+  "region": "Uttarakhand (candidate)",
+  "state": "Uttarakhand",
+  "selected_area": "Candidate mountainous area near Uttarakhand hill terrain",
+  "target_area_km2": "5-20 km²",
+  "optical_candidate": [
+    "Sentinel-2 Level-2A",
+    "Bhuvan / NRSC orthophoto or EO product"
+  ],
+  "elevation_candidate": [
+    "Copernicus DEM GLO-30",
+    "Bhuvan / CartoDEM / Indian DEM if accessible",
+    "SRTM as fallback"
+  ],
+  "access_verification": "Current public access confirmed in principle, but no actual benchmark file has yet been downloaded or aligned.",
+  "benchmark_validity": "Pending actual data acquisition and alignment validation",
+  "training_started": false,
+  "architecture_changed": false
+}

@@ -1,0 +1,15 @@
+{
+  "phase_73_absolute_target": {
+    "validation_mae_m": 4476.96484375,
+    "validation_rmse_m": 4476.96533203125,
+    "validation_correlation": 0.03573398734849863,
+    "prediction_mean_m": 4623.63525390625
+  },
+  "phase_75_local_relief_target": {
+    "validation_mae_m": 49.20459747314453,
+    "validation_rmse_m": 49.24799346923828,
+    "validation_correlation": 0.035732719176776166,
+    "prediction_mean_m": 49.56986618041992
+  },
+  "decision_logic": "DIAGNOSIS_INCONCLUSIVE"
+}

@@ -1,0 +1,20 @@
+{
+  "phase": "63",
+  "status": "PENDING_REAL_ACQUISITION",
+  "tiles": [],
+  "region": "Uttarakhand (candidate)",
+  "center_latitude": null,
+  "center_longitude": null,
+  "bounding_box": null,
+  "optical_file": null,
+  "elevation_file": null,
+  "optical_hash": null,
+  "elevation_hash": null,
+  "crs": null,
+  "pixel_size": null,
+  "dimensions": null,
+  "bounds": null,
+  "source": null,
+  "split": null,
+  "note": "No real benchmark tile has been physically acquired and aligned yet."
+}

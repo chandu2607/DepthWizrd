@@ -1,0 +1,2 @@
+region,checkpoint,checkpoint_sha256,preprocessing,runtime_sec,MAE,RMSE,bias,correlation,notes
+Himachal Pradesh,depth-anything/Depth-Anything-V2-Small-hf,N/A,RGB->DepthAnythingV2->resize to original,85.611,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,Model run was executed unchanged on the real Himachal crop. The available elevation reference is coarse terrain context only; no valid metric reference was accepted for building-height evaluation.

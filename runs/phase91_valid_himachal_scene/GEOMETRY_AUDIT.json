@@ -1,0 +1,21 @@
+{
+  "himachal": {
+    "geometry_assertions": {
+      "bottom_error_max_m": 0.0,
+      "top_error_max_m": 0.0,
+      "component_id_assertions": true,
+      "no_nan_building_geometry": true
+    },
+    "failure_flags": {
+      "FLOATING_BUILDING": false,
+      "BURIED_BUILDING": false,
+      "NEGATIVE_HEIGHT": false,
+      "NAN_GEOMETRY": false,
+      "MISSING_HEIGHT": false,
+      "TERRAIN_DISCONTINUITY": false,
+      "TEXTURE_ALIGNMENT_FAILURE": false,
+      "EMPTY_SCENE": false
+    }
+  },
+  "mapping_mismatches": 0
+}

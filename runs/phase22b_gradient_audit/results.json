@@ -1,0 +1,17 @@
+{
+  "footprint_loss": 0.7909964323043823,
+  "height_loss": 10.643470764160156,
+  "regime_loss": 16.148752212524414,
+  "grad_footprint_loss": {
+    "shared_encoder_e1": 0.32439589500427246,
+    "footprint_head": 0.44838595390319824,
+    "feature_head_ch0": 0.0,
+    "mlp_weights": null
+  },
+  "grad_height_loss": {
+    "shared_encoder_e1": 0.05244402214884758,
+    "footprint_head": 0.0,
+    "feature_head_ch0": 0.004831662867218256,
+    "mlp_weights": 68.34239196777344
+  }
+}

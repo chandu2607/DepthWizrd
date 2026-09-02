@@ -1,0 +1,13 @@
+metric,value
+train_loss,0.3788650929927826
+validation_mae_himachal,nan
+validation_rmse_himachal,nan
+validation_bias_himachal,nan
+validation_pearson_himachal,nan
+validation_spearman_himachal,nan
+test_mae_sikkim,nan
+test_rmse_sikkim,nan
+device,cpu
+gpu,cpu
+epoch_count,1
+note,Sikkim remained locked until validation selection; this file is pipeline sanity only

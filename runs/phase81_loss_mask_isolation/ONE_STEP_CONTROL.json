@@ -1,0 +1,112 @@
+{
+  "MODEL_A_current_loss": {
+    "loss_before": 0.4557867646217346,
+    "loss_after": 0.4490472674369812,
+    "prediction_mean_before": 0.17907121777534485,
+    "prediction_mean_after": 0.17935988306999207,
+    "prediction_std_before": 0.002860376611351967,
+    "prediction_std_after": 0.016205227002501488,
+    "gradient_magnitude_mean_before": 0.0001184104330604896,
+    "gradient_magnitude_mean_after": 0.00028884754283353686
+  },
+  "MODEL_B_reference_loss": {
+    "loss_before": 0.4557867646217346,
+    "loss_after": 0.4490472674369812,
+    "prediction_mean_before": 0.17907121777534485,
+    "prediction_mean_after": 0.17935988306999207,
+    "prediction_std_before": 0.002860376611351967,
+    "prediction_std_after": 0.016205227002501488,
+    "gradient_magnitude_mean_before": 0.0001184104330604896,
+    "gradient_magnitude_mean_after": 0.00028884754283353686
+  },
+  "parameter_change_summary": [
+    {
+      "name": "bottleneck.0.bias",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "bottleneck.0.weight",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "bottleneck.2.bias",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "bottleneck.2.weight",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "d1.0.bias",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "d1.0.weight",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "d1.2.bias",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "d1.2.weight",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "d2.0.bias",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "d2.0.weight",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "d2.2.bias",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "d2.2.weight",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "e1.0.bias",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "e1.0.weight",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "e1.2.bias",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "e1.2.weight",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "e2.0.bias",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "e2.0.weight",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "e2.2.bias",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "e2.2.weight",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "head.bias",
+      "abs_parameter_change_mean": 0.0
+    },
+    {
+      "name": "head.weight",
+      "abs_parameter_change_mean": 0.0
+    }
+  ]
+}

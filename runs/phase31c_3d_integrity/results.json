@@ -1,0 +1,90 @@
+{
+  "gradient_audit": {
+    "skyscraper-heavy": {
+      "dx_median": 0.28716278076171875,
+      "dx_p95": 1.059600830078125,
+      "dx_p99": 2.274139404296875,
+      "dx_max": 34.428001403808594,
+      "dy_median": 0.33617401123046875,
+      "dy_p95": 1.2866668701171875,
+      "dy_p99": 2.2157135009765625,
+      "dy_max": 34.94867706298828,
+      "pct_gt_1m": 7.976470768101761,
+      "pct_gt_2m": 1.2351317881604695,
+      "pct_gt_5m": 0.7504815924657534,
+      "pct_gt_10m": 0.6195725293542075
+    },
+    "dense-highrise": {
+      "dx_median": 0.1970062255859375,
+      "dx_p95": 1.2500381469726562,
+      "dx_p99": 1.8813018798828125,
+      "dx_max": 25.74249267578125,
+      "dy_median": 0.22800445556640625,
+      "dy_p95": 1.368316650390625,
+      "dy_p99": 1.9652557373046875,
+      "dy_max": 25.558563232421875,
+      "pct_gt_1m": 9.389524217221135,
+      "pct_gt_2m": 0.8236760029354208,
+      "pct_gt_5m": 0.5503913894324853,
+      "pct_gt_10m": 0.3571810787671233
+    },
+    "lower-rise": {
+      "dx_median": 0.09177017211914062,
+      "dx_p95": 0.4594879150390625,
+      "dx_p99": 1.27166748046875,
+      "dx_max": 11.880516052246094,
+      "dy_median": 0.13582611083984375,
+      "dy_p95": 0.5664901733398438,
+      "dy_p99": 1.1921463012695312,
+      "dy_max": 11.921318054199219,
+      "pct_gt_1m": 1.519500672700587,
+      "pct_gt_2m": 0.35507888943248533,
+      "pct_gt_5m": 0.24117844911937378,
+      "pct_gt_10m": 0.08943860078277886
+    }
+  },
+  "spike_audit": {
+    "skyscraper-heavy": {
+      "p95": 0.0734405517578125,
+      "p99": 0.6720178127288818,
+      "max": 33.73863220214844,
+      "frac_gt_2m": 0.00389862060546875,
+      "frac_gt_5m": 0.003314971923828125,
+      "frac_gt_10m": 0.00284576416015625
+    },
+    "dense-highrise": {
+      "p95": 0.02294921875,
+      "p99": 0.528411865234375,
+      "max": 24.536880493164062,
+      "frac_gt_2m": 0.003215789794921875,
+      "frac_gt_5m": 0.002910614013671875,
+      "frac_gt_10m": 0.00148773193359375
+    },
+    "lower-rise": {
+      "p95": 0.01331329345703125,
+      "p99": 0.15567779541015625,
+      "max": 11.487159729003906,
+      "frac_gt_2m": 0.0016326904296875,
+      "frac_gt_5m": 0.00102996826171875,
+      "frac_gt_10m": 0.0004730224609375
+    }
+  },
+  "jump_analysis": {
+    "n_spike_pixels": 496,
+    "pct_at_building_boundary": 100.0,
+    "pct_inside_or_flat_areas": 0.0
+  },
+  "diagnosis": {
+    "primary_diagnosis": "MIXED_DSM_AND_MESH",
+    "evidence": "DSM global P99 spike=0.67m (low noise). However max spike=33.74m at boundary pixels only (100% boundary, 0% inside). Abrupt building-edge height discontinuities (max gradient 34.43m/pixel) cause StructuredGrid bilinear faces to form near-vertical walls (curtains). The DSM surface itself is smooth internally; the artifact is geometrically induced by bilinear mesh interpolation across abrupt edges.",
+    "recommended_next_action": "REPAIR_MESH_PIPELINE",
+    "key_numbers": {
+      "spike_p99_m": 0.67,
+      "frac_spike_gt5m": 0.0033,
+      "dx_p99_m": 2.27,
+      "pct_neighbors_gt10m": 0.6,
+      "pct_spikes_at_boundary": 100.0,
+      "pct_spikes_inside_flat": 0.0
+    }
+  }
+}

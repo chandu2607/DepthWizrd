@@ -1,0 +1,55 @@
+{
+  "status": "READY_FOR_APPLICATION_LAYER",
+  "first_scene_verification": "SUCCESS",
+  "interactive_navigation_stack": "PyVista Headless Screenshot Engine",
+  "scenes": {
+    "skyscraper-heavy": {
+      "tile_id": "SV_NewYork_40.7401_-73.9915.tif",
+      "width": 512,
+      "height": 512,
+      "crs": "EPSG:32618",
+      "bounds": [
+        585000.0,
+        4509744.0,
+        585256.0,
+        4510000.0
+      ],
+      "min_elevation": 53.078128814697266,
+      "max_elevation": 166.57180786132812,
+      "vertex_count": 262144,
+      "face_count": 261121
+    },
+    "dense-highrise": {
+      "tile_id": "SV_NewYork_40.7372_-73.9901.tif",
+      "width": 512,
+      "height": 512,
+      "crs": "EPSG:32618",
+      "bounds": [
+        585000.0,
+        4509744.0,
+        585256.0,
+        4510000.0
+      ],
+      "min_elevation": 51.737754821777344,
+      "max_elevation": 156.72523498535156,
+      "vertex_count": 262144,
+      "face_count": 261121
+    },
+    "lower-rise": {
+      "tile_id": "SV_NewYork_40.7373_-74.0034.tif",
+      "width": 512,
+      "height": 512,
+      "crs": "EPSG:32618",
+      "bounds": [
+        585000.0,
+        4509744.0,
+        585256.0,
+        4510000.0
+      ],
+      "min_elevation": 53.31484603881836,
+      "max_elevation": 124.41081237792969,
+      "vertex_count": 262144,
+      "face_count": 261121
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "phase": "Phase 46 \u2014 Production Promotion + Full 3D Rebuild",
+  "verdict": "PRODUCTION_UNET_PROMOTION_SUCCESS",
+  "promoted_checkpoint": "runs/phase43_augmented_unet/unet_config_D.pt",
+  "latencies_ms": {
+    "depth_anything_v2": 1.8,
+    "footprint_extraction_baseline": 522.8,
+    "footprint_extraction_config_d": 23.3,
+    "full_calibration_baseline": 21.4,
+    "full_calibration_config_d": 23.5
+  },
+  "geometric_metrics": {
+    "roof_to_footprint_ratio": 0.9034,
+    "mean_vertical_lift_m": 5.84
+  },
+  "scientific_lock": {
+    "dsm_pre": "2b9dbb6da7063f98",
+    "dsm_post": "2b9dbb6da7063f98",
+    "match": true,
+    "rgb_pre": "5e101fa1f6ea9286",
+    "rgb_post": "5e101fa1f6ea9286",
+    "match_rgb": true
+  }
+}

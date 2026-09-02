@@ -1,0 +1,14 @@
+{
+  "original": {
+    "prediction_std": 0.0019413911504670978,
+    "gradient_magnitude_mean": 7.963871757965535e-05
+  },
+  "shuffled": {
+    "prediction_std": 0.0023817603942006826,
+    "gradient_magnitude_mean": 0.005155747756361961
+  },
+  "constant": {
+    "prediction_std": 0.00021902984008193016,
+    "gradient_magnitude_mean": 1.9819848603219725e-05
+  }
+}

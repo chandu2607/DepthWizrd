@@ -1,0 +1,71 @@
+{
+  "PHASE_72_STATUS": "COMMON_GRID_FORENSIC",
+  "UTTARAKHAND": {
+    "RGB_VALID": true,
+    "DEM_VALID": true,
+    "JOINT_VALID": true,
+    "OVERLAP": "checked",
+    "CRS": "optical=EPSG:32644; DEM=EPSG:4326; common=EPSG:32644",
+    "COMMON_GRID": "reprojected DEM onto optical grid",
+    "TARGET_VALID": true
+  },
+  "HIMACHAL": {
+    "RGB_VALID": true,
+    "DEM_VALID": true,
+    "JOINT_VALID": true,
+    "OVERLAP": "checked",
+    "CRS": "optical=EPSG:32643; DEM=EPSG:4326; common=EPSG:32643",
+    "COMMON_GRID": "reprojected DEM onto optical grid",
+    "TARGET_VALID": true
+  },
+  "SIKKIM": {
+    "RGB_VALID": true,
+    "DEM_VALID": true,
+    "JOINT_VALID": true,
+    "OVERLAP": "checked",
+    "CRS": "optical=EPSG:32645; DEM=EPSG:4326; common=EPSG:32645",
+    "COMMON_GRID": "reprojected DEM onto optical grid",
+    "TARGET_VALID": true
+  },
+  "METRIC_IDENTITY_TEST": [
+    {
+      "case": "identity",
+      "mae": 0.0,
+      "rmse": 0.0,
+      "bias": 0.0,
+      "corr": 1.0
+    },
+    {
+      "case": "plus_1m",
+      "mae": 1.0,
+      "rmse": 0.9999999999999999,
+      "bias": 1.0,
+      "corr": 1.0
+    },
+    {
+      "case": "plus_10m",
+      "mae": 10.0,
+      "rmse": 10.0,
+      "bias": 10.0,
+      "corr": 1.0
+    }
+  ],
+  "NORMALIZATION_TEST": [
+    {
+      "region": "uttarakhand",
+      "mean": 4517.42236328125,
+      "std": 965.2066040039062,
+      "min": -3.574636220932007,
+      "max": 2.670847177505493,
+      "mean_norm": -1.5401094799472048e-07,
+      "std_norm": 1.0
+    }
+  ],
+  "FIRST_FAILURE": "Phase 71 had zero valid pixels after naive crop because raw DEM and optical were not on a common grid; this was corrected by reprojection before target creation.",
+  "ROOT_CAUSE": "The root cause was a mismatched CRS/transform pipeline and crop logic: raw DEM arrays were not projected to the optical grid before center-cropping, so the target mask became empty.",
+  "TERRAIN_TRAINING_READY": false,
+  "NO_TRAINING_PERFORMED": true,
+  "NO_ARCHITECTURE_CHANGE": true,
+  "NO_PRODUCTION_CHANGE": true,
+  "NEXT_PHASE": "Once all common-grid targets are validated and the identity metric test passes, the next phase can be a minimal, scientifically gated terrain training run only if the target remains finite and non-empty."
+}

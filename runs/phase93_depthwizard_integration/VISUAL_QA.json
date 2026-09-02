@@ -1,0 +1,11 @@
+{
+  "viewer": "existing depthwizard/viz/interactive_viewer.py",
+  "html_generation_verified": true,
+  "threejs_and_orbitcontrols_present": true,
+  "default_path_verified": true,
+  "indian_paths_verified": ["uttarakhand", "himachal"],
+  "controls_preserved": ["orbit", "pan", "zoom", "reset camera", "camera presets", "ray picking"],
+  "render_modes_preserved": ["RGB City", "Elevation Colormap", "Building Height", "Terrain Slope"],
+  "height_unavailable_representation": "height_available=false, height_m=null, inspector text HEIGHT_UNAVAILABLE, no roof/wall geometry",
+  "browser_screenshot": "not run; Python HTML generation and focused viewer tests passed"
+}

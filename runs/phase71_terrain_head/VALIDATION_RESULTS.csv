@@ -1,0 +1,4 @@
+epoch,region,mae,rmse,bias,pearson,spearman,valid_pixels
+1,himachal,nan,nan,nan,nan,nan,0
+2,himachal,nan,nan,nan,nan,nan,0
+3,himachal,nan,nan,nan,nan,nan,0

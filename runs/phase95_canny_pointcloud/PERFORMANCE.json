@@ -1,0 +1,22 @@
+{
+  "uttarakhand": {
+    "canny_generation_seconds": 1.3501538999989862,
+    "point_cloud_generation_seconds": 2.439165600007982,
+    "viewer_generation_off_seconds": 1.1861266000050819,
+    "viewer_generation_canny_seconds": 1.2038445999933174,
+    "viewer_generation_pointcloud_seconds": 1.4117378999944776,
+    "viewer_payload_off_bytes": 59137447,
+    "viewer_payload_canny_bytes": 59137462,
+    "viewer_payload_pointcloud_bytes": 68275957
+  },
+  "himachal": {
+    "canny_generation_seconds": 1.4029124999942724,
+    "point_cloud_generation_seconds": 2.7480028999998467,
+    "viewer_generation_off_seconds": 1.2166154000005918,
+    "viewer_generation_canny_seconds": 1.3299294999887934,
+    "viewer_generation_pointcloud_seconds": 1.5014166999899317,
+    "viewer_payload_off_bytes": 59249891,
+    "viewer_payload_canny_bytes": 59249902,
+    "viewer_payload_pointcloud_bytes": 68842717
+  }
+}

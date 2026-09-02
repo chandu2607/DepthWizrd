@@ -1,0 +1,20 @@
+{
+  "PHASE_66_STATUS": "GROUND_TRUTH_GAP_REMAINS",
+  "TRAIN_REGION": "Uttarakhand",
+  "VALIDATION_REGION": "Himachal Pradesh (candidate, not yet accepted)",
+  "TEST_REGION": "Sikkim (candidate, not yet accepted)",
+  "REAL_OPTICAL_REGIONS": 1,
+  "REAL_ELEVATION_REGIONS": 1,
+  "TERRAIN_GROUND_TRUTH": "YES (Uttarakhand, coarse DEM / terrain context only)",
+  "BUILDING_FOOTPRINT_GROUND_TRUTH": "NO",
+  "BUILDING_HEIGHT_GROUND_TRUTH": "NO",
+  "ALIGNMENT": "A verified; B and C unverified",
+  "GEOGRAPHIC_SPLIT": "NOT_YET_ACCEPTED",
+  "CURRENT_MODEL_BASELINE": "YES_ON_REAL_UTTARAKHAND",
+  "REAL_TERRAIN_METRICS": "NO",
+  "REAL_BUILDING_METRICS": "NO",
+  "CANNY_RESULT": "EXPERIMENTAL_ONLY",
+  "POINT_CLOUD_RESULT": "EXPERIMENTAL_ONLY",
+  "TRAINING_READY": "NO",
+  "RECOMMENDED_NEXT_PHASE": "Acquire real second/third Indian region and a high-res building or DSM height reference; then build the trained benchmark only after a clean train/val/test split."
+}

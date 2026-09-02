@@ -1,0 +1,3 @@
+split,selected_config,threshold,IoU,Dice,Precision,Recall,predicted_foreground_pct,predicted_components,reference_components,matched_buildings,missed_buildings,false_positives,merged_buildings,fragmented_buildings
+copenhagen,C,0.4,0.5433804259318201,0.6980022270540516,0.6163843950182434,0.8317602977745105,55.10776661060475,3143,4860,4234,626,0,859,703
+new_york,C,0.4,0.26725352251950946,0.38846896192506614,0.7801593535347416,0.3226197307647308,17.961897673430265,1819,2432,1522,910,0,220,422

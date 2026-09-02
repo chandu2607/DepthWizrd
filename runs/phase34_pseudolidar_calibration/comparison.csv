@@ -1,0 +1,7 @@
+Model,NY_MAE,NY_RMSE,NY_Bias,NY_Pearson,NY_Spearman,NY_gt40m_MAE,NY_Recovery_Ratio,Val_Cph_MAE
+A (Monocular Only),15.4,20.06,-3.01,0.26,0.263,23.35,-194.2%,9.28
+B (Coarse DEM Only),13.34,17.32,-12.48,0.813,0.818,23.56,0.0%,4.49
+C (2D Fusion Baseline),7.45,10.79,-5.41,0.881,0.865,11.64,75.5%,2.88
+D (Geo-Pseudo-3D),7.52,10.89,-5.48,0.878,0.862,11.65,83.5%,2.87
+E (Geo-Pseudo-3D + Geom),7.44,10.77,-5.12,0.877,0.861,11.38,83.9%,2.93
+F (Phase 29 PeakRecoveryMLP),7.59,11.05,-5.39,0.878,0.863,13.31,57.3%,2.38

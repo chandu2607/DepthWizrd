@@ -1,0 +1,12 @@
+{
+  "PHASE_61_STATUS": "DATASET_DISCOVERY_AND_PILOT_BENCHMARK_PREPARATION_ONLY",
+  "REAL_INDIAN_BENCHMARK_FOUND": false,
+  "TRAINING_STARTED": false,
+  "MODEL_RETRAINING_PERFORMED": false,
+  "ARCHITECTURE_CHANGED": false,
+  "INDIAN_BASELINE_RUN": false,
+  "HELD_OUT_INDIAN_TEST": false,
+  "DATASET_DISCOVERY_COMPLETE": true,
+  "PILOT_BENCHMARK_PLAN_READY": true,
+  "FINAL_VERDICT": "No valid Indian benchmark has yet been accepted; the project is still at the evidence gate and must not proceed to training until a real terrain benchmark passes alignment and split checks."
+}

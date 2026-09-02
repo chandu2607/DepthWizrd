@@ -1,0 +1,2 @@
+region,canny_role,footprint_boundary_help,roof_boundary_help,mountains_false_edges,vegetation_false_edges,roads_false_edges,rocks_false_edges,shadows_false_edges,notes
+Uttarakhand,EXPERIMENTAL_ONLY,UNVERIFIED,UNVERIFIED,YES,YES,YES,YES,YES,Canny is a visual diagnostic and is not integrated into production.

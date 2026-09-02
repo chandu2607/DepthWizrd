@@ -1,0 +1,115 @@
+{
+  "phase": "PHASE_77",
+  "status": "IN_DISTRIBUTION_TERRAIN_CONTROL",
+  "train_region": "uttarakhand",
+  "validation_region": "uttarakhand",
+  "locked_region": "sikkim",
+  "target_definition": "LOCAL_RELIEF_TARGET = DEM - median(valid DEM pixels in the crop)",
+  "training_budget": {
+    "train_crops": 1,
+    "validation_crops": 1,
+    "number_of_batches": 1,
+    "optimizer_steps": 1,
+    "epoch_count": 1,
+    "train_time_seconds": 0.4902808666229248,
+    "loss_history": [
+      {
+        "batch": 0,
+        "loss": 0.4943562150001526
+      }
+    ]
+  },
+  "train_crop": {
+    "bbox": [
+      1774,
+      2513,
+      2286,
+      3025
+    ],
+    "valid_pixels": 262144,
+    "local_median_m": 5240.126953125
+  },
+  "validation_crop": {
+    "bbox": [
+      5834,
+      7335,
+      6346,
+      7847
+    ],
+    "valid_pixels": 262144,
+    "local_median_m": 5000.0
+  },
+  "metrics": {
+    "mae": 463.50677490234375,
+    "rmse": 570.4995727539062,
+    "pearson": 0.0641815142515434,
+    "mean_bias": 102.20466613769531,
+    "prediction_std": 1.4360086917877197,
+    "target_std": 561.3602905273438,
+    "error_std": 561.2699584960938,
+    "n": 262144
+  },
+  "gradient_metrics": {
+    "gradient_x_mae": 6.183000564575195,
+    "gradient_y_mae": 4.136542797088623,
+    "gradient_mae_mean": 5.159771680831909
+  },
+  "baselines": {
+    "zero_prediction": {
+      "mae": 462.01953125,
+      "rmse": 563.8639526367188,
+      "pearson": NaN,
+      "mean_bias": 53.07682418823242,
+      "prediction_std": 0.0,
+      "target_std": 561.3602905273438,
+      "error_std": 561.3602905273438,
+      "n": 262144
+    },
+    "training_mean_prediction": {
+      "mae": 462.71649169921875,
+      "rmse": 561.7682495117188,
+      "pearson": NaN,
+      "mean_bias": 21.404949188232422,
+      "prediction_std": 5.7220458984375e-06,
+      "target_std": 561.3602905273438,
+      "error_std": 561.3602905273438,
+      "n": 262144
+    },
+    "training_median_prediction": {
+      "mae": 462.0195617675781,
+      "rmse": 563.864013671875,
+      "pearson": NaN,
+      "mean_bias": 53.07707214355469,
+      "prediction_std": 0.0,
+      "target_std": 561.3602905273438,
+      "error_std": 561.3602905273438,
+      "n": 262144
+    }
+  },
+  "comparison": {
+    "in_distribution": {
+      "train": "uttarakhand",
+      "validation": "uttarakhand",
+      "mae_m": 463.50677490234375,
+      "rmse_m": 570.4995727539062,
+      "pearson": 0.0641815142515434,
+      "mean_bias_m": 102.20466613769531,
+      "prediction_std_m": 1.4360086917877197,
+      "target_std_m": 561.3602905273438,
+      "error_std_m": 561.2699584960938,
+      "gradient_x_mae_m": 6.183000564575195,
+      "gradient_y_mae_m": 4.136542797088623,
+      "gradient_mae_mean_m": 5.159771680831909
+    },
+    "cross_region_reference": {
+      "train": "uttarakhand",
+      "validation": "himachal",
+      "mae_m": 49.20459747314453,
+      "rmse_m": 49.24799346923828,
+      "pearson": 0.035732719176776166,
+      "prediction_std_m": 0.3129335939884186,
+      "target_std_m": 2.054396629333496
+    }
+  },
+  "decision": "IN_DISTRIBUTION_DIAGNOSIS_INCONCLUSIVE"
+}

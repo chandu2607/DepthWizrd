@@ -1,0 +1,8 @@
+{
+  "enabled_by_default": false,
+  "toggle": "Canny structural refinement (experimental)",
+  "role": "optional structural-boundary inspection only",
+  "replaces_building_detector": false,
+  "changes_authoritative_predictions": false,
+  "default_scene_behavior": "Canny is disabled and does not alter Phase 89 component IDs or heights"
+}

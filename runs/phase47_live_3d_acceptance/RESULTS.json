@@ -1,0 +1,27 @@
+{
+  "phase": "Phase 47 \u2014 Final Live 3D Acceptance + Production Pipeline Verification",
+  "verdict": "FINAL_3D_ACCEPTANCE_SUCCESS",
+  "checkpoint_verification": {
+    "path": "runs\\phase43_augmented_unet\\unet_config_D.pt",
+    "sha256": "93ebf2f2da89f57125ba954ad1dfdc7c9abbf3f8330f62bff5d1f2edd3d7ea1e",
+    "status": "ACTIVE_PRODUCTION"
+  },
+  "scientific_lock": {
+    "dsm_pre": "2b9dbb6da7063f98",
+    "dsm_post": "2b9dbb6da7063f98",
+    "match": true,
+    "rgb_pre": "5e101fa1f6ea9286",
+    "rgb_post": "5e101fa1f6ea9286",
+    "match_rgb": true
+  },
+  "building_heights_summary": {
+    "count": 3,
+    "min_m": 37.7,
+    "median_m": 57.3,
+    "mean_m": 56.2,
+    "p95_m": 71.97,
+    "max_m": 73.6
+  },
+  "controls_passed": 17,
+  "controls_total": 17
+}

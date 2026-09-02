@@ -1,0 +1,8 @@
+{
+  "server": {"url": "http://localhost:8511", "started": true, "model_initialization": "completed"},
+  "default_mode": {"loaded": true, "viewer_controls_visible": true, "reset_control_tested": true},
+  "uttarakhand": {"loaded": true, "crs": "EPSG:32644", "iframe_structure_count": 11, "canny_off": true, "canny_on": true, "canny_overlay_accessibility_label": "Canny auxiliary structural edge cue", "pointcloud_off": true, "pointcloud_on": true, "pointcloud_nan_warning_after_fix": false, "screenshots": ["VISUALS/uttarakhand_canny_off.png", "VISUALS/uttarakhand_canny_on.png", "VISUALS/uttarakhand_pointcloud_on.png"]},
+  "himachal": {"loaded": true, "crs": "EPSG:32643", "iframe_structure_count": 1, "pointcloud_on": true, "screenshot": "VISUALS/himachal_pointcloud_on.png"},
+  "interaction": {"orbit_pan_zoom_visible": true, "camera_presets_visible": true, "reset_camera_clicked": true},
+  "browser_notes": "Actual Streamlit page and iframe were inspected. Streamlit accessibility snapshots expose the Canny image layer label and the existing Three.js controls; point-cloud geometry is visible in the canvas and no post-fix NaN warning was observed."
+}

@@ -1,0 +1,15 @@
+metric,value
+elevation_min,0.0
+elevation_max,0.0
+elevation_mean,0.0
+elevation_std,0.0
+slope_min_deg,0.0
+slope_max_deg,0.0
+slope_mean_deg,0.0
+slope_std_deg,0.0
+mean_overall_slope_deg,0.0
+median_slope_deg,0.0
+max_slope_deg,0.0
+mean_terrain_slope_deg,0.0
+p95_terrain_slope_deg,0.0
+steep_slope_pct_area,0.0

@@ -1,0 +1,9 @@
+parameter,training,production,match?
+image_shape,source tile 512x512 -> model 256x256,NYC source 512x512 -> model 256x256,Yes
+color_order,"RGB (stored as np.uint8 RGB before /255.0, in _prep_x)",RGB (raster loader returns RGB),Yes
+pixel_scale,uint8 0..255 => /255 if max>1.5,"uint8 0..255 => app keeps uint8, passed to estimator._prep_x","Yes, same conversion path"
+depth_normalization,depth_norm = (depth - d_mean) / (d_std + 1e-6),same function _prep_x applies same normalization,Yes
+resize,"cv2.resize(rgb, (res,res)); cv2.resize(depth, (res,res))",same resize in estimator._prep_x,Yes
+crop,none in _prep_x; whole tile at train_res,none in _prep_x; production uses full tile then resize,Yes
+channels,"x = concat([rgb.transpose(2,0,1), depth_norm[None]], axis=0) => 4 channels",same concat in _prep_x,Yes
+model_output,"mask_logits, then sigmoid",same direct sigmoid in model.forward,Yes

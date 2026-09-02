@@ -1,0 +1,14 @@
+{
+  "status": "NO_VALID_INDIAN_BENCHMARK_FOUND",
+  "crs_match": null,
+  "resolution_match": null,
+  "overlap_percentage": null,
+  "bounds": null,
+  "pixel_dimensions": null,
+  "nodata_percentage": null,
+  "elevation_min_m": null,
+  "elevation_max_m": null,
+  "elevation_mean_m": null,
+  "elevation_std_m": null,
+  "note": "No real Indian benchmark tile was selected; no actual alignment statistics were computed."
+}

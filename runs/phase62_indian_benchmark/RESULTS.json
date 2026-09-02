@@ -1,0 +1,13 @@
+{
+  "PHASE_62_STATUS": "BENCHMARK_ACQUISITION_PENDING",
+  "VALID_INDIAN_BENCHMARK": false,
+  "REGION": "Uttarakhand (candidate)",
+  "STATE": "Uttarakhand",
+  "OPTICAL_SOURCE": "Sentinel-2 / Bhuvan candidate",
+  "ELEVATION_SOURCE": "Copernicus DEM GLO-30 / Bhuvan DEM candidate",
+  "REAL_INDIAN_BASELINE": false,
+  "INDIAN_TRAINING_STARTED": false,
+  "ARCHITECTURE_CHANGED": false,
+  "MODEL_RETRAINED": false,
+  "FINAL_VERDICT": "Benchmark acquisition and alignment validation are still pending; no training or Indian readiness claim is allowed."
+}

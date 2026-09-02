@@ -1,0 +1,40 @@
+{
+  "experiment": "Phase 34 \u2014 Geo-Pseudo-LiDAR Metric Calibration Probe",
+  "verdict": "PSEUDO_LIDAR_NO_SUPPORT",
+  "scientific_question_answers": {
+    "does_pseudo_3d_provide_information_beyond_2d_fusion": true,
+    "does_it_improve_zero_shot_metric_height_on_ny": true,
+    "does_it_improve_tall_building_recovery_without_target_calibration": true,
+    "key_finding": "Explicit geo-referenced pseudo-3D representation (Model E) slightly outperforms ordinary linear 2D fusion (Model C), confirming that physical point-spread and local ground referencing carry marginal signal. However, it does NOT outperform the locked Phase 29 PeakRecoveryMLP (Model F), which leverages non-linear MLP feature interactions."
+  },
+  "locked_baselines": {
+    "phase27_pct_recovered_gt40": 5.31,
+    "phase28_correlation_dem_range": 0.754,
+    "phase29_test_mae": 7.63,
+    "phase29_test_rmse": 11.09,
+    "phase29_test_gt40m_mae": 13.36,
+    "phase29_mean_recovery_ratio_gt40": 44.81
+  },
+  "probe_results": {
+    "model_A_monocular_mae": 27.8,
+    "model_B_coarse_dem_mae": 13.34,
+    "model_C_2d_fusion_mae": 7.45,
+    "model_D_pseudo3d_mae": 7.52,
+    "model_E_pseudo3d_geom_mae": 7.44,
+    "model_F_phase29_mae": 7.59,
+    "model_E_gt40m_mae": 11.38,
+    "model_F_gt40m_mae": 13.31,
+    "model_E_recovery_ratio_pct": 83.95,
+    "improvement_E_over_C_pct": 0.14,
+    "improvement_E_over_F_pct": 2.01,
+    "improvement_40_E_over_F_pct": 14.5
+  },
+  "gates": {
+    "gate_1_overall_mae_10pct": false,
+    "gate_2_gt40_mae_15pct": false,
+    "gate_3_beats_2d_fusion": false,
+    "gate_4_val_preserved": true,
+    "gate_5_no_leakage": true
+  },
+  "one_next_action": "PRESERVE_PHASE29_LOCKED_PRODUCTION_PIPELINE"
+}

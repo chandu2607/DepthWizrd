@@ -1,0 +1,6 @@
+slope_bin,region,mean_predicted_height_m,mean_reference_height_m,mean_abs_error_m,n_samples,notes
+0-5,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,0,No valid Indian terrain benchmark selected yet; no actual reference data processed in this audit phase
+5-15,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,0,No valid Indian terrain benchmark selected yet; no actual reference data processed in this audit phase
+15-30,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,0,No valid Indian terrain benchmark selected yet; no actual reference data processed in this audit phase
+30-45,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,0,No valid Indian terrain benchmark selected yet; no actual reference data processed in this audit phase
+>45,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,0,No valid Indian terrain benchmark selected yet; no actual reference data processed in this audit phase

@@ -1,0 +1,77 @@
+{
+  "dsm_stats_before": {
+    "min": 53.08,
+    "max": 166.57,
+    "mean": 86.76,
+    "p95": 127.38,
+    "p99": 148.61
+  },
+  "dsm_unchanged": true,
+  "mesh_A": {
+    "n_vertices": 262144,
+    "n_cells": 261121,
+    "z_min": 53.1,
+    "z_max": 166.6,
+    "max_cell_dz": 35.2,
+    "n_removed": 0,
+    "pct_removed": 0.0
+  },
+  "mesh_B": {
+    "n_vertices": 262144,
+    "n_cells": 257893,
+    "z_min": 53.1,
+    "z_max": 166.6,
+    "dz_threshold_m": 10.0,
+    "n_quads_removed": 3228,
+    "pct_removed": 1.24,
+    "max_dz_remaining_m": 8.94
+  },
+  "mesh_C": {
+    "n_vertices": 262144,
+    "n_cells": 257921,
+    "z_min": 53.1,
+    "z_max": 166.6,
+    "n_snapped_vertices": 5728
+  },
+  "threshold_sensitivity": {
+    "B_5m": {
+      "dz_threshold_m": 5.0,
+      "n_quads_removed": 4067,
+      "pct_removed": 1.56,
+      "max_dz_remaining_m": 5.0
+    },
+    "B_10m": {
+      "dz_threshold_m": 10.0,
+      "n_quads_removed": 3228,
+      "pct_removed": 1.24,
+      "max_dz_remaining_m": 8.94
+    },
+    "B_15m": {
+      "dz_threshold_m": 15.0,
+      "n_quads_removed": 2359,
+      "pct_removed": 0.9,
+      "max_dz_remaining_m": 14.98
+    }
+  },
+  "curtain_check": {
+    "quads_dz_gt5m_before": 4067,
+    "pct_before": 1.56,
+    "quads_dz_gt10m_removed_by_B": 3228,
+    "pct_curtain_eliminated": 79.0,
+    "max_dz_remaining_m": 8.94
+  },
+  "export_reload_ok": true,
+  "interactive_ok": true,
+  "success_criteria": {
+    "curtain_artifacts_reduced": true,
+    "building_roofs_preserved": true,
+    "terrain_elevation_preserved": true,
+    "dsm_values_untouched": true,
+    "export_reload_verified": true,
+    "no_widespread_holes": true,
+    "rgb_texture_alignment": true,
+    "interactive_render_ok": true
+  },
+  "verdict": "MESH_REPAIR_SUCCESS",
+  "recommended_next_action": "INTEGRATE_MESH_B_INTO_APP_RENDER_PIPELINE"
+}

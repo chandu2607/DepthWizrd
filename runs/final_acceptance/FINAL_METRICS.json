@@ -1,0 +1,41 @@
+{
+  "phase29_production_baseline": {
+    "model": "Phase 29 PeakRecoveryMLP (Ensemble: seed_0 + seed_1)",
+    "dataset": "DFC2023 Multi-City (11 cities, ~452 tiles)",
+    "test_set": "New York (Zero-Shot)",
+    "ny_overall_mae_m": 7.63,
+    "ny_rmse_m": 11.24,
+    "ny_gt40m_mae_m": 13.36,
+    "ny_recovery_ratio_pct": 44.81,
+    "phase27_skyscraper_recovery_pct": 5.31,
+    "pearson_r": 0.878,
+    "scientific_status": "LOCKED_BASELINE"
+  },
+  "phase34_pseudolidar": {
+    "model": "Model E (Geo-Pseudo-3D + Physical Geometry)",
+    "ny_mae_m": 7.44,
+    "ny_gt40m_mae_m": 11.38,
+    "verdict": "PSEUDO_LIDAR_NO_SUPPORT",
+    "reason": "Not significantly better than 2D fusion (Model C: 7.45m MAE); fails tall building gate vs Phase 29"
+  },
+  "phase35_sparse_metric": {
+    "method": "Simulated Sparse True-Metric Anchors (0.5% density)",
+    "ny_mae_m": 7.38,
+    "ny_gt40m_mae_m": 11.20,
+    "verdict": "SPARSE_METRIC_PARTIAL_SUPPORT",
+    "reason": "Genuine metric anchors provide real calibration; requires minimum ~0.1% density; viable as optional sensor fusion pathway"
+  },
+  "smoke_test_results": {
+    "test_1_png_rdm": "PASS",
+    "test_2_geotiff_dsm": "PASS (Elev: 53.1m to 155.5m on NYC)",
+    "test_3_slope": "PASS (Mean terrain slope: 45.91 deg)",
+    "test_4_massing": "PASS (24 buildings, max height: 62.7m)",
+    "test_5_validation": "PASS (DSM MAE: 13.49m, Pearson R: 0.721)",
+    "test_6_webgl": "PASS (Three.js payload generated)"
+  },
+  "app_server": {
+    "url": "http://localhost:8501",
+    "status": "RUNNING",
+    "command": "streamlit run app.py"
+  }
+}

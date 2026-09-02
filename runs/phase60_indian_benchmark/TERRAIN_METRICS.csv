@@ -1,0 +1,6 @@
+slope_range,mae_m,rmse_m,bias_m,correlation,valid_pixels,notes
+0-10,NA,NA,NA,NA,0,"No valid Indian benchmark selected; no metric comparison performed."
+10-20,NA,NA,NA,NA,0,"No valid Indian benchmark selected; no metric comparison performed."
+20-30,NA,NA,NA,NA,0,"No valid Indian benchmark selected; no metric comparison performed."
+30-40,NA,NA,NA,NA,0,"No valid Indian benchmark selected; no metric comparison performed."
+>40,NA,NA,NA,NA,0,"No valid Indian benchmark selected; no metric comparison performed."

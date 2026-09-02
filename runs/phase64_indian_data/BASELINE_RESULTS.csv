@@ -1,0 +1,2 @@
+dataset,task,checkpoint,checkpoint_sha256,preprocessing,input_dimensions,output_dimensions,runtime_sec,MAE,RMSE,bias,correlation,notes
+Uttarakhand real crop,relative depth inference,depth-anything/Depth-Anything-V2-Small-hf,06b9eb28015e13346b1c67fd2a5a4a196dccf413f645c0b5e9a13448f0321945,RGB->DepthAnythingV2->resize to original,2048x2048,2048x2048,0.019,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,Current production model applied unchanged to real Indian scene; no metric reference available for this scene at this stage.

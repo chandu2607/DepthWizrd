@@ -1,0 +1,4 @@
+split,region,state,optical_status,elevation_status,building_gt_status,leakage_check,notes
+TRAIN,Uttarakhand,Uttarakhand,REAL,REAL_COARSE_DEM,NO,PASS (only one region exists),Real benchmark pair exists; no building-height ground truth.
+VALIDATION,Himachal Pradesh,Himachal Pradesh,CANDIDATE,CANDIDATE,PENDING,UNVERIFIED,Geographically separate candidate only; physical acquisition pending.
+TEST,Sikkim,Sikkim,CANDIDATE,CANDIDATE,PENDING,UNVERIFIED,Geographically separate candidate only; physical acquisition pending.

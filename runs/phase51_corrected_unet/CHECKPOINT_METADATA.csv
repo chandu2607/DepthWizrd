@@ -1,0 +1,9 @@
+config,seed,checkpoint,sha256,metadata_stored
+A,0,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase51_corrected_unet\unet_A_seed0.pt,761ca9da116981ed20f8a94ae61a1a222d34d8ba319a749ddb6ad158cab67770,True
+A,1,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase51_corrected_unet\unet_A_seed1.pt,cc6cc5a58f2340ef26a658d66d0cf1e3f422d6326ed01b766fe99597a53ae7ce,True
+B,0,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase51_corrected_unet\unet_B_seed0.pt,146237ec6841861782d33a9c1153506472ab70e10328f29dd962d6ac6a2d91b4,True
+B,1,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase51_corrected_unet\unet_B_seed1.pt,4970c16bfdf973885d1f5ba4807990dab8ba90cbfc8a3053e7fee08c8e27e4a9,True
+C,0,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase51_corrected_unet\unet_C_seed0.pt,c4db67dd8587774410c3424a9b4346f53fb1f4a6a1187147eb58ea022f9adece,True
+C,1,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase51_corrected_unet\unet_C_seed1.pt,d82ad11510346176b2918a250f49835a57d9a4c208212a8250e379d78151c1ac,True
+D,0,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase51_corrected_unet\unet_D_seed0.pt,1d7a36a97af84347f55241c8ca0a8b87090e74602633a44ec2d718438123e466,True
+D,1,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase51_corrected_unet\unet_D_seed1.pt,6b02e8e74a0905c903eddbbff978d0eaf12a7df4502833c70a46153783e79d0b,True

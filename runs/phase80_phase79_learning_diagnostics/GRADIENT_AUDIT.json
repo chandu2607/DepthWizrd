@@ -1,0 +1,261 @@
+{
+  "model_name": "TerrainUNet",
+  "train_batch_shape": [
+    1,
+    4,
+    512,
+    512
+  ],
+  "loss": 0.443539023399353,
+  "gradients": [
+    {
+      "name": "e1.0.weight",
+      "param_count": 1152,
+      "gradient_norm": 0.009074046276509762,
+      "gradient_mean": -2.69313150056405e-05,
+      "gradient_std": 0.0002659867168404162,
+      "nonzero_fraction": 0.4913194477558136,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "e1.0.bias",
+      "param_count": 32,
+      "gradient_norm": 0.0021010551135987043,
+      "gradient_mean": -4.6801262215012684e-05,
+      "gradient_std": 0.00036845714203082025,
+      "nonzero_fraction": 1.0,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "e1.2.weight",
+      "param_count": 9216,
+      "gradient_norm": 0.034246187657117844,
+      "gradient_mean": 9.047269486472942e-06,
+      "gradient_std": 0.0003566164232324809,
+      "nonzero_fraction": 0.8318142294883728,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "e1.2.bias",
+      "param_count": 32,
+      "gradient_norm": 0.005409664008766413,
+      "gradient_mean": -1.7416550690541044e-05,
+      "gradient_std": 0.0009561438928358257,
+      "nonzero_fraction": 0.9375,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "e2.0.weight",
+      "param_count": 18432,
+      "gradient_norm": 0.0004090295115020126,
+      "gradient_mean": -2.7877436536982714e-07,
+      "gradient_std": 2.9998629997862736e-06,
+      "nonzero_fraction": 0.666015625,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "e2.0.bias",
+      "param_count": 64,
+      "gradient_norm": 0.0001487519621150568,
+      "gradient_mean": 9.750435765454313e-07,
+      "gradient_std": 1.8568412997410633e-05,
+      "nonzero_fraction": 0.84375,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "e2.2.weight",
+      "param_count": 36864,
+      "gradient_norm": 0.0004974938929080963,
+      "gradient_mean": -1.6969821103884897e-07,
+      "gradient_std": 2.58555246546166e-06,
+      "nonzero_fraction": 0.6127387285232544,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "e2.2.bias",
+      "param_count": 64,
+      "gradient_norm": 0.00042894514626823366,
+      "gradient_mean": -6.94000254952698e-06,
+      "gradient_std": 5.316711394698359e-05,
+      "nonzero_fraction": 0.890625,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "bottleneck.0.weight",
+      "param_count": 73728,
+      "gradient_norm": 0.0001384451607009396,
+      "gradient_mean": -3.803531001267402e-08,
+      "gradient_std": 5.084525014353858e-07,
+      "nonzero_fraction": 0.5702040195465088,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "bottleneck.0.bias",
+      "param_count": 128,
+      "gradient_norm": 0.00022418769367504865,
+      "gradient_mean": -3.1450381356989965e-06,
+      "gradient_std": 1.9564404283300973e-05,
+      "nonzero_fraction": 0.7578125,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "bottleneck.2.weight",
+      "param_count": 147456,
+      "gradient_norm": 0.0003294178459327668,
+      "gradient_mean": -7.315719585676561e-08,
+      "gradient_std": 8.547352763343952e-07,
+      "nonzero_fraction": 0.4508192241191864,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "bottleneck.2.bias",
+      "param_count": 128,
+      "gradient_norm": 0.0005140370922163129,
+      "gradient_mean": -6.785094228689559e-06,
+      "gradient_std": 4.492540392675437e-05,
+      "nonzero_fraction": 0.6796875,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "d2.0.weight",
+      "param_count": 110592,
+      "gradient_norm": 0.0011816270416602492,
+      "gradient_mean": -4.944562874698022e-07,
+      "gradient_std": 3.5186233162676217e-06,
+      "nonzero_fraction": 0.40911638736724854,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "d2.0.bias",
+      "param_count": 64,
+      "gradient_norm": 0.001402194146066904,
+      "gradient_mean": -5.1039900426985696e-05,
+      "gradient_std": 0.00016767824126873165,
+      "nonzero_fraction": 0.609375,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "d2.2.weight",
+      "param_count": 36864,
+      "gradient_norm": 0.0013037570752203465,
+      "gradient_mean": -2.5141748682955267e-09,
+      "gradient_std": 6.790401585021755e-06,
+      "nonzero_fraction": 0.341064453125,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "d2.2.bias",
+      "param_count": 64,
+      "gradient_norm": 0.0037633164320141077,
+      "gradient_mean": 2.063062129309401e-05,
+      "gradient_std": 0.00046996193123050034,
+      "nonzero_fraction": 0.59375,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "d1.0.weight",
+      "param_count": 27648,
+      "gradient_norm": 0.0616159662604332,
+      "gradient_mean": 5.002998932468472e-06,
+      "gradient_std": 0.00037052875268273056,
+      "nonzero_fraction": 0.5455367565155029,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "d1.0.bias",
+      "param_count": 32,
+      "gradient_norm": 0.011172263883054256,
+      "gradient_mean": 4.829367026104592e-05,
+      "gradient_std": 0.0019744052551686764,
+      "nonzero_fraction": 0.875,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "d1.2.weight",
+      "param_count": 9216,
+      "gradient_norm": 0.0309588722884655,
+      "gradient_mean": 1.1925880244234577e-05,
+      "gradient_std": 0.00032226767507381737,
+      "nonzero_fraction": 0.5983073115348816,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "d1.2.bias",
+      "param_count": 32,
+      "gradient_norm": 0.01336121466010809,
+      "gradient_mean": 7.774833647999913e-06,
+      "gradient_std": 0.0023619388230144978,
+      "nonzero_fraction": 0.78125,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "head.weight",
+      "param_count": 32,
+      "gradient_norm": 0.00897985603660345,
+      "gradient_mean": -0.00030201804474927485,
+      "gradient_std": 0.001558433985337615,
+      "nonzero_fraction": 0.78125,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    },
+    {
+      "name": "head.bias",
+      "param_count": 1,
+      "gradient_norm": 0.01753610372543335,
+      "gradient_mean": -0.01753610372543335,
+      "gradient_std": 0.0,
+      "nonzero_fraction": 1.0,
+      "nan_count": 0,
+      "inf_count": 0,
+      "finite_fraction": 1.0
+    }
+  ],
+  "health_summary": {
+    "has_any_nan": false,
+    "has_any_inf": false,
+    "earliest_layer_nonzero": "e1.0.weight",
+    "layer_with_largest_norm": "d1.0.weight",
+    "mean_gradient_norm": 0.009308928768653212
+  }
+}

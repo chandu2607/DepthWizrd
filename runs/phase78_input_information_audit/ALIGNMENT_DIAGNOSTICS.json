@@ -1,0 +1,34 @@
+{
+  "train_crop_bbox": [
+    1774,
+    2513,
+    2286,
+    3025
+  ],
+  "target_shape": [
+    512,
+    512
+  ],
+  "rgb_shape": [
+    3,
+    512,
+    512
+  ],
+  "depth_shape": [
+    512,
+    512
+  ],
+  "feature_tensor_shape": [
+    4,
+    512,
+    512
+  ],
+  "height_equal": true,
+  "width_equal": true,
+  "resize_ops": [
+    "RGB crop from aligned_RGB.tif",
+    "DEM crop from aligned_DEM.tif",
+    "depth model infer with target_hw=(512,512)",
+    "feature concat to [4,512,512]"
+  ]
+}

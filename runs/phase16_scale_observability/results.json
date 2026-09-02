@@ -1,0 +1,16 @@
+{
+  "n_buildings": 3468,
+  "footprint_height_correlation": {
+    "pearson_r": 0.4145746470474351,
+    "pearson_p": 3.772060318940493e-144,
+    "spearman_r": 0.5989911698977969,
+    "spearman_p": 0.0
+  },
+  "scale_regression": {
+    "r2_depth": 0.033981010987996885,
+    "mae_depth": 15.5411296657357,
+    "r2_combined": 0.10857478457646219,
+    "mae_combined": 14.65366917192695
+  },
+  "final_decision": "NO RELIABLE PHYSICAL CUE \u2014 LEARNED SCALE METHOD REQUIRED"
+}

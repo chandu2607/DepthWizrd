@@ -1,0 +1,17 @@
+{
+  "status": "NO_REAL_INFERENCE_PERFORMED",
+  "benchmark": null,
+  "region": null,
+  "checkpoint": null,
+  "checkpoint_sha256": null,
+  "model_architecture": "DepthAnythingV2 + CalibrationEngine + slope pipeline",
+  "preprocessing_configuration": "Repository current path: app.py -> load_raster_input -> DepthAnythingV2.infer() -> CalibrationEngine.calibrate()",
+  "thresholds": "No Indian benchmark threshold tuning performed; current repository threshold logic remains unchanged.",
+  "input_dimensions": null,
+  "output_dimensions": null,
+  "inference_time_s": null,
+  "real_inference": false,
+  "real_metrics": false,
+  "indian_validation": false,
+  "note": "No real Indian mountainous benchmark tile is available in this workspace, so no legitimate inference run was executed."
+}

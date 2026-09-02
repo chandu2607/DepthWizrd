@@ -1,0 +1,17 @@
+{
+  "calibration_mode": "CalibrationMode.STRUCTURAL_PRIOR",
+  "is_metric": true,
+  "units": "meters",
+  "ndsm_min": 0.0,
+  "ndsm_max": 62.281,
+  "ndsm_p50": 9.48,
+  "ndsm_p95": 39.782,
+  "ndsm_gte_1_8_pct": 79.49,
+  "mask_bldg_pct": 22.2,
+  "candidate_mask_pct": 22.2,
+  "components_real": 22,
+  "components_mega": 1,
+  "components_fragment": 0,
+  "footprints_extracted": 22,
+  "critical_issues": []
+}

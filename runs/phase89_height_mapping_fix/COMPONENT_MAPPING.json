@@ -1,0 +1,1115 @@
+{
+  "uttarakhand": {
+    "model_order": [
+      {
+        "model_component_id": 7,
+        "area_pixels": 32011,
+        "rank": 0,
+        "centroid_xy_256": [
+          115.90109649807879,
+          190.8194683077692
+        ],
+        "bbox_256": [
+          1,
+          90,
+          255,
+          166
+        ]
+      },
+      {
+        "model_component_id": 1,
+        "area_pixels": 3674,
+        "rank": 1,
+        "centroid_xy_256": [
+          24.889765922700054,
+          39.68780620577028
+        ],
+        "bbox_256": [
+          0,
+          0,
+          90,
+          87
+        ]
+      },
+      {
+        "model_component_id": 4,
+        "area_pixels": 1196,
+        "rank": 2,
+        "centroid_xy_256": [
+          89.50752508361204,
+          85.92976588628763
+        ],
+        "bbox_256": [
+          69,
+          61,
+          44,
+          43
+        ]
+      },
+      {
+        "model_component_id": 9,
+        "area_pixels": 644,
+        "rank": 3,
+        "centroid_xy_256": [
+          244.68944099378882,
+          124.4611801242236
+        ],
+        "bbox_256": [
+          233,
+          104,
+          23,
+          38
+        ]
+      },
+      {
+        "model_component_id": 6,
+        "area_pixels": 170,
+        "rank": 4,
+        "centroid_xy_256": [
+          150.4294117647059,
+          93.17647058823529
+        ],
+        "bbox_256": [
+          144,
+          86,
+          14,
+          16
+        ]
+      },
+      {
+        "model_component_id": 10,
+        "area_pixels": 48,
+        "rank": 5,
+        "centroid_xy_256": [
+          201.79166666666666,
+          110.3125
+        ],
+        "bbox_256": [
+          197,
+          107,
+          12,
+          7
+        ]
+      },
+      {
+        "model_component_id": 3,
+        "area_pixels": 43,
+        "rank": 6,
+        "centroid_xy_256": [
+          250.97674418604652,
+          43.53488372093023
+        ],
+        "bbox_256": [
+          247,
+          40,
+          8,
+          7
+        ]
+      },
+      {
+        "model_component_id": 2,
+        "area_pixels": 25,
+        "rank": 7,
+        "centroid_xy_256": [
+          56.24,
+          24.96
+        ],
+        "bbox_256": [
+          54,
+          23,
+          6,
+          5
+        ]
+      },
+      {
+        "model_component_id": 5,
+        "area_pixels": 23,
+        "rank": 8,
+        "centroid_xy_256": [
+          114.65217391304348,
+          78.47826086956522
+        ],
+        "bbox_256": [
+          112,
+          77,
+          7,
+          4
+        ]
+      }
+    ],
+    "selected_model_order": [
+      {
+        "model_sorted_rank": 0,
+        "model_component_id": 7,
+        "model_area_pixels": 32011,
+        "final_component_id": 7,
+        "predicted_height_m": 19.001113891601562
+      },
+      {
+        "model_sorted_rank": 1,
+        "model_component_id": 1,
+        "model_area_pixels": 3674,
+        "final_component_id": 1,
+        "predicted_height_m": 10.312237739562988
+      },
+      {
+        "model_sorted_rank": 2,
+        "model_component_id": 4,
+        "model_area_pixels": 1196,
+        "final_component_id": 4,
+        "predicted_height_m": 41.42979431152344
+      },
+      {
+        "model_sorted_rank": 3,
+        "model_component_id": 9,
+        "model_area_pixels": 644,
+        "final_component_id": 9,
+        "predicted_height_m": 27.714065551757812
+      },
+      {
+        "model_sorted_rank": 4,
+        "model_component_id": 6,
+        "model_area_pixels": 170,
+        "final_component_id": 6,
+        "predicted_height_m": 21.944406509399414
+      },
+      {
+        "model_sorted_rank": 5,
+        "model_component_id": 10,
+        "model_area_pixels": 48,
+        "final_component_id": 10,
+        "predicted_height_m": 12.293121337890625
+      },
+      {
+        "model_sorted_rank": 6,
+        "model_component_id": 3,
+        "model_area_pixels": 43,
+        "final_component_id": 3,
+        "predicted_height_m": 11.876399993896484
+      },
+      {
+        "model_sorted_rank": 7,
+        "model_component_id": 2,
+        "model_area_pixels": 25,
+        "final_component_id": 2,
+        "predicted_height_m": 5.191013336181641
+      },
+      {
+        "model_sorted_rank": 8,
+        "model_component_id": 5,
+        "model_area_pixels": 23,
+        "final_component_id": 5,
+        "predicted_height_m": 6.424503326416016
+      }
+    ],
+    "explicit_predicted_height_by_component_id": {
+      "7": 19.001113891601562,
+      "1": 10.312237739562988,
+      "4": 41.42979431152344,
+      "9": 27.714065551757812,
+      "6": 21.944406509399414,
+      "10": 12.293121337890625,
+      "3": 11.876399993896484,
+      "2": 5.191013336181641,
+      "5": 6.424503326416016
+    }
+  },
+  "himachal": {
+    "model_order": [
+      {
+        "model_component_id": 3,
+        "area_pixels": 4610,
+        "rank": 0,
+        "centroid_xy_256": [
+          241.81908893709328,
+          122.00867678958785
+        ],
+        "bbox_256": [
+          192,
+          0,
+          64,
+          256
+        ]
+      },
+      {
+        "model_component_id": 1,
+        "area_pixels": 789,
+        "rank": 1,
+        "centroid_xy_256": [
+          134.29024081115335,
+          8.583016476552599
+        ],
+        "bbox_256": [
+          101,
+          0,
+          92,
+          30
+        ]
+      },
+      {
+        "model_component_id": 37,
+        "area_pixels": 732,
+        "rank": 2,
+        "centroid_xy_256": [
+          49.29234972677595,
+          112.97677595628416
+        ],
+        "bbox_256": [
+          29,
+          96,
+          39,
+          32
+        ]
+      },
+      {
+        "model_component_id": 31,
+        "area_pixels": 628,
+        "rank": 3,
+        "centroid_xy_256": [
+          192.2563694267516,
+          93.9140127388535
+        ],
+        "bbox_256": [
+          171,
+          69,
+          38,
+          62
+        ]
+      },
+      {
+        "model_component_id": 16,
+        "area_pixels": 548,
+        "rank": 4,
+        "centroid_xy_256": [
+          140.28649635036496,
+          35.2956204379562
+        ],
+        "bbox_256": [
+          114,
+          23,
+          55,
+          29
+        ]
+      },
+      {
+        "model_component_id": 56,
+        "area_pixels": 534,
+        "rank": 5,
+        "centroid_xy_256": [
+          21.220973782771537,
+          213.4812734082397
+        ],
+        "bbox_256": [
+          3,
+          166,
+          40,
+          90
+        ]
+      },
+      {
+        "model_component_id": 41,
+        "area_pixels": 308,
+        "rank": 6,
+        "centroid_xy_256": [
+          202.41883116883116,
+          131.57467532467533
+        ],
+        "bbox_256": [
+          191,
+          115,
+          21,
+          32
+        ]
+      },
+      {
+        "model_component_id": 26,
+        "area_pixels": 303,
+        "rank": 7,
+        "centroid_xy_256": [
+          156.0957095709571,
+          66.48844884488449
+        ],
+        "bbox_256": [
+          142,
+          53,
+          30,
+          28
+        ]
+      },
+      {
+        "model_component_id": 65,
+        "area_pixels": 295,
+        "rank": 8,
+        "centroid_xy_256": [
+          126.65084745762712,
+          221.67796610169492
+        ],
+        "bbox_256": [
+          115,
+          212,
+          25,
+          27
+        ]
+      },
+      {
+        "model_component_id": 64,
+        "area_pixels": 191,
+        "rank": 9,
+        "centroid_xy_256": [
+          47.29319371727749,
+          220.2460732984293
+        ],
+        "bbox_256": [
+          39,
+          211,
+          20,
+          17
+        ]
+      },
+      {
+        "model_component_id": 60,
+        "area_pixels": 171,
+        "rank": 10,
+        "centroid_xy_256": [
+          165.046783625731,
+          187.16374269005848
+        ],
+        "bbox_256": [
+          157,
+          179,
+          17,
+          20
+        ]
+      },
+      {
+        "model_component_id": 39,
+        "area_pixels": 150,
+        "rank": 11,
+        "centroid_xy_256": [
+          100.81333333333333,
+          110.92
+        ],
+        "bbox_256": [
+          92,
+          105,
+          18,
+          13
+        ]
+      },
+      {
+        "model_component_id": 21,
+        "area_pixels": 123,
+        "rank": 12,
+        "centroid_xy_256": [
+          64.71544715447155,
+          48.02439024390244
+        ],
+        "bbox_256": [
+          55,
+          42,
+          19,
+          12
+        ]
+      },
+      {
+        "model_component_id": 74,
+        "area_pixels": 114,
+        "rank": 13,
+        "centroid_xy_256": [
+          11.105263157894736,
+          247.06140350877192
+        ],
+        "bbox_256": [
+          4,
+          243,
+          16,
+          10
+        ]
+      },
+      {
+        "model_component_id": 23,
+        "area_pixels": 99,
+        "rank": 14,
+        "centroid_xy_256": [
+          41.83838383838384,
+          50.15151515151515
+        ],
+        "bbox_256": [
+          36,
+          44,
+          13,
+          14
+        ]
+      },
+      {
+        "model_component_id": 52,
+        "area_pixels": 85,
+        "rank": 15,
+        "centroid_xy_256": [
+          100.52941176470588,
+          167.18823529411765
+        ],
+        "bbox_256": [
+          97,
+          161,
+          9,
+          13
+        ]
+      },
+      {
+        "model_component_id": 10,
+        "area_pixels": 82,
+        "rank": 16,
+        "centroid_xy_256": [
+          163.9390243902439,
+          14.817073170731707
+        ],
+        "bbox_256": [
+          156,
+          10,
+          16,
+          10
+        ]
+      },
+      {
+        "model_component_id": 35,
+        "area_pixels": 82,
+        "rank": 17,
+        "centroid_xy_256": [
+          214.0487804878049,
+          96.45121951219512
+        ],
+        "bbox_256": [
+          210,
+          91,
+          11,
+          13
+        ]
+      },
+      {
+        "model_component_id": 40,
+        "area_pixels": 73,
+        "rank": 18,
+        "centroid_xy_256": [
+          23.698630136986303,
+          121.89041095890411
+        ],
+        "bbox_256": [
+          21,
+          113,
+          9,
+          16
+        ]
+      },
+      {
+        "model_component_id": 38,
+        "area_pixels": 66,
+        "rank": 19,
+        "centroid_xy_256": [
+          133.34848484848484,
+          108.81818181818181
+        ],
+        "bbox_256": [
+          130,
+          103,
+          7,
+          16
+        ]
+      },
+      {
+        "model_component_id": 73,
+        "area_pixels": 66,
+        "rank": 20,
+        "centroid_xy_256": [
+          130.54545454545453,
+          244.9848484848485
+        ],
+        "bbox_256": [
+          125,
+          241,
+          12,
+          9
+        ]
+      },
+      {
+        "model_component_id": 43,
+        "area_pixels": 64,
+        "rank": 21,
+        "centroid_xy_256": [
+          74.296875,
+          138.6875
+        ],
+        "bbox_256": [
+          69,
+          135,
+          11,
+          9
+        ]
+      },
+      {
+        "model_component_id": 55,
+        "area_pixels": 60,
+        "rank": 22,
+        "centroid_xy_256": [
+          83.85,
+          168.21666666666667
+        ],
+        "bbox_256": [
+          80,
+          163,
+          9,
+          15
+        ]
+      },
+      {
+        "model_component_id": 59,
+        "area_pixels": 59,
+        "rank": 23,
+        "centroid_xy_256": [
+          227.35593220338984,
+          179.77966101694915
+        ],
+        "bbox_256": [
+          223,
+          176,
+          10,
+          9
+        ]
+      },
+      {
+        "model_component_id": 13,
+        "area_pixels": 58,
+        "rank": 24,
+        "centroid_xy_256": [
+          185.44827586206895,
+          22.448275862068964
+        ],
+        "bbox_256": [
+          177,
+          20,
+          17,
+          7
+        ]
+      },
+      {
+        "model_component_id": 75,
+        "area_pixels": 58,
+        "rank": 25,
+        "centroid_xy_256": [
+          70.65517241379311,
+          250.41379310344828
+        ],
+        "bbox_256": [
+          60,
+          245,
+          17,
+          11
+        ]
+      },
+      {
+        "model_component_id": 47,
+        "area_pixels": 55,
+        "rank": 26,
+        "centroid_xy_256": [
+          181.21818181818182,
+          154.56363636363636
+        ],
+        "bbox_256": [
+          173,
+          150,
+          17,
+          9
+        ]
+      },
+      {
+        "model_component_id": 48,
+        "area_pixels": 55,
+        "rank": 27,
+        "centroid_xy_256": [
+          209.25454545454545,
+          155.23636363636365
+        ],
+        "bbox_256": [
+          204,
+          151,
+          11,
+          9
+        ]
+      },
+      {
+        "model_component_id": 51,
+        "area_pixels": 45,
+        "rank": 28,
+        "centroid_xy_256": [
+          220.57777777777778,
+          161.44444444444446
+        ],
+        "bbox_256": [
+          216,
+          159,
+          10,
+          6
+        ]
+      },
+      {
+        "model_component_id": 36,
+        "area_pixels": 44,
+        "rank": 29,
+        "centroid_xy_256": [
+          180.5,
+          95.5909090909091
+        ],
+        "bbox_256": [
+          176,
+          93,
+          11,
+          6
+        ]
+      },
+      {
+        "model_component_id": 25,
+        "area_pixels": 42,
+        "rank": 30,
+        "centroid_xy_256": [
+          140.64285714285714,
+          56.976190476190474
+        ],
+        "bbox_256": [
+          137,
+          53,
+          8,
+          8
+        ]
+      },
+      {
+        "model_component_id": 30,
+        "area_pixels": 41,
+        "rank": 31,
+        "centroid_xy_256": [
+          183.9268292682927,
+          63.5609756097561
+        ],
+        "bbox_256": [
+          180,
+          61,
+          9,
+          6
+        ]
+      },
+      {
+        "model_component_id": 17,
+        "area_pixels": 38,
+        "rank": 32,
+        "centroid_xy_256": [
+          57.28947368421053,
+          29.07894736842105
+        ],
+        "bbox_256": [
+          54,
+          25,
+          7,
+          9
+        ]
+      },
+      {
+        "model_component_id": 45,
+        "area_pixels": 33,
+        "rank": 33,
+        "centroid_xy_256": [
+          165.33333333333334,
+          146.84848484848484
+        ],
+        "bbox_256": [
+          163,
+          143,
+          6,
+          8
+        ]
+      },
+      {
+        "model_component_id": 22,
+        "area_pixels": 32,
+        "rank": 34,
+        "centroid_xy_256": [
+          171.625,
+          44.5625
+        ],
+        "bbox_256": [
+          168,
+          42,
+          8,
+          6
+        ]
+      },
+      {
+        "model_component_id": 69,
+        "area_pixels": 30,
+        "rank": 35,
+        "centroid_xy_256": [
+          227.33333333333334,
+          236.83333333333334
+        ],
+        "bbox_256": [
+          225,
+          233,
+          6,
+          8
+        ]
+      },
+      {
+        "model_component_id": 50,
+        "area_pixels": 29,
+        "rank": 36,
+        "centroid_xy_256": [
+          145.68965517241378,
+          154.75862068965517
+        ],
+        "bbox_256": [
+          143,
+          153,
+          7,
+          5
+        ]
+      },
+      {
+        "model_component_id": 19,
+        "area_pixels": 27,
+        "rank": 37,
+        "centroid_xy_256": [
+          196.62962962962962,
+          38.81481481481482
+        ],
+        "bbox_256": [
+          194,
+          36,
+          7,
+          6
+        ]
+      },
+      {
+        "model_component_id": 76,
+        "area_pixels": 27,
+        "rank": 38,
+        "centroid_xy_256": [
+          163.8148148148148,
+          247.74074074074073
+        ],
+        "bbox_256": [
+          161,
+          245,
+          7,
+          6
+        ]
+      },
+      {
+        "model_component_id": 61,
+        "area_pixels": 24,
+        "rank": 39,
+        "centroid_xy_256": [
+          36.25,
+          187.41666666666666
+        ],
+        "bbox_256": [
+          34,
+          185,
+          6,
+          8
+        ]
+      },
+      {
+        "model_component_id": 72,
+        "area_pixels": 24,
+        "rank": 40,
+        "centroid_xy_256": [
+          156.29166666666666,
+          243.66666666666666
+        ],
+        "bbox_256": [
+          154,
+          239,
+          5,
+          8
+        ]
+      },
+      {
+        "model_component_id": 49,
+        "area_pixels": 23,
+        "rank": 41,
+        "centroid_xy_256": [
+          11.043478260869565,
+          155.08695652173913
+        ],
+        "bbox_256": [
+          9,
+          152,
+          6,
+          7
+        ]
+      },
+      {
+        "model_component_id": 28,
+        "area_pixels": 21,
+        "rank": 42,
+        "centroid_xy_256": [
+          202.0,
+          59.0
+        ],
+        "bbox_256": [
+          200,
+          57,
+          5,
+          5
+        ]
+      },
+      {
+        "model_component_id": 29,
+        "area_pixels": 20,
+        "rank": 43,
+        "centroid_xy_256": [
+          108.95,
+          62.35
+        ],
+        "bbox_256": [
+          107,
+          60,
+          5,
+          6
+        ]
+      },
+      {
+        "model_component_id": 34,
+        "area_pixels": 20,
+        "rank": 44,
+        "centroid_xy_256": [
+          131.6,
+          93.1
+        ],
+        "bbox_256": [
+          130,
+          91,
+          5,
+          6
+        ]
+      },
+      {
+        "model_component_id": 32,
+        "area_pixels": 19,
+        "rank": 45,
+        "centroid_xy_256": [
+          216.0,
+          69.0
+        ],
+        "bbox_256": [
+          213,
+          68,
+          7,
+          3
+        ]
+      }
+    ],
+    "selected_model_order": [
+      {
+        "model_sorted_rank": 0,
+        "model_component_id": 3,
+        "model_area_pixels": 4610,
+        "final_component_id": 3,
+        "predicted_height_m": 10.439148902893066
+      },
+      {
+        "model_sorted_rank": 1,
+        "model_component_id": 1,
+        "model_area_pixels": 789,
+        "final_component_id": 1,
+        "predicted_height_m": 7.434872627258301
+      },
+      {
+        "model_sorted_rank": 2,
+        "model_component_id": 37,
+        "model_area_pixels": 732,
+        "final_component_id": 36,
+        "predicted_height_m": 8.140093803405762
+      },
+      {
+        "model_sorted_rank": 3,
+        "model_component_id": 31,
+        "model_area_pixels": 628,
+        "final_component_id": 31,
+        "predicted_height_m": 7.795652389526367
+      },
+      {
+        "model_sorted_rank": 4,
+        "model_component_id": 16,
+        "model_area_pixels": 548,
+        "final_component_id": 15,
+        "predicted_height_m": 7.192608833312988
+      },
+      {
+        "model_sorted_rank": 5,
+        "model_component_id": 56,
+        "model_area_pixels": 534,
+        "final_component_id": 54,
+        "predicted_height_m": 9.320416450500488
+      },
+      {
+        "model_sorted_rank": 6,
+        "model_component_id": 41,
+        "model_area_pixels": 308,
+        "final_component_id": 40,
+        "predicted_height_m": 6.467703342437744
+      },
+      {
+        "model_sorted_rank": 7,
+        "model_component_id": 26,
+        "model_area_pixels": 303,
+        "final_component_id": 26,
+        "predicted_height_m": 6.570121765136719
+      },
+      {
+        "model_sorted_rank": 8,
+        "model_component_id": 65,
+        "model_area_pixels": 295,
+        "final_component_id": 63,
+        "predicted_height_m": 7.048236846923828
+      },
+      {
+        "model_sorted_rank": 9,
+        "model_component_id": 64,
+        "model_area_pixels": 191,
+        "final_component_id": 62,
+        "predicted_height_m": 6.675451278686523
+      },
+      {
+        "model_sorted_rank": 10,
+        "model_component_id": 60,
+        "model_area_pixels": 171,
+        "final_component_id": 58,
+        "predicted_height_m": 6.306990623474121
+      },
+      {
+        "model_sorted_rank": 11,
+        "model_component_id": 39,
+        "model_area_pixels": 150,
+        "final_component_id": 38,
+        "predicted_height_m": 6.3429718017578125
+      },
+      {
+        "model_sorted_rank": 12,
+        "model_component_id": 21,
+        "model_area_pixels": 123,
+        "final_component_id": 21,
+        "predicted_height_m": 5.87635612487793
+      },
+      {
+        "model_sorted_rank": 13,
+        "model_component_id": 74,
+        "model_area_pixels": 114,
+        "final_component_id": 73,
+        "predicted_height_m": 6.75266170501709
+      },
+      {
+        "model_sorted_rank": 14,
+        "model_component_id": 23,
+        "model_area_pixels": 99,
+        "final_component_id": 23,
+        "predicted_height_m": 6.020137786865234
+      },
+      {
+        "model_sorted_rank": 15,
+        "model_component_id": 52,
+        "model_area_pixels": 85,
+        "final_component_id": 50,
+        "predicted_height_m": 6.07459020614624
+      },
+      {
+        "model_sorted_rank": 16,
+        "model_component_id": 10,
+        "model_area_pixels": 82,
+        "final_component_id": 9,
+        "predicted_height_m": 4.438207149505615
+      },
+      {
+        "model_sorted_rank": 17,
+        "model_component_id": 35,
+        "model_area_pixels": 82,
+        "final_component_id": 34,
+        "predicted_height_m": 4.678033828735352
+      },
+      {
+        "model_sorted_rank": 18,
+        "model_component_id": 40,
+        "model_area_pixels": 73,
+        "final_component_id": 39,
+        "predicted_height_m": 6.1583452224731445
+      },
+      {
+        "model_sorted_rank": 19,
+        "model_component_id": 38,
+        "model_area_pixels": 66,
+        "final_component_id": 37,
+        "predicted_height_m": 6.218406677246094
+      },
+      {
+        "model_sorted_rank": 20,
+        "model_component_id": 73,
+        "model_area_pixels": 66,
+        "final_component_id": 71,
+        "predicted_height_m": 6.321893215179443
+      },
+      {
+        "model_sorted_rank": 21,
+        "model_component_id": 43,
+        "model_area_pixels": 64,
+        "final_component_id": 42,
+        "predicted_height_m": 5.719910621643066
+      },
+      {
+        "model_sorted_rank": 22,
+        "model_component_id": 55,
+        "model_area_pixels": 60,
+        "final_component_id": 53,
+        "predicted_height_m": 6.045347690582275
+      },
+      {
+        "model_sorted_rank": 23,
+        "model_component_id": 59,
+        "model_area_pixels": 59,
+        "final_component_id": 57,
+        "predicted_height_m": 5.4936299324035645
+      },
+      {
+        "model_sorted_rank": 24,
+        "model_component_id": 13,
+        "model_area_pixels": 58,
+        "final_component_id": 13,
+        "predicted_height_m": 4.402091979980469
+      }
+    ],
+    "explicit_predicted_height_by_component_id": {
+      "3": 10.439148902893066,
+      "1": 7.434872627258301,
+      "36": 8.140093803405762,
+      "31": 7.795652389526367,
+      "15": 7.192608833312988,
+      "54": 9.320416450500488,
+      "40": 6.467703342437744,
+      "26": 6.570121765136719,
+      "63": 7.048236846923828,
+      "62": 6.675451278686523,
+      "58": 6.306990623474121,
+      "38": 6.3429718017578125,
+      "21": 5.87635612487793,
+      "73": 6.75266170501709,
+      "23": 6.020137786865234,
+      "50": 6.07459020614624,
+      "9": 4.438207149505615,
+      "34": 4.678033828735352,
+      "39": 6.1583452224731445,
+      "37": 6.218406677246094,
+      "71": 6.321893215179443,
+      "42": 5.719910621643066,
+      "53": 6.045347690582275,
+      "57": 5.4936299324035645,
+      "13": 4.402091979980469
+    }
+  }
+}

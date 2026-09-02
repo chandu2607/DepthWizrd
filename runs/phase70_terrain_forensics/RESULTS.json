@@ -1,0 +1,20 @@
+{
+  "PHASE_70_STATUS": "FORENSIC_AUDIT_COMPLETE",
+  "METRIC_RECONCILIATION": "MIXED_RAW_AND_NORMALIZED_TARGETS",
+  "TARGET_UNITS": "DEM raw values are in meters; phase69 pilot target was normalized to [0,1] and reported without inverse transform",
+  "NORMALIZATION": "train-only normalization is not yet implemented in a consistent pipeline; the current pilot uses region-level normalization and compares directly to model output with no inverse transform",
+  "RGB_ELEVATION_ALIGNMENT": "raw optical and raw DEM are not in a common geospatial frame; DEM is EPSG:4326 while optical bands are EPSG:32643/44/45 and were center-cropped without reprojection",
+  "CURRENT_MODEL_TERRAIN_COMPATIBILITY": "NOT YET PROVEN; the current model is building-conditioned and not a dense terrain regressor",
+  "TERRAIN_HEAD_REQUIRED": true,
+  "ONE_EPOCH_PILOT": "RAN; must be treated as pipeline sanity check only",
+  "SMALL_PILOT": "NOT YET RUN; metrics were inconsistent and target handling was not validated",
+  "SIKKIM_LOCKED": true,
+  "SIKKIM_EVALUATED": false,
+  "CANNY_INCLUDED": "NO",
+  "POINT_CLOUD_INCLUDED": "NO",
+  "BUILDING_TRAINING": "NO",
+  "PRODUCTION_CHANGED": "NO",
+  "FIRST_CONFIRMED_FAILURE": "Target construction and metric evaluation used mixed normalizations (meters vs [0,1]), and RGB/DEM were not reprojected to a common frame before center-cropping.",
+  "MINIMUM_REQUIRED_FIX": "Reproject DEM to optical CRS before alignment, define a single target unit and normalization pipeline, and add a dense terrain regression head with train-only statistics and inverse-transform before reporting MAE/RMSE.",
+  "NEXT_PHASE": "Implement a minimal terrain-specific regression head with explicit train-only normalization and a locked validation/test protocol."
+}

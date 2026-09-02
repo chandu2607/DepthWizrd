@@ -1,0 +1,6 @@
+slope_min,slope_max,pixel_count,mae,rmse,bias
+0,5,0,nan,nan,nan
+5,15,0,nan,nan,nan
+15,30,0,nan,nan,nan
+30,45,0,nan,nan,nan
+45,90,0,nan,nan,nan

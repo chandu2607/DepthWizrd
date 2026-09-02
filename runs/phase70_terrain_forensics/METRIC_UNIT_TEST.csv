@@ -1,0 +1,7 @@
+case,mae,rmse,pearson,unit,note
+flat_identical,0.0,0.0,nan,meters,identical prediction should give zero error
+flat_1m_error,1.0,1.0,nan,meters,"1m uniform offset should produce MAE ≈ 1.0, RMSE ≈ 1.0"
+linear_slope_identical,0.0,0.0,1.0,meters,exact slope match should yield zero error
+linear_slope_scale_transform,22.75,23.213681310813243,1.0,meters,scale transform should be reflected in RMSE and MAE; inverse scaling must be applied before metric reporting
+hill_identical,0.0,0.0,1.0,meters,hill shape exact match should yield zero MAE
+valley_identical,0.0,0.0,1.0,meters,valley shape exact match should yield zero MAE

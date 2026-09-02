@@ -1,0 +1,7 @@
+{
+  "default_path": {"status": "PASS", "fallback_viewer_html_generated": true, "prebuilt_override_optional": true},
+  "uttarakhand": {"status": "PASS", "terrain_finite": true, "building_ids_unique": true, "mapping_mismatches": 0, "finite_heights_finite": true, "missing_heights_null": true, "no_nan_geometry": true, "no_floating_buildings": true, "no_buried_buildings": true, "no_negative_heights": true},
+  "himachal": {"status": "PASS", "terrain_finite": true, "building_ids_unique": true, "mapping_mismatches": 0, "finite_heights_finite": true, "missing_heights_null": true, "no_nan_geometry": true, "no_floating_buildings": true, "no_buried_buildings": true, "no_negative_heights": true},
+  "ground_truth": {"INDIAN_BUILDING_GROUND_TRUTH_AVAILABLE": "NO", "accuracy_metrics": null},
+  "tests": {"focused_pytest": "5 passed", "compile": "passed"}
+}

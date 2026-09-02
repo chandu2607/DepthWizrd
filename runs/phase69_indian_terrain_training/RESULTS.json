@@ -1,0 +1,108 @@
+{
+  "phase": "PHASE_69_INDIAN_TERRAIN_TRAINING",
+  "verdict": "TARGET_NOT_COMPATIBLE_WITH_CURRENT_MODEL",
+  "real_regions_verified": 3,
+  "train_region": "uttarakhand",
+  "validation_region": "himachal",
+  "test_region": "sikkim",
+  "current_model_baseline_note": "DepthAnythingV2 is a relative-depth prior and not a metric terrain sensor; a linear fit is only diagnostic.",
+  "terrain_target": "DTM-like elevation surface",
+  "minimum_architecture_change": "replace building-conditioned head with dense terrain-regression head",
+  "pilot_epoch_count": 1,
+  "gpu_available": false,
+  "sikkim_locked": true,
+  "stop_after_lock": true,
+  "baseline_summary": [
+    {
+      "region": "uttarakhand",
+      "state": "Uttarakhand",
+      "split": "train",
+      "result": {
+        "status": "OK",
+        "runtime_s": 26.13153880000027,
+        "model": "DepthAnythingV2",
+        "slope": -42.953692263507314,
+        "intercept": 5383.242597405664,
+        "metrics": {
+          "mae": 261.6556389412233,
+          "rmse": 312.8976516342553,
+          "bias": -4.302336265027407e-12,
+          "pearson": 0.27694971204768243
+        },
+        "notes": "relative depth mapped to DEM by linear fit only for compatibility diagnostics; not a valid metric terrain sensor"
+      }
+    },
+    {
+      "region": "himachal",
+      "state": "Himachal Pradesh",
+      "split": "validation",
+      "result": {
+        "status": "OK",
+        "runtime_s": 3.839821399997163,
+        "model": "DepthAnythingV2",
+        "slope": 82.49708863576458,
+        "intercept": 131.34516213432394,
+        "metrics": {
+          "mae": 3.146186188645415,
+          "rmse": 3.8120335769001787,
+          "bias": -0.012689730724075421,
+          "pearson": 0.25099296114950537
+        },
+        "notes": "relative depth mapped to DEM by linear fit only for compatibility diagnostics; not a valid metric terrain sensor"
+      }
+    },
+    {
+      "region": "sikkim",
+      "state": "Sikkim",
+      "split": "test",
+      "result": {
+        "status": "OK",
+        "runtime_s": 3.5694216000047163,
+        "model": "DepthAnythingV2",
+        "slope": 77.03661399409113,
+        "intercept": 1525.5863658601158,
+        "metrics": {
+          "mae": 442.10391557455137,
+          "rmse": 534.2998814626391,
+          "bias": -3.4923175462608924e-12,
+          "pearson": 0.287712728260807
+        },
+        "notes": "relative depth mapped to DEM by linear fit only for compatibility diagnostics; not a valid metric terrain sensor"
+      }
+    }
+  ],
+  "pilot_summary": {
+    "device": "cpu",
+    "gpu": "none",
+    "epochs": 1,
+    "batch_size": 1,
+    "learning_rate": 0.001,
+    "optimizer": "Adam",
+    "loss": "MSE",
+    "runtime_s": 0.16207410000060918,
+    "samples_sec": "N/A",
+    "training_metrics": {
+      "train_loss": 0.47890469431877136
+    },
+    "validation": [
+      {
+        "region": "himachal",
+        "state": "Himachal Pradesh",
+        "split": "validation",
+        "mae": 0.4696850990241064,
+        "rmse": 0.4848154914801315,
+        "bias": -0.4696850990241064,
+        "pearson": -0.22236876938022607
+      },
+      {
+        "region": "sikkim",
+        "state": "Sikkim",
+        "split": "test",
+        "mae": 0.5587155676053546,
+        "rmse": 0.5938657845254632,
+        "bias": -0.5587155676053546,
+        "pearson": -0.04067581093959295
+      }
+    ]
+  }
+}

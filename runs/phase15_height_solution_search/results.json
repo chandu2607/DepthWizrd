@@ -1,0 +1,16 @@
+{
+  "phase": "15",
+  "task": "height_solution_search",
+  "status": "completed",
+  "candidates": [
+    "HTC-DC Net",
+    "HGDNet",
+    "Depth2Elevation",
+    "Shadow Geometry"
+  ],
+  "primary_recommendation": "HGDNet Paradigm (Multi-task Footprint + Height-Hierarchy)",
+  "primary_rationale": "Multi-task footprint extraction forces the network to learn physical building extents (GSD anchor), which strongly correlates with height. It addresses the failure of generic pixel-to-pixel depth models by treating buildings as discrete objects with geometric area.",
+  "fallback_recommendation": "HTC-DC Net Paradigm (Head-Tail Cut Loss)",
+  "physical_scale_source": "Learned priors anchored by constant GSD and explicit footprint size mapping.",
+  "next_action_proposed": "Implement a dual-decoder on DA-V2 (or ResNet) for joint footprint segmentation and continuous height regression."
+}

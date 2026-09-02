@@ -1,0 +1,15 @@
+{
+  "phase": "62",
+  "status": "VALIDATION_PENDING",
+  "region": "Uttarakhand (candidate)",
+  "state": "Uttarakhand",
+  "candidate_site": "Chamoli / Joshimath / nearby hilly terrain",
+  "optical_source": "Sentinel-2 Level-2A or regional Bhuvan/NRSC orthophoto",
+  "elevation_source": "Copernicus DEM GLO-30 or Indian CartoDEM / Bhuvan DEM if accessible",
+  "pilot_area_km2": "5-20 km² target",
+  "download_status": "Not yet acquired in workspace",
+  "alignment_status": "Pending",
+  "geographic_split_status": "Pending",
+  "training_status": "Not started",
+  "notes": "Candidate benchmark identified, but not yet downloaded, validated, or approved for formal model use."
+}

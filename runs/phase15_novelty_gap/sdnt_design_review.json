@@ -1,0 +1,33 @@
+{
+  "phase": "15a",
+  "task": "sdnt_design_validation",
+  "status": "completed",
+  "concept_validity": "Decoupling relative structural topography from global metric scale is conceptually sound, but highly vulnerable to scale prediction error propagation.",
+  "zmax_critique": [
+    "Extreme sensitivity to single-pixel outliers (sensor noise, utility poles)",
+    "Structural range collapse for tiles with a single skyscraper (landmark collapse)",
+    "Cross-city scale mismatch during zero-shot transfer",
+    "Sparse gradient support during training"
+  ],
+  "alternative_scale_targets": [
+    "High Quantile P95/P99 (Preferred alternative)",
+    "Mean/Median Building Height",
+    "Multiple Scale Statistics",
+    "Latent Scale Modulation",
+    "Scale Bins Distribution"
+  ],
+  "scale_input_sources": [
+    "Building Footprint Area (GSD pixel anchor)",
+    "Relative Shadow Lengths",
+    "Radial Relief Displacement (facade visibility)",
+    "Urban Typology Context"
+  ],
+  "error_propagation_formula": "e_H = N * e_S + S * e_N + e_N * e_S",
+  "literature_overlap": "Clearly distinct from HGDNet, HTC-DC Net, and Depth2Elevation, as none of them decouple output heights into bounded relative topology and a separate metric scale scalar.",
+  "recommended_formulation": "SDNT-Q: Normalized structure (bounded 0.0 to 1.0 via Sigmoid) scaled by a robust P98 high-quantile tile scalar.",
+  "minimal_experiment": "Modify SmallFusionUNet to output a sigmoid structural head and an MLP scale head, trained on multi-city split and validated zero-shot on New York.",
+  "success_criteria": "Max predicted height on NY exceeds 35m, and MAE on buildings >30m is reduced by >= 25% compared to Phase 14 C_log1p baseline.",
+  "failure_criteria": "Scale branch predicts flat mean (~15m) or the multiplication amplifies noise, yielding higher overall RMSE than baseline.",
+  "final_decision": "MODIFY SDNT DESIGN FIRST",
+  "explanation": "Absolute max Z_max target is too fragile due to outlier sensitivity and structural range collapse. We must switch to a robust quantile scale target (P98) before proceeding to implementation."
+}

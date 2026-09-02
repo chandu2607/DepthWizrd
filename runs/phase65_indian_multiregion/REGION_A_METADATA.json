@@ -1,0 +1,40 @@
+{
+  "region": "Uttarakhand",
+  "state": "Uttarakhand",
+  "coordinates": {
+    "center": [
+      79.55,
+      30.55
+    ],
+    "bbox": [
+      79.35,
+      30.25,
+      79.8,
+      30.85
+    ]
+  },
+  "terrain_type": "Himalayan ridge-valley terrain; steep slopes, exposed rock, settlements, roads",
+  "elevation_range_m": "~1050-2300",
+  "imagery_availability": "REAL_PUBLIC_SENTINEL2_COG",
+  "reference_availability": "REAL_PUBLIC_COPERNICUS_DEM_COG",
+  "optical_source": "Sentinel-2 L2A AWS Public COG",
+  "optical_resolution_m": 10,
+  "elevation_source": "Copernicus DEM GLO-30 AWS Public COG",
+  "elevation_resolution_m": 30,
+  "elevation_type": "DEM",
+  "building_labels": "NO",
+  "building_height_labels": "NO",
+  "slope_available": "YES",
+  "hazard_labels": "NO",
+  "CRS": "EPSG:32644 (optical) / EPSG:4326 (DEM source)",
+  "date": "2026-08-30",
+  "license": "Open public data access",
+  "access": "AWS public COG and rasterio read verified",
+  "training_suitability": "PILOT_ONLY",
+  "validation_suitability": "PENDING",
+  "test_suitability": "PENDING",
+  "limitations": "DEM is too coarse for building-height evaluation; no high-resolution building ground truth is available",
+  "real_data": true,
+  "metrics_available": false,
+  "geographic_note": "Validated Phase 64 pilot; not yet accepted as a final building-height benchmark."
+}

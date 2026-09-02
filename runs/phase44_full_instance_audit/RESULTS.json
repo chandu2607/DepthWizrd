@@ -1,0 +1,36 @@
+{
+  "phase": "Phase 44 \u2014 Full Augmented U-Net Building-Instance Audit and Downstream 3D Validation",
+  "verdict": "AUGMENTED_UNET_PARTIAL_SUPPORT",
+  "scientific_lock": {
+    "dsm_pre": "2b9dbb6da7063f98",
+    "dsm_post": "2b9dbb6da7063f98",
+    "match": true,
+    "rgb_pre": "5e101fa1f6ea9286",
+    "rgb_post": "5e101fa1f6ea9286",
+    "match_rgb": true
+  },
+  "new_york_summary": {
+    "baseline": {
+      "iou": 0.4363,
+      "boundary_f1": 0.0058,
+      "missed_pct": 0.2964,
+      "merged_pct": 94.9665,
+      "false_pct": 2.6235,
+      "valid_instances": 0.0093
+    },
+    "augmented_config_d": {
+      "iou": 0.4417,
+      "boundary_f1": 0.0029,
+      "missed_pct": 0.0,
+      "merged_pct": 95.2629,
+      "false_pct": 10.3086,
+      "valid_instances": 0.037
+    },
+    "deltas": {
+      "iou_delta": 0.0054,
+      "boundary_f1_delta": -0.0029,
+      "missed_reduction_pct": 0.3,
+      "merged_reduction_pct": -0.3
+    }
+  }
+}

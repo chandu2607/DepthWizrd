@@ -1,0 +1,18 @@
+Category,Control,Initial State,Action,Observed Change,Status
+Camera Preset,City Overview,Default 45° perspective,Select 'City Overview',Camera transitions to wide-angle 45° overhead view of entire scene,PASS
+Camera Preset,Urban Oblique,City Overview,Select 'Urban Oblique',Camera pitches down to 60° low oblique showing facade verticality,PASS
+Camera Preset,Inspection,Urban Oblique,Select 'Inspection',Camera zooms tight onto central high-rise block with 70° pitch,PASS
+Camera Preset,Top-Down,Inspection,Select 'Top-Down',Orthographic 90° overhead view mapping directly to 2D footprint orthophoto,PASS
+Camera Preset,Pedestrian,Top-Down,Select 'Pedestrian',Camera lowers to ground-level street plane (z=1.8m) looking upward at skyscrapers,PASS
+Render Mode,RGB City,RGB texture active,Select 'RGB City',Surfaces textured with high-resolution satellite orthophoto and directional sun lighting,PASS
+Render Mode,Elevation Colormap,RGB City,Select 'Elevation Colormap',Shader switches to Turbo elevation palette mapping absolute height in meters,PASS
+Render Mode,Building Height,Elevation Colormap,Select 'Building Height',"Shader isolates nDSM height (ground rendered neutral dark grey, roofs colored by massing)",PASS
+Render Mode,Terrain Slope,Building Height,Select 'Terrain Slope',Shader highlights steep roof gradients and cliff edges in bright red/yellow,PASS
+Vertical Exaggeration,1.0×,1.0× true scale,Select '1.0×',True metric 1:1 scale elevation,PASS
+Vertical Exaggeration,1.5×,1.0× true scale,Select '1.5×',Vertical mesh vertices scaled by 1.5× smoothly in real-time WebGL vertex shader,PASS
+Vertical Exaggeration,2.0×,1.5× scale,Select '2.0×',Skyscraper heights amplified by 2.0× for pronounced skyline visibility,PASS
+Vertical Exaggeration,3.0×,2.0× scale,Select '3.0×',Maximum vertical amplification with ground DTM preserved,PASS
+Navigation,Orbit / Pan / Zoom,Stationary,Left/Right Drag + Scroll,Fluid 60FPS Three.js spherical orbit and smooth dollying,PASS
+First Person Fly,WASD / Arrows,Free-Fly Enabled,Press W/A/S/D keys,Real-time 6DOF camera flight through Manhattan street canyons,PASS
+Cinematic Animation,Auto-Flythrough,Flythrough Off,Toggle 'Flythrough' button,Automated cinematic orbital flyover with sinusoidal altitude sweep,PASS
+Analysis,Building Inspector HUD,No selection,Click roof geometry,"Cyan outline highlight + Live sidebar showing ID, Area, Ground Z, Peak Z, Net Height",PASS

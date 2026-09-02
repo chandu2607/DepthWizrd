@@ -1,0 +1,34 @@
+{
+  "optical_crs": "EPSG:32644",
+  "elevation_crs": "EPSG:32644",
+  "optical_bounds": [
+    419960.0,
+    3359540.0,
+    440440.0,
+    3380020.0
+  ],
+  "elevation_bounds": [
+    419960.0,
+    3359540.0,
+    440440.0,
+    3380020.0
+  ],
+  "optical_resolution_m": [
+    10.0,
+    10.0
+  ],
+  "elevation_resolution_m": [
+    10.0,
+    10.0
+  ],
+  "shape": {
+    "optical": [
+      2048,
+      2048
+    ],
+    "elevation": [
+      2048,
+      2048
+    ]
+  }
+}

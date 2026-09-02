@@ -1,0 +1,38 @@
+{
+  "phase_75_prediction": {
+    "mae_m": 49.20459747314453,
+    "rmse_m": 49.24799346923828,
+    "pearson": 0.035732719176776166,
+    "prediction_mean_m": 49.56986618041992
+  },
+  "baseline_zero_relief": {
+    "mae_m": 1.1770901239215164,
+    "rmse_m": 2.0866160837347647,
+    "pearson": NaN,
+    "prediction_value_m": 0.0
+  },
+  "baseline_mean_relief": {
+    "mae_m": 26.054082732007373,
+    "rmse_m": 26.134953081263273,
+    "pearson": NaN,
+    "prediction_value_m": -25.688814262859523
+  },
+  "baseline_median_relief": {
+    "mae_m": 1.1770901239215164,
+    "rmse_m": 2.0866160837347647,
+    "pearson": NaN,
+    "prediction_value_m": 0.0
+  },
+  "spatial_shuffle": {
+    "mae_m": 49.204597715084674,
+    "rmse_m": 49.248442440851804,
+    "pearson": 0.001420498439276439,
+    "seed": 1337
+  },
+  "constant_prediction": {
+    "mae_m": 1.1770901239215164,
+    "rmse_m": 2.0866160837347647,
+    "pearson": NaN,
+    "note": "Pearson is NaN when the prediction has zero variance because np.std(prediction) = 0."
+  }
+}

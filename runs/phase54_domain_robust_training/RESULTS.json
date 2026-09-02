@@ -1,0 +1,12 @@
+{
+  "arms": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+  ],
+  "train_tiles": 937,
+  "smoke": false,
+  "selected_with_copenhagen_only": true
+}

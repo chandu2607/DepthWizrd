@@ -1,0 +1,7 @@
+TerrainResNet18
+Encoder: torchvision ResNet-18 backbone preserving conv1, bn1, relu, maxpool, layer1-4
+Decoder: dense upsampling + skip connections from layer4 -> layer3 -> layer2 -> layer1 -> 1-channel head
+Output: single-channel unconstrained relief map (no sigmoid/tanh/clamp)
+Input: RGB only, 3 channels, 512x512
+Pretrained: yes via IMAGENET1K_V1 (if available at runtime)
+Encoder trainability: TRAINABLE

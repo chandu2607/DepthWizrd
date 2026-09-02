@@ -1,0 +1,5 @@
+{
+  "normalization_analysis": "Local min-max normalization standardizes shape but discards depth range. We must preserve both normalized topology and unnormalized depth range.",
+  "recommended_formulation": "Option C: Normalized topology + depth-range/statistical features.",
+  "final_decision": "MODIFY OOTS FORMULATION"
+}

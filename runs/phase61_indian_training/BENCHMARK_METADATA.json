@@ -1,0 +1,27 @@
+{
+  "phase": "61",
+  "status": "PILOT_BENCHMARK_PREPARATION_ONLY",
+  "selected_region": null,
+  "state": null,
+  "training_regions": [
+    "Uttarakhand",
+    "Himachal Pradesh"
+  ],
+  "validation_region": null,
+  "test_region": null,
+  "preferred_sources": [
+    "Sentinel-2",
+    "Copernicus DEM",
+    "SRTM",
+    "Bhuvan/NRSC",
+    "OpenTopography"
+  ],
+  "criteria": [
+    "paired optical + elevation reference",
+    "compatible CRS",
+    "valid geographic separation",
+    "small pilot tile size",
+    "no leakage between train/val/test"
+  ],
+  "note": "No final benchmark has been selected yet. The project is still at the data-discovery and pilot-design stage."
+}

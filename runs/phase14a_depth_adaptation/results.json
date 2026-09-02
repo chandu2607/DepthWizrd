@@ -1,0 +1,20 @@
+{
+  "feasibility": {
+    "technically_feasible": true,
+    "memory_safe": true,
+    "gradients_verified": true
+  },
+  "parameter_counts": {
+    "frozen": 22056576,
+    "trainable": 2728513,
+    "total": 24785089
+  },
+  "modules": {
+    "frozen": ["backbone"],
+    "trainable": ["head", "neck"]
+  },
+  "performance": {
+    "peak_vram_mb": 596.7,
+    "smoke_test_loss_reduction": true
+  }
+}

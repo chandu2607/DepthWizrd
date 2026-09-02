@@ -1,0 +1,87 @@
+{
+  "baselines": {
+    "zero_relief_baseline": {
+      "mae": 1.2157599925994873,
+      "rmse": 1.4760127067565918,
+      "pearson": NaN,
+      "mean_bias": 0.056240230798721313,
+      "prediction_mean": 0.0,
+      "prediction_std": 0.0,
+      "target_std": 1.4749408960342407,
+      "n": 262144
+    },
+    "mean_relief_baseline": {
+      "mae": 1.2190628051757812,
+      "rmse": 1.4749408960342407,
+      "pearson": NaN,
+      "mean_bias": 0.0,
+      "prediction_mean": -0.05624021589756012,
+      "prediction_std": 1.4901161193847656e-08,
+      "target_std": 1.4749408960342407,
+      "n": 262144
+    },
+    "median_relief_baseline": {
+      "mae": 1.2139289379119873,
+      "rmse": 1.4815189838409424,
+      "pearson": NaN,
+      "mean_bias": 0.13945558667182922,
+      "prediction_mean": 0.08321535587310791,
+      "prediction_std": 0.0,
+      "target_std": 1.4749408960342407,
+      "n": 262144
+    },
+    "terrain_unet": {
+      "mae": 1.2236868143081665,
+      "rmse": 1.4768003225326538,
+      "pearson": -0.057983660671387625,
+      "mean_bias": -0.057679273188114166,
+      "prediction_mean": -0.11391951888799667,
+      "prediction_std": 0.011821982450783253,
+      "target_std": 1.4749408960342407,
+      "n": 262144
+    }
+  },
+  "old_phase77": {
+    "old_terrainhead": {
+      "mae": 463.50677490234375,
+      "rmse": 570.4995727539062,
+      "pearson": 0.0641815142515434,
+      "prediction_std": 1.4360086917877197,
+      "gradient_x_mae": 6.183000564575195,
+      "gradient_y_mae": 4.136542797088623,
+      "gradient_mae_mean": 5.159771680831909
+    },
+    "phase77_baselines": {
+      "zero_prediction": {
+        "mae": 462.01953125,
+        "rmse": 563.8639526367188,
+        "pearson": NaN,
+        "mean_bias": 53.07682418823242,
+        "prediction_std": 0.0,
+        "target_std": 561.3602905273438,
+        "error_std": 561.3602905273438,
+        "n": 262144
+      },
+      "training_mean_prediction": {
+        "mae": 462.71649169921875,
+        "rmse": 561.7682495117188,
+        "pearson": NaN,
+        "mean_bias": 21.404949188232422,
+        "prediction_std": 5.7220458984375e-06,
+        "target_std": 561.3602905273438,
+        "error_std": 561.3602905273438,
+        "n": 262144
+      },
+      "training_median_prediction": {
+        "mae": 462.0195617675781,
+        "rmse": 563.864013671875,
+        "pearson": NaN,
+        "mean_bias": 53.07707214355469,
+        "prediction_std": 0.0,
+        "target_std": 561.3602905273438,
+        "error_std": 561.3602905273438,
+        "n": 262144
+      }
+    }
+  }
+}

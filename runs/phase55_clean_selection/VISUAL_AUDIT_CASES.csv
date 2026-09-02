@@ -1,0 +1,5 @@
+case_type,phase_52_available,phase_54_available,visual_comparison_path
+Low-rise residential,True,True,phase55_clean_selection/ny_lowrise_case.png
+Dense urban core,True,True,phase55_clean_selection/ny_dense_case.png
+Tall building mixed,True,True,phase55_clean_selection/ny_tall_case.png
+Difficult case (occlusion),True,True,phase55_clean_selection/ny_difficult_case.png

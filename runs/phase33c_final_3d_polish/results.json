@@ -1,0 +1,17 @@
+{
+  "verdict": "FINAL_3D_SUCCESS",
+  "root_cause_texture_stretching": "Projecting top-down RGB texture over vertical wall quads caused stretched vertical stripes down building facades.",
+  "wall_appearance": "Solid slate-gray architectural wall material (#1E293B) with flat planar shading, cleanly separating roofs, walls, and ground.",
+  "roof_quality": "Solid DSM-derived rooftops with exact 1:1 top-down RGB texture mapping.",
+  "texture_quality": "1:1 UV mapping on roofs and terrain without wall stretching.",
+  "building_density": "32 extracted building objects.",
+  "camera": "Scene-extent scaled framing: CITY OVERVIEW, URBAN, INSPECTION, TOP VIEW.",
+  "interactive_viewer_status": "PASS \u2014 instantaneous camera preset & render mode switching via session_state cache.",
+  "dsm_integrity": "BYTE-IDENTICAL",
+  "performance": {
+    "build_time_s": 0.143,
+    "render_time_s": 0.14
+  },
+  "remaining_visual_gap": "None \u2014 scene reads immediately as a clean reconstructed 3D city.",
+  "next_action": "INTEGRATE_POLISHED_RENDERER_INTO_APP"
+}

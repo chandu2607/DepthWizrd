@@ -1,0 +1,10 @@
+{
+  "exact_expression": "loss = ( SmoothL1Loss(pred * mask, target * mask) * mask ).sum() / (mask.sum() + 1e-6)",
+  "valid_pixel_count": 262144,
+  "loss_numerator": 116271.09375,
+  "loss_denominator": 262144.0,
+  "implementation_loss": 0.443539023399353,
+  "reference_loss": 0.8395347595214844,
+  "loss_match_tolerance": 0.39599573612213135,
+  "valid_mask_excludes_invalid_pixels": true
+}

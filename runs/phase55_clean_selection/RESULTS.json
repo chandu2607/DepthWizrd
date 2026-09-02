@@ -1,0 +1,8 @@
+{
+  "phase": 55,
+  "timestamp": "2026-09-01T14:00:53.192271",
+  "selected_checkpoint": "E_seed_0",
+  "selected_threshold": 0.3,
+  "verdict": "DOMAIN_ROBUST_PARTIAL_SUPPORT",
+  "output_directory": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase55_clean_selection"
+}

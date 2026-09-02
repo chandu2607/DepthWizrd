@@ -1,0 +1,88 @@
+Fetching 2997 files:   0%|          | 0/2997 [00:00<?, ?it/s]Fetching 2997 files:   7%|7         | 215/2997 [00:00<00:01, 2131.88it/s]Fetching 2997 files:  17%|#6        | 498/2997 [00:00<00:00, 2521.33it/s]Fetching 2997 files:  26%|##5       | 778/2997 [00:00<00:00, 2647.43it/s]Fetching 2997 files:  35%|###5      | 1060/2997 [00:00<00:00, 2706.23it/s]Fetching 2997 files:  45%|####4     | 1341/2997 [00:00<00:00, 2735.91it/s]Fetching 2997 files:  54%|#####4    | 1623/2997 [00:00<00:00, 2753.77it/s]Fetching 2997 files:  63%|######3   | 1903/2997 [00:00<00:00, 2767.38it/s]Fetching 2997 files:  73%|#######2  | 2185/2997 [00:00<00:00, 2783.91it/s]Fetching 2997 files:  82%|########2 | 2469/2997 [00:00<00:00, 2793.72it/s]Fetching 2997 files:  92%|#########1| 2751/2997 [00:01<00:00, 2794.12it/s]Fetching 2997 files: 100%|##########| 2997/2997 [00:01<00:00, 2730.09it/s]
+[fetch] hf_blocks gave 999 records (unofficial mirror, preprocessed nDSM): {'JAX': 343, 'OMA': 656}
+[split] train=102 val=18 test=120
+[B] a=6.458 b=-5.252 | xcity all MAE=4.434155538881187
+C:\Users\chand\OneDrive\Desktop\DepthWizard\depthwizard\models\fusion_head.py:317: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=use_amp)
+C:\Users\chand\OneDrive\Desktop\DepthWizard\depthwizard\models\fusion_head.py:345: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=use_amp):
+[C][seed=0] epoch 1/15 masked-L1=0.898
+[C][seed=0] epoch 2/15 masked-L1=0.702
+[C][seed=0] epoch 3/15 masked-L1=0.669
+[C][seed=0] epoch 4/15 masked-L1=0.635
+[C][seed=0] epoch 5/15 masked-L1=0.616
+[C][seed=0] epoch 6/15 masked-L1=0.615
+[C][seed=0] epoch 7/15 masked-L1=0.595
+[C][seed=0] epoch 8/15 masked-L1=0.604
+[C][seed=0] epoch 9/15 masked-L1=0.591
+[C][seed=0] epoch 10/15 masked-L1=0.579
+[C][seed=0] epoch 11/15 masked-L1=0.578
+[C][seed=0] epoch 12/15 masked-L1=0.558
+[C][seed=0] epoch 13/15 masked-L1=0.557
+[C][seed=0] epoch 14/15 masked-L1=0.560
+[C][seed=0] epoch 15/15 masked-L1=0.574
+[unet3/log1p/standard][seed=0] xcity all MAE=2.1696596577917244 | building MAE=5.030882856417479 | building RMSE=7.986541735737352
+[C][seed=1] epoch 1/15 masked-L1=0.770
+[C][seed=1] epoch 2/15 masked-L1=0.661
+[C][seed=1] epoch 3/15 masked-L1=0.620
+[C][seed=1] epoch 4/15 masked-L1=0.618
+[C][seed=1] epoch 5/15 masked-L1=0.591
+[C][seed=1] epoch 6/15 masked-L1=0.582
+[C][seed=1] epoch 7/15 masked-L1=0.592
+[C][seed=1] epoch 8/15 masked-L1=0.600
+[C][seed=1] epoch 9/15 masked-L1=0.596
+[C][seed=1] epoch 10/15 masked-L1=0.577
+[C][seed=1] epoch 11/15 masked-L1=0.544
+[C][seed=1] epoch 12/15 masked-L1=0.558
+[C][seed=1] epoch 13/15 masked-L1=0.577
+[C][seed=1] epoch 14/15 masked-L1=0.543
+[C][seed=1] epoch 15/15 masked-L1=0.567
+[unet3/log1p/standard][seed=1] xcity all MAE=3.1815905240808644 | building MAE=5.599039642168621 | building RMSE=7.8717849049079955
+[C][seed=0] epoch 1/15 masked-L1=0.837
+[C][seed=0] epoch 2/15 masked-L1=0.673
+[C][seed=0] epoch 3/15 masked-L1=0.639
+[C][seed=0] epoch 4/15 masked-L1=0.623
+[C][seed=0] epoch 5/15 masked-L1=0.601
+[C][seed=0] epoch 6/15 masked-L1=0.625
+[C][seed=0] epoch 7/15 masked-L1=0.594
+[C][seed=0] epoch 8/15 masked-L1=0.619
+[C][seed=0] epoch 9/15 masked-L1=0.579
+[C][seed=0] epoch 10/15 masked-L1=0.566
+[C][seed=0] epoch 11/15 masked-L1=0.560
+[C][seed=0] epoch 12/15 masked-L1=0.573
+[C][seed=0] epoch 13/15 masked-L1=0.567
+[C][seed=0] epoch 14/15 masked-L1=0.571
+[C][seed=0] epoch 15/15 masked-L1=0.576
+[unet4/log1p/standard][seed=0] xcity all MAE=2.687915857121907 | building MAE=5.047941487951029 | building RMSE=7.814560304617786
+[C][seed=1] epoch 1/15 masked-L1=0.851
+[C][seed=1] epoch 2/15 masked-L1=0.665
+[C][seed=1] epoch 3/15 masked-L1=0.646
+[C][seed=1] epoch 4/15 masked-L1=0.627
+[C][seed=1] epoch 5/15 masked-L1=0.606
+[C][seed=1] epoch 6/15 masked-L1=0.589
+[C][seed=1] epoch 7/15 masked-L1=0.608
+[C][seed=1] epoch 8/15 masked-L1=0.610
+[C][seed=1] epoch 9/15 masked-L1=0.601
+[C][seed=1] epoch 10/15 masked-L1=0.587
+[C][seed=1] epoch 11/15 masked-L1=0.558
+[C][seed=1] epoch 12/15 masked-L1=0.571
+[C][seed=1] epoch 13/15 masked-L1=0.581
+[C][seed=1] epoch 14/15 masked-L1=0.550
+[C][seed=1] epoch 15/15 masked-L1=0.576
+[unet4/log1p/standard][seed=1] xcity all MAE=2.5279408985391183 | building MAE=5.15465362265027 | building RMSE=8.245029729691371
+[report] wrote runs\phase5_recon\PHASE5_COMPARISON.md
+[viz] wrote challenge panels + scatters + binned comparison to runs\phase5_recon\figures
+
+========================================================================
+PHASE-5 CHECKPOINT — reconstruction (unet4) vs C_log1p control (unet3)
+  params: ctrl=474,073  recon=889,561  (+415,488, +88%)  | VRAM ctrl=332MB recon=352MB
+  cross-city all MAE:  ctrl=2.68±0.51  recon=2.61±0.08  (B=4.43)
+  cross-city bldg MAE: ctrl=5.31  recon=5.10  (B=5.49)
+  cross-city bldg RMSE: ctrl=7.93  recon=8.03  (Δ=-0.10, pos=better)
+  LOW 0–14m bldg MAE:  ctrl=3.83  recon=3.47  (Δ=-0.36; ≈0=preserved)
+  TALL >14m bldg MAE: ctrl=17.14  recon=18.07  (Δ=-0.93, pos=better) | RMSE ctrl=18.79 recon=19.73
+  TALL bias: ctrl=-17.06  recon=-17.30  | ceiling(maxpred): ctrl=150.37 recon=25.12
+  §24 compensating-artifact (bias↓ but MAE/RMSE↑)? no
+  §26 signals: bldg_mae_ok=True bldg_rmse↓=False tall_mae↓=False tall_bias↑=False ceiling↑=False low_stable=True edge_ok=True xcity_useful=True var_ok=True
+========================================================================
+STOP: human reviews these numbers + error maps before any GO decision.

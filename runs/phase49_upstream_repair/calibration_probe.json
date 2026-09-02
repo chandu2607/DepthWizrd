@@ -1,0 +1,124 @@
+{
+  "reference": {
+    "path": "data\\dfc2023_multicity\\dsm\\SV_NewYork_40.7401_-73.9915.tif",
+    "exists": true,
+    "filename": "SV_NewYork_40.7401_-73.9915.tif",
+    "source": "data/dfc2023_multicity/dsm",
+    "crs": "EPSG:32618",
+    "shape": [
+      512,
+      512
+    ],
+    "dtype": "float32",
+    "bounds": [
+      585148.0,
+      4510134.5,
+      585404.0,
+      4510390.5
+    ],
+    "transform": [
+      0.5,
+      0.0,
+      585148.0,
+      0.0,
+      -0.5,
+      4510390.5,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "value_range": {
+      "min": 0.0,
+      "max": 87.44552612304688,
+      "mean": 20.745332717895508,
+      "median": 8.45268440246582
+    },
+    "is_georeferenced": true
+  },
+  "cases": [
+    {
+      "case": "A_non_georeferenced_relative",
+      "requested_mode": "CalibrationMode.MONOCULAR_RELATIVE",
+      "actual_mode": "CalibrationMode.MONOCULAR_RELATIVE",
+      "is_metric": false,
+      "fallback_occurred": true,
+      "dsm": {
+        "min": 0.0,
+        "max": 9.999994277954102,
+        "mean": 5.411028861999512,
+        "median": 5.4413251876831055,
+        "p95": 8.844050407409668,
+        "p99": 9.43655014038086
+      },
+      "units": "relative (0-10)",
+      "provenance": {
+        "calibration_mode": "Monocular Relative (rDSM)",
+        "scale": "Relative (0-10)",
+        "formula": "Z_rel = 10.0 * (d - min) / (max - min)"
+      }
+    },
+    {
+      "case": "B_georeferenced_auto_no_ref",
+      "requested_mode": "CalibrationMode.AUTO",
+      "actual_mode": "CalibrationMode.MONOCULAR_RELATIVE",
+      "is_metric": false,
+      "fallback_occurred": true,
+      "dsm": {
+        "min": 0.0,
+        "max": 9.999994277954102,
+        "mean": 5.411028861999512,
+        "median": 5.4413251876831055,
+        "p95": 8.844050407409668,
+        "p99": 9.43655014038086
+      },
+      "units": "relative (0-10)",
+      "provenance": {
+        "calibration_mode": "Monocular Relative (rDSM)",
+        "scale": "Relative (0-10)",
+        "formula": "Z_rel = 10.0 * (d - min) / (max - min)"
+      }
+    },
+    {
+      "case": "C_georeferenced_auto_with_ref",
+      "requested_mode": "CalibrationMode.AUTO",
+      "actual_mode": "CalibrationMode.STRUCTURAL_PRIOR",
+      "is_metric": true,
+      "fallback_occurred": false,
+      "dsm": {
+        "min": 77.36967468261719,
+        "max": 168.15499877929688,
+        "mean": 107.50129699707031,
+        "median": 107.02689361572266,
+        "p95": 131.46292114257812,
+        "p99": 152.71910095214844
+      },
+      "units": "meters",
+      "provenance": {
+        "calibration_mode": "Phase 29 PeakRecoveryMLP (Structural Prior)",
+        "formula": "DSM = DTM + nDSM_coarse + \u0394H_mlp",
+        "reference": "DFC2023 / Coarse Elevation Anchor"
+      }
+    },
+    {
+      "case": "D_explicit_structural_prior_with_ref",
+      "requested_mode": "CalibrationMode.STRUCTURAL_PRIOR",
+      "actual_mode": "CalibrationMode.STRUCTURAL_PRIOR",
+      "is_metric": true,
+      "fallback_occurred": false,
+      "dsm": {
+        "min": 77.36967468261719,
+        "max": 168.15499877929688,
+        "mean": 107.50129699707031,
+        "median": 107.02689361572266,
+        "p95": 131.46292114257812,
+        "p99": 152.71910095214844
+      },
+      "units": "meters",
+      "provenance": {
+        "calibration_mode": "Phase 29 PeakRecoveryMLP (Structural Prior)",
+        "formula": "DSM = DTM + nDSM_coarse + \u0394H_mlp",
+        "reference": "DFC2023 / Coarse Elevation Anchor"
+      }
+    }
+  ]
+}

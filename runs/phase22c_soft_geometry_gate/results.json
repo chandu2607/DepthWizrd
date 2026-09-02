@@ -1,0 +1,18 @@
+{
+  "hard_path_grads": {
+    "shared_encoder_e1": 0.028056904673576355,
+    "footprint_head_mask_channel": 0.0,
+    "mlp_weights": 54.642799377441406
+  },
+  "soft_path_grads": {
+    "shared_encoder_e1": 0.0,
+    "footprint_head_mask_channel": 0.0,
+    "mlp_weights": 0.0
+  },
+  "tiny_comparison": {
+    "soft_net_loss": 3.6277387142181396,
+    "soft_net_time_sec": 0.389873743057251,
+    "soft_net_vram_mb": 1396.61279296875
+  },
+  "recommendation": "KEEP HARD GEOMETRY PATH"
+}

@@ -1,0 +1,122 @@
+{
+  "A_seed_0": {
+    "config": "A",
+    "seed": 0,
+    "status": "completed",
+    "latest_epoch": 8,
+    "best_epoch": 6,
+    "best_val_iou": 0.4995395743840694,
+    "batch_size": 8,
+    "checkpoint": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase54_domain_robust_training\\checkpoints\\A_seed_0_best.pt",
+    "last_update": 1788246507.2229435,
+    "completed": true
+  },
+  "A_seed_1": {
+    "config": "A",
+    "seed": 1,
+    "status": "completed",
+    "latest_epoch": 8,
+    "best_epoch": 3,
+    "best_val_iou": 0.491727941315495,
+    "batch_size": 8,
+    "checkpoint": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase54_domain_robust_training\\checkpoints\\A_seed_1_best.pt",
+    "last_update": 1788246653.225537,
+    "completed": true
+  },
+  "B_seed_0": {
+    "config": "B",
+    "seed": 0,
+    "status": "completed",
+    "latest_epoch": 8,
+    "best_epoch": 4,
+    "best_val_iou": 0.4721643356394473,
+    "batch_size": 8,
+    "checkpoint": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase54_domain_robust_training\\checkpoints\\B_seed_0_best.pt",
+    "last_update": 1788247283.83656,
+    "completed": true
+  },
+  "B_seed_1": {
+    "config": "B",
+    "seed": 1,
+    "status": "completed",
+    "latest_epoch": 8,
+    "best_epoch": 4,
+    "best_val_iou": 0.4946056660402539,
+    "batch_size": 8,
+    "checkpoint": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase54_domain_robust_training\\checkpoints\\B_seed_1_best.pt",
+    "last_update": 1788247751.0946856,
+    "completed": true
+  },
+  "C_seed_0": {
+    "config": "C",
+    "seed": 0,
+    "status": "completed",
+    "latest_epoch": 8,
+    "best_epoch": 5,
+    "best_val_iou": 0.5175254589642906,
+    "batch_size": 8,
+    "checkpoint": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase54_domain_robust_training\\checkpoints\\C_seed_0_best.pt",
+    "last_update": 1788248104.1461143,
+    "completed": true
+  },
+  "C_seed_1": {
+    "config": "C",
+    "seed": 1,
+    "status": "completed",
+    "latest_epoch": 8,
+    "best_epoch": 6,
+    "best_val_iou": 0.5042041350462049,
+    "batch_size": 8,
+    "checkpoint": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase54_domain_robust_training\\checkpoints\\C_seed_1_best.pt",
+    "last_update": 1788248489.6308763,
+    "completed": true
+  },
+  "D_seed_0": {
+    "config": "D",
+    "seed": 0,
+    "status": "completed",
+    "latest_epoch": 8,
+    "best_epoch": 5,
+    "best_val_iou": 0.5117671061812268,
+    "batch_size": 8,
+    "checkpoint": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase54_domain_robust_training\\checkpoints\\D_seed_0_best.pt",
+    "last_update": 1788248845.5063698,
+    "completed": true
+  },
+  "D_seed_1": {
+    "config": "D",
+    "seed": 1,
+    "status": "completed",
+    "latest_epoch": 8,
+    "best_epoch": 7,
+    "best_val_iou": 0.5035162124665357,
+    "batch_size": 8,
+    "checkpoint": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase54_domain_robust_training\\checkpoints\\D_seed_1_best.pt",
+    "last_update": 1788249198.8656843,
+    "completed": true
+  },
+  "E_seed_0": {
+    "config": "E",
+    "seed": 0,
+    "status": "completed",
+    "latest_epoch": 8,
+    "best_epoch": 8,
+    "best_val_iou": 0.52406099098692,
+    "batch_size": 8,
+    "checkpoint": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase54_domain_robust_training\\checkpoints\\E_seed_0_best.pt",
+    "last_update": 1788249562.7090428,
+    "completed": true
+  },
+  "E_seed_1": {
+    "config": "E",
+    "seed": 1,
+    "status": "completed",
+    "latest_epoch": 8,
+    "best_epoch": 7,
+    "best_val_iou": 0.4941021723795935,
+    "batch_size": 8,
+    "checkpoint": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase54_domain_robust_training\\checkpoints\\E_seed_1_best.pt",
+    "last_update": 1788249956.7351077,
+    "completed": true
+  }
+}

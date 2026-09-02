@@ -1,0 +1,28 @@
+{
+  "verdict": "TARGET_MATCH_SUCCESS",
+  "exact_difference_from_reference": "Replaced continuous un-smoothed raster quads with a 4-layer hybrid 3D city scene (Base DTM Terrain + Extruded Vertical Side Walls + DSM Roof Topology + Spatially Registered RGB Texture).",
+  "geometry_representation": "Hybrid building-aware 3D city surface mesh.",
+  "building_extraction": "36 individual building objects extracted via Phase 24 U-Net footprint segmentation.",
+  "wall_generation": "Clean vertical quad wall strips rising from local DTM ground to P95 DSM roof height.",
+  "roof_generation": "Sampled DSM roof surface inside footprint polygons with edge-preserving bilateral regularization.",
+  "terrain_generation": "Smooth base DTM surface.",
+  "texture_mapping": "Spatially registered 1:1 UV mapping from satellite orthophoto.",
+  "normals_shading": "Computed point normals + smooth shading + ambient (0.3) + diffuse (0.85).",
+  "camera": "Dynamic scene-extent scaled framing: CITY OVERVIEW, URBAN, INSPECTION, TOP VIEW.",
+  "viewer_technology": "PyVista / VTK offscreen screenshot renderer integrated into Streamlit.",
+  "building_count": 36,
+  "mesh_statistics": {
+    "n_points": 264048,
+    "n_cells": 262073,
+    "build_time_s": 1.135
+  },
+  "interaction_test": "PASS \u2014 camera presets and render modes update instantaneously.",
+  "performance": {
+    "mesh_build_s": 1.135,
+    "render_s": 0.14
+  },
+  "dsm_integrity": "BYTE-IDENTICAL",
+  "export_integrity": "PASS \u2014 GeoTIFF and VTP mesh reloaded and verified.",
+  "target_matched": true,
+  "next_action": "PRESENT_TO_JURY"
+}

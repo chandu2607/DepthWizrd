@@ -1,0 +1,40 @@
+{
+  "region": "Himachal Pradesh",
+  "state": "Himachal Pradesh",
+  "coordinates": {
+    "center": [
+      77.1,
+      31.9
+    ],
+    "bbox": [
+      76.8,
+      31.5,
+      77.5,
+      32.5
+    ]
+  },
+  "terrain_type": "Himalayan valley terrain with steep slopes, river cuts, dense settlement clusters",
+  "elevation_range_m": "~1500-4200",
+  "imagery_availability": "PUBLIC_SENTINEL2_LIKELY_AVAILABLE",
+  "reference_availability": "DEM_AVAILABLE_IN_PUBLIC_CATALOGS_BUT_NOT_YET_VERIFIED",
+  "optical_source": "Sentinel-2 L2A (public STAC catalog)",
+  "optical_resolution_m": 10,
+  "elevation_source": "Copernicus DEM / local DEM candidate",
+  "elevation_resolution_m": 30,
+  "elevation_type": "DEM",
+  "building_labels": "CANDIDATE_ONLY",
+  "building_height_labels": "CANDIDATE_ONLY",
+  "slope_available": "YES",
+  "hazard_labels": "NO",
+  "CRS": "Scene dependent",
+  "date": "CANDIDATE",
+  "license": "Public access expected; verification pending",
+  "access": "Candidate: identified but not yet downloaded and aligned",
+  "training_suitability": "PENDING",
+  "validation_suitability": "PENDING",
+  "test_suitability": "PENDING",
+  "limitations": "No direct high-resolution building reference yet; not accepted for final evaluation",
+  "real_data": false,
+  "metrics_available": false,
+  "geographic_note": "Geographically separate from Phase 64 Uttarakhand and appropriate as validation candidate if a real paired tile is acquired."
+}

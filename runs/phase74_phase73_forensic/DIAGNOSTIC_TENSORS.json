@@ -1,0 +1,41 @@
+{
+  "train_region": {
+    "name": "uttarakhand",
+    "valid_pixels": 262144,
+    "raw_target_min_m": 3472.830078125,
+    "raw_target_max_m": 5375.1533203125,
+    "raw_target_mean_m": 4662.03515625,
+    "raw_target_std_m": 355.37628173828125,
+    "normalized_target_min": -3.3463265895843506,
+    "normalized_target_max": 2.0066566467285156,
+    "normalized_target_mean": 4.172325134277344e-07,
+    "normalized_target_std": 1.0000019073486328,
+    "predicted_normalized_min": 0.10096284747123718,
+    "predicted_normalized_max": 0.15580452978610992,
+    "predicted_normalized_mean": 0.1370457261800766,
+    "predicted_normalized_std": 0.006262500304728746,
+    "predicted_raw_min_m": 4697.9150390625,
+    "predicted_raw_max_m": 4717.404296875,
+    "predicted_raw_mean_m": 4710.73828125,
+    "predicted_raw_std_m": 2.225543975830078,
+    "pred_target_abs_err_mean_m": 285.72003173828125,
+    "pred_target_rmse_m": 358.05963134765625,
+    "pred_target_bias_m": 48.70265197753906
+  },
+  "validation_region": {
+    "name": "himachal",
+    "valid_pixels": 262144,
+    "raw_target_min_m": 255.248046875,
+    "raw_target_max_m": 283.81787109375,
+    "raw_target_mean_m": 260.3289794921875,
+    "raw_target_std_m": 2.054396867752075,
+    "predicted_raw_min_m": 4615.64990234375,
+    "predicted_raw_max_m": 4624.8935546875,
+    "predicted_raw_mean_m": 4623.63525390625,
+    "predicted_raw_std_m": 1.3092708587646484,
+    "absolute_error_mean_m": 4363.30615234375,
+    "rmse_m": 4363.30712890625,
+    "bias_m": 4363.30615234375,
+    "pearson": -0.11460259146511471
+  }
+}

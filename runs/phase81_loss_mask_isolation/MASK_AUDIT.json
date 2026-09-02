@@ -1,0 +1,19 @@
+{
+  "mask_dtype": "torch.float32",
+  "mask_min": 1.0,
+  "mask_max": 1.0,
+  "unique_values": [
+    1.0
+  ],
+  "nonzero_count": 262144,
+  "total_pixels": 262144,
+  "valid_pixels": 262144,
+  "invalid_pixels": 0,
+  "valid_fraction": 1.0,
+  "shape": [
+    1,
+    1,
+    512,
+    512
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "visuals": ["default_mode.png", "uttarakhand_integrated.png", "uttarakhand_canny_off.png", "uttarakhand_canny_on.png", "uttarakhand_pointcloud_off.png", "uttarakhand_pointcloud_on.png", "himachal_integrated.png", "missing_height_behavior.png"],
+  "actual_browser_capture": true,
+  "default_ui": "loaded",
+  "uttarakhand_iframe": "loaded; 11 structures and camera/reset controls visible",
+  "himachal_iframe": "loaded; 1 structure and camera/reset controls visible",
+  "missing_height": "preserved in authoritative scene contract; no fabricated numeric height",
+  "visual_enhancement": false
+}

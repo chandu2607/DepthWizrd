@@ -1,0 +1,25 @@
+{
+  "phase": "24A",
+  "name": "height_regime_moe_design",
+  "timestamp": "2026-08-29T01:29:25Z",
+  "proposed_architecture": {
+    "backbone": "SmallFusionUNet",
+    "backbone_parameters": 1500000,
+    "gating_parameters": 2500,
+    "expert_parameters": 15000,
+    "total_estimated_parameters": 1517500,
+    "experts_count": 3,
+    "expert_labels": ["low", "mid", "high_extreme"]
+  },
+  "target_hardware": {
+    "gpu": "RTX 3050 4GB",
+    "target_training_vram_mb": 850
+  },
+  "success_thresholds": {
+    "copenhagen_val_bldg_mae_m": 9.5,
+    "newyork_zero_shot_all_mae_m": 12.0,
+    "newyork_zero_shot_bldg_mae_m": 15.0,
+    "newyork_skyscraper_gt_40_mae_m": 25.0
+  },
+  "status": "DESIGN_REVIEW_COMPLETE"
+}

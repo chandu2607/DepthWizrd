@@ -1,0 +1,53 @@
+component_id,area_px,area_m2,bbox_x,bbox_y,bbox_w,bbox_h,bbox_aspect,centroid_x,centroid_y,contour_vertices,contour_area,mask_area,image_occupancy_pct,building_mask_pct,perimeter,status,classification,suspicious_reasons,scene
+1,2964,741.0,0,0,122,82,1.49,40.3,21.8,68,2777.0,2964,1.13,5.09,436.2,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+2,744,186.0,148,0,64,24,2.67,171.4,8.6,22,673.0,744,0.28,1.28,156.2,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+3,156,39.0,402,0,42,6,7.0,423.7,1.9,13,106.0,156,0.06,0.27,89.2,Suspicious,Irregular Boundary,aspect=7.00 extreme,SV_NewYork_40.7401_-73.9915.tif
+4,2492,623.0,448,0,64,68,0.94,480.1,29.5,53,2371.0,2492,0.95,4.28,317.7,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+5,28,7.0,308,2,14,2,7.0,314.5,2.5,2,0.0,28,0.01,0.05,26.1,Suspicious,Irregular Boundary,aspect=7.00 extreme,SV_NewYork_40.7401_-73.9915.tif
+6,12,3.0,348,2,6,2,3.0,350.5,2.5,2,0.0,12,0.0,0.02,10.2,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+7,41204,10301.0,0,76,512,436,1.17,275.3,413.8,495,39768.0,41204,15.72,70.8,3045.3,Suspicious,Merged/Complex,bw=512 > 65% w; bh=436 > 65% h; high_compactness_ratio,SV_NewYork_40.7401_-73.9915.tif
+8,20,5.0,260,108,6,4,1.5,262.1,109.7,4,10.5,20,0.01,0.03,13.9,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+9,96,24.0,94,122,10,18,0.56,99.0,130.9,12,72.5,96,0.04,0.16,43.5,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+10,72,18.0,4,138,10,10,1.0,7.6,142.7,7,61.0,72,0.03,0.12,29.9,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+11,580,145.0,118,188,32,26,1.23,134.7,201.3,18,543.5,580,0.22,1.0,94.4,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+12,4460,1115.0,278,218,130,168,0.77,332.5,297.0,144,4152.0,4460,1.7,7.66,668.4,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+13,4,1.0,128,220,2,2,1.0,128.5,220.5,1,0.0,4,0.0,0.01,0.0,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+14,172,43.0,346,252,16,22,0.73,354.6,265.4,13,141.0,172,0.07,0.3,60.7,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+15,16,4.0,122,334,4,6,0.67,123.5,336.5,4,8.5,16,0.01,0.03,12.6,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+16,32,8.0,366,344,8,8,1.0,370.2,348.0,6,21.0,32,0.01,0.05,23.2,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+17,40,10.0,422,346,8,8,1.0,425.7,348.9,7,30.0,40,0.02,0.07,23.1,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+18,224,56.0,60,368,28,18,1.56,73.5,376.1,18,197.0,224,0.09,0.38,70.4,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+19,4,1.0,416,374,2,2,1.0,416.5,374.5,1,0.0,4,0.0,0.01,0.0,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+20,20,5.0,92,376,4,6,0.67,93.7,378.9,4,12.0,20,0.01,0.03,14.6,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+21,1156,289.0,272,378,46,46,1.0,289.6,400.9,47,1096.0,1156,0.44,1.99,183.2,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+22,232,58.0,134,390,20,24,0.83,143.4,403.6,19,196.5,232,0.09,0.4,78.4,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+23,3136,784.0,150,396,84,66,1.27,197.0,431.7,69,3022.0,3136,1.2,5.39,321.8,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+24,12,3.0,48,404,6,2,3.0,50.5,404.5,2,0.0,12,0.0,0.02,10.2,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+25,76,19.0,352,416,10,10,1.0,356.9,420.5,9,62.0,76,0.03,0.13,31.7,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+26,84,21.0,332,426,12,10,1.2,337.9,430.8,9,73.0,84,0.03,0.14,34.1,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+27,44,11.0,346,430,8,8,1.0,349.4,433.2,8,35.0,44,0.02,0.08,23.5,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+28,120,30.0,334,444,14,12,1.17,340.5,449.5,12,111.0,120,0.05,0.21,38.6,Valid,Legitimate Building,None,SV_NewYork_40.7401_-73.9915.tif
+1,171800,42950.0,0,0,512,512,1.0,228.0,274.3,1088,179071.5,171800,65.54,97.37,6321.0,Suspicious,Merged/Complex,bw=512 > 65% w; bh=512 > 65% h; area_pct=65.5% > 40%; high_compactness_ratio,SV_NewYork_40.7333_-73.9835.tif
+2,8,2.0,72,2,4,2,2.0,73.5,2.5,2,0.0,8,0.0,0.0,6.3,Valid,Legitimate Building,None,SV_NewYork_40.7333_-73.9835.tif
+3,4,1.0,386,38,2,2,1.0,386.5,38.5,1,0.0,4,0.0,0.0,0.0,Valid,Legitimate Building,None,SV_NewYork_40.7333_-73.9835.tif
+4,12,3.0,76,54,2,6,0.33,76.5,56.5,2,0.0,12,0.0,0.01,10.0,Valid,Legitimate Building,None,SV_NewYork_40.7333_-73.9835.tif
+5,60,15.0,470,70,12,8,1.5,475.3,72.9,8,46.0,60,0.02,0.03,30.1,Valid,Legitimate Building,None,SV_NewYork_40.7333_-73.9835.tif
+6,220,55.0,496,70,12,24,0.5,501.5,81.8,12,201.0,220,0.08,0.12,57.6,Valid,Legitimate Building,None,SV_NewYork_40.7333_-73.9835.tif
+7,4,1.0,352,100,2,2,1.0,352.5,100.5,1,0.0,4,0.0,0.0,0.0,Valid,Legitimate Building,None,SV_NewYork_40.7333_-73.9835.tif
+8,40,10.0,316,122,6,10,0.6,318.5,126.1,6,28.0,40,0.02,0.02,24.6,Valid,Legitimate Building,None,SV_NewYork_40.7333_-73.9835.tif
+9,4152,1038.0,458,126,54,126,0.43,490.4,189.3,60,4035.5,4152,1.58,2.35,327.9,Valid,Legitimate Building,None,SV_NewYork_40.7333_-73.9835.tif
+10,28,7.0,438,192,6,6,1.0,440.5,194.5,6,21.0,28,0.01,0.02,17.7,Valid,Legitimate Building,None,SV_NewYork_40.7333_-73.9835.tif
+11,120,30.0,178,328,14,14,1.0,184.4,334.2,11,108.0,120,0.05,0.07,42.7,Valid,Legitimate Building,None,SV_NewYork_40.7333_-73.9835.tif
+1,158872,39718.0,0,0,512,512,1.0,304.2,276.2,397,197873.0,158872,60.6,91.15,3448.7,Suspicious,Merged/Complex,bw=512 > 65% w; bh=512 > 65% h; area_pct=60.6% > 40%,SV_NewYork_40.7335_-74.0053.tif
+2,8,2.0,342,10,4,2,2.0,343.5,10.5,2,0.0,8,0.0,0.0,6.3,Valid,Legitimate Building,None,SV_NewYork_40.7335_-74.0053.tif
+3,864,216.0,136,58,38,46,0.83,151.8,78.8,37,802.5,864,0.33,0.5,167.4,Valid,Legitimate Building,None,SV_NewYork_40.7335_-74.0053.tif
+4,4,1.0,102,88,2,2,1.0,102.5,88.5,1,0.0,4,0.0,0.0,0.0,Valid,Legitimate Building,None,SV_NewYork_40.7335_-74.0053.tif
+5,320,80.0,72,90,30,24,1.25,84.8,101.2,25,286.5,320,0.12,0.18,89.8,Valid,Legitimate Building,None,SV_NewYork_40.7335_-74.0053.tif
+6,24,6.0,106,92,6,4,1.5,108.5,93.5,4,15.0,24,0.01,0.01,16.0,Valid,Legitimate Building,None,SV_NewYork_40.7335_-74.0053.tif
+7,92,23.0,248,114,18,8,2.25,256.2,117.5,9,71.0,92,0.04,0.05,42.7,Valid,Legitimate Building,None,SV_NewYork_40.7335_-74.0053.tif
+8,352,88.0,52,116,24,24,1.0,62.8,128.8,17,318.5,352,0.13,0.2,77.2,Valid,Legitimate Building,None,SV_NewYork_40.7335_-74.0053.tif
+9,4,1.0,40,138,2,2,1.0,40.5,138.5,1,0.0,4,0.0,0.0,0.0,Valid,Legitimate Building,None,SV_NewYork_40.7335_-74.0053.tif
+10,2000,500.0,106,152,78,68,1.15,152.7,178.1,60,1887.0,2000,0.76,1.15,310.4,Valid,Legitimate Building,None,SV_NewYork_40.7335_-74.0053.tif
+11,11696,2924.0,0,200,212,152,1.39,64.3,271.0,191,12483.0,11696,4.46,6.71,878.6,Valid,Legitimate Building,None,SV_NewYork_40.7335_-74.0053.tif
+12,40,10.0,328,294,8,6,1.33,331.5,296.5,6,31.0,40,0.02,0.02,21.7,Valid,Legitimate Building,None,SV_NewYork_40.7335_-74.0053.tif
+13,28,7.0,162,404,8,6,1.33,165.4,406.2,6,18.5,28,0.01,0.02,18.4,Valid,Legitimate Building,None,SV_NewYork_40.7335_-74.0053.tif

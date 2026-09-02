@@ -1,0 +1,13 @@
+Control,Action,Result,Status
+City Overview Preset,Click Preset,Camera frames full city block with ~20% margin,PASS
+Urban Oblique Preset,Click Preset,Camera moves to 35° facade perspective,PASS
+Inspection Preset,Click Preset,Camera zooms closely on tallest skyscraper,PASS
+Top-Down Preset,Click Preset,Camera targets 90° nadir overhead view,PASS
+Pedestrian Preset,Click Preset,Camera drops to street-level looking up,PASS
+RGB City Mode,Click Render Mode,Applies satellite orthophoto texture to roofs & DTM,PASS
+Elevation Mode,Click Render Mode,Applies Turbo elevation colormap to scene & legend,PASS
+Building Height Mode,Click Render Mode,"Subdues terrain, colors roofs/walls by height (0-60m+)",PASS
+Terrain Slope Mode,Click Render Mode,Colors ground DTM by slope angle (0°-45°+),PASS
+Exaggeration Slider,Slide 1.0x to 2.0x,Scales WebGL Z height without mutating scientific rasters,PASS
+Building Raycast Pick,Click Building,"Inspector HUD displays Building ID, Height, Roof/Ground Z",PASS
+Cinematic Flythrough,Click Flythrough,Triggers smooth 360° orbiting animation at 60 FPS,PASS

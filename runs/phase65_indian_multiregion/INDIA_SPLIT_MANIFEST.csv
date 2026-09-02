@@ -1,0 +1,4 @@
+split,region,state,coordinates,real_data,status,leakage_risk,notes
+TRAIN,Uttarakhand,Uttarakhand,"[79.35, 30.25, 79.8, 30.85]",YES,REAL_PILOT_BUT_NOT_HIGH_RES_BUILDING_GT,LOW,Valid physical benchmark pair exists; no accepted building-height ground truth is available.
+VALIDATION,Himachal Pradesh,Himachal Pradesh,"[76.8, 31.5, 77.5, 32.5]",NO,CANDIDATE_ONLY,LOW,Geographically separate from A; not yet downloaded and aligned.
+TEST,Sikkim,Sikkim,"[88.1, 27.0, 88.9, 27.6]",NO,CANDIDATE_ONLY,LOW,Geographically separate from A and B; not yet downloaded and aligned.

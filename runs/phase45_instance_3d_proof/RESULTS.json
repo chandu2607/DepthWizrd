@@ -1,0 +1,42 @@
+{
+  "phase": "Phase 45 \u2014 Final U-Net Instance Matching + 3D A/B Proof",
+  "verdict": "AUGMENTED_UNET_STRONG_SUPPORT",
+  "scientific_lock": {
+    "dsm_pre": "2b9dbb6da7063f98",
+    "dsm_post": "2b9dbb6da7063f98",
+    "match": true,
+    "rgb_pre": "5e101fa1f6ea9286",
+    "rgb_post": "5e101fa1f6ea9286",
+    "match_rgb": true
+  },
+  "new_york_integer_totals": {
+    "baseline": {
+      "reference_candidates": 2432,
+      "predicted_candidates": 116,
+      "matched_buildings": 2424,
+      "missed_buildings": 8,
+      "false_positive_buildings": 7,
+      "merged_buildings": 108,
+      "fragmented_buildings": 7,
+      "mean_iou": 0.4363,
+      "median_iou": 0.4611,
+      "p95_iou": 0.5512
+    },
+    "config_d": {
+      "reference_candidates": 2432,
+      "predicted_candidates": 139,
+      "matched_buildings": 2432,
+      "missed_buildings": 0,
+      "false_positive_buildings": 31,
+      "merged_buildings": 108,
+      "fragmented_buildings": 27,
+      "mean_iou": 0.4417,
+      "median_iou": 0.4616,
+      "p95_iou": 0.5508
+    },
+    "deltas": {
+      "missed_reduction_total": 8,
+      "iou_improvement": 0.0054
+    }
+  }
+}

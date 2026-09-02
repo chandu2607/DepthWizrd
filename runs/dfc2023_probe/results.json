@@ -1,0 +1,111 @@
+{
+  "task": "DFC2023 Track 2 dataset validation probe",
+  "date": "2026-08-27",
+  "artifact_type": "dataset_validation_only",
+  "canonical_history_appended": false,
+  "fabricated_numbers": "none",
+  "verdict": "APPROVED_WITH_CAVEATS_metadata__FILE_PROBE_BLOCKED_SAMPLE_NOT_FOUND",
+  "file_probe_status": "BLOCKED_SAMPLE_NOT_FOUND (human-provided sample absent at every accessible location on 2026-08-27; access also still gated / no open mirror)",
+  "metadata_probe_status": "PASSED",
+  "file_probe_attempt": {
+    "date": "2026-08-27",
+    "result": "BLOCKED_SAMPLE_NOT_FOUND",
+    "searched_locations": [
+      "project tree DepthWizard/** for rasters/JSON/dfc2023-or-track2-or-rgb-or-height-or-sar dirs -- only DFC2019 mirror (data/dfc2019/**) + prior-phase PNG figures found",
+      "C:/Users/chand/Downloads for *.tif*/*.json/*DFC2023*/archives -- none (newest item a .md at 17:53)",
+      "C:/Users/chand/OneDrive/Desktop for a new sample folder -- none",
+      "Downloads/04 Archives/*.zip listings (no extraction): archive.zip=lone 2020 annotations.json, Farm(2).zip=flask app -- unrelated"
+    ],
+    "checks_not_run": ["rgb_inspection", "height_units", "height_semantics", "rgb_height_alignment", "coco_categories", "tall_building_fractions", "tile_size_in_data", "gsd_in_data", "multi_city_label_availability"],
+    "fabricated_numbers": "none",
+    "self_download_performed": false,
+    "conclusion": "No human-provided DFC2023 sample present at any accessible location; file-level probe could not run. Awaiting exact path from human.",
+    "minimal_useful_sample_requested": "2-3 cities x a few tiles of RGB + height TIFFs + matching buildings_only_*.json (SAR not needed)"
+  },
+
+  "dataset": {
+    "name": "2023 IEEE GRSS Data Fusion Contest - Track 2 (Building Height Estimation)",
+    "official_sources": {
+      "baseline_repo": "https://github.com/AICyberTeam/DFC2023-baseline",
+      "registration": "https://dfc.geovisearth.com/en/register",
+      "grss_page": "official IEEE GRSS DFC2023 page (grss-ieee.org)"
+    },
+    "cities_total": 17,
+    "continents": 6,
+    "city_names_verified": false,
+    "cities_with_public_metric_labels": "unverified",
+    "modalities_present": ["optical_rgb (SuperView-1 0.5m, Gaofen-2 0.8m)", "sar (Gaofen-3 1m)", "height (nDSM per-pixel elevation TIFF)"],
+    "rgb_only_training_feasible": true,
+    "height_target": "nDSM (normalized DSM), per-pixel elevation raster",
+    "height_units": "not_explicitly_stated__nDSM_convention_implies_meters__confirm_in_data_description",
+    "height_gt_source": "measured/derived nDSM (stereo Gaofen-7/WorldView per official page); NOT model-predicted; reconfirm during probe",
+    "circular_pipeline_risk": "low__GT_is_measured_nDSM_not_model_predicted__pending_reconfirmation",
+    "building_masks": "MS_COCO_instance_segmentation_json (buildings_only_train/val/test.json)",
+    "tile_size_px": 512,
+    "structure": "train/val/test each with rgb/ sar/ height/ + annotations/*.json",
+    "real_imagery": true,
+    "tall_building_content": "unverified__requires_file_probe (fractions >15/20/30/40 m)",
+    "rgb_height_alignment": "unverified__requires_file_probe",
+    "dataset_size_gb": "unverified__no_file_listing_without_registration",
+    "access": "gated: Codalab account + registration at dfc.geovisearth.com; no open mirror",
+    "license_terms": "contest_terms_via_registration__exact_text_not_reverified_this_session",
+    "open_mirror_found": false,
+    "mirror_checks": {
+      "huggingface_search_DFC2023": "empty",
+      "huggingface_search_data_fusion_contest": "empty",
+      "zenodo_data_fusion_contest_building_height": "no_DFC2023 (only DFC2018/2019/2022 + unrelated products)",
+      "baseline_repo_bundled_samples": "none"
+    }
+  },
+
+  "compatibility_with_depthwizard": {
+    "tile_size_match": "yes (512 == current tile_size)",
+    "target_match": "yes (nDSM height, same concept as DFC2019 mirror)",
+    "rgb_only_ok": "yes (drop SAR)",
+    "pipeline_changes_needed": "new DFC2023 dataset adapter (train/val/test -> rgb/height layout + COCO->building-mask decode); keep DA-V2, C_log1p, loss, log1p transform, city-held-out eval UNCHANGED",
+    "adapter_built": false
+  },
+
+  "backup_highbuild1m": {
+    "hf_id": "feifei140729/HighBuild-1M",
+    "cities": "26 groups / 12 countries / 6 continents",
+    "height_units": "not_stated",
+    "gt_source": "not_stated",
+    "real_vs_synthetic": "not_stated",
+    "gsd": "not_stated",
+    "license": "other",
+    "arxiv_paper": "none",
+    "github_repo": "none",
+    "openly_downloadable": true,
+    "status": "BACKUP_ONLY__provenance_unresolved"
+  },
+
+  "m4heights": {
+    "hf_id": "Rituxx96x/M4Heights",
+    "status": "not_revisited__gated_401_multimodal_sentinel__no_evidence_beats_DFC2023"
+  },
+
+  "recommended_next_download": {
+    "precondition": "human registers on Codalab + dfc.geovisearth.com",
+    "subset": "TRAINING partition only: rgb/ + height/ + annotations/buildings_only_train.json; SKIP sar/",
+    "first_probe_pull": "2-3 cities x a few 512x512 tiles to verify in-data units, height distribution, tall fractions, RGB<->height alignment BEFORE any full download",
+    "per_tile_size_estimate_mb": "~1.3-1.8 (512x512 RGB + float32 height, no SAR)",
+    "total_size": "unknown_until_file_listing_seen__do_not_assume",
+    "hardware_recheck": "RTX 3050 ~4GB VRAM, ~88GB free -- re-verify before bulk pull",
+    "then": "STOP again for human go/no-go on full download"
+  },
+
+  "future_experiment_design_only": {
+    "train": ">=4 cities across >=3 continents",
+    "val": "1 unseen city",
+    "test": "1 unseen city",
+    "baseline_arm": "JAX-only C_log1p",
+    "variable": "training-city diversity",
+    "fixed": ["DepthAnythingV2_frozen", "C_log1p", "log1p_transform", "loss", "optimizer", "resolution", "seeds_0_1", "city_held_out_eval"],
+    "success_metrics": ["unseen_city_building_MAE", "tall_building_MAE", "building_RMSE", "high_height_bias", "cross_city_stability"],
+    "failure_guards": ["mean_shift_upward", "false_positives", "ground_pixel_exploit", "edge_artifacts", "overfitting"],
+    "executed": false
+  },
+
+  "stop": "MANDATORY_STOP__awaiting_human_approval__no_download_no_training_no_model_changes"
+}

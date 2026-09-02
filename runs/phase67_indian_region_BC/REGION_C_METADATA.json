@@ -1,0 +1,18 @@
+{
+  "region": "Sikkim",
+  "state": "Sikkim",
+  "coordinates": {
+    "bbox": [
+      88.0,
+      27.0,
+      89.2,
+      28.0
+    ]
+  },
+  "terrain_type": "Eastern Himalayan steep ridge and valley terrain",
+  "elevation_range_m": "approx. 800-5000",
+  "imagery_availability": "candidate public Sentinel-2 scene likely available via STAC",
+  "reference_availability": "candidate DEM/DSM likely available via public catalog; not yet downloaded and read",
+  "status": "NOT_ACQUIRED",
+  "notes": "No real raster bytes were downloaded for Region C in this phase. This is a candidate only, not an accepted benchmark region."
+}

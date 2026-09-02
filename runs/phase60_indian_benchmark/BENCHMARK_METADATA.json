@@ -1,0 +1,15 @@
+{
+  "status": "NO_VALID_INDIAN_BENCHMARK_FOUND",
+  "message": "No real Indian mountainous benchmark was accepted in this phase because no verified paired optical + elevation dataset was available and aligned in the workspace.",
+  "region": null,
+  "state": null,
+  "optical_source": null,
+  "elevation_source": null,
+  "optical_resolution_m": null,
+  "elevation_resolution_m": null,
+  "crs": null,
+  "area_hectares": null,
+  "downloaded": false,
+  "requires_manual_validation": true,
+  "evidence_basis": "Public source discovery only; no actual benchmark tile downloaded or validated."
+}

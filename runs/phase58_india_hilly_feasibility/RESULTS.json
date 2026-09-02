@@ -1,0 +1,64 @@
+{
+  "phase": 58,
+  "title": "India Hilly Terrain Feasibility Study",
+  "verdict": "INDIA_RESEARCH_REQUIRED",
+  "scientific_rule": "No Indian hilly disaster claim is justified without real Indian terrain data and externally validated metrics.",
+  "current_model_answer": "No. The current model is not proven to work for Indian hilly regions.",
+  "why_current_model_fails": [
+    "The model is building-centric and urban-scene-oriented rather than terrain-native.",
+    "The current Depth Anything V2 integration produces a relative depth prior, not a metric terrain sensor.",
+    "The calibration pipeline uses morphological and smoothing approximations that are not validated for steep terrain or landslide/flood scenarios.",
+    "The data pipeline has no Indian hilly benchmark or disaster-ground-truth suite.",
+    "The architecture does not model terrain, bare-earth, slope, vegetation, or hazard-specific outputs as first-class tasks."
+  ],
+  "components_reusable": [
+    "RGB input and georeferencing support",
+    "Depth Anything V2 as a visual / relative-depth prior",
+    "DSM and DTM decomposition concepts",
+    "Slope computation module for terrain inspection",
+    "3D rendering and visualization front end",
+    "Data ingestion and raster metadata handling"
+  ],
+  "minimum_change_required": "Add a terrain-aware branch and benchmark it on real Indian hilly data before any operational claim. A new terrain head or separate DTM/DEM pathway is required; the current building model must not be forced to act as a terrain model.",
+  "canny_help": "Canny can help in a post-processing role for boundary refinement, but it is not a semantic terrain or building detector and is not a substitute for the actual model.",
+  "point_cloud_help": "Point clouds can improve geometric continuity and terrain visualization, but only after the terrain height estimate is valid. They are an enhancement, not the root fix.",
+  "required_indian_data": [
+    "georeferenced Indian optical imagery",
+    "DEM or DSM ground truth",
+    "slope maps or slope labels",
+    "building footprints where available",
+    "vegetation / land cover context",
+    "landslide inventory or flood extent labels",
+    "held-out test region with no leakage"
+  ],
+  "next_experiment": "Run a minimal Indian hilly benchmark with a held-out test region, stratified by slope and terrain type, and separately report building, terrain, and hazard-related metrics.",
+  "do_not_change": [
+    "Do not retrain or modify the production model in this phase.",
+    "Do not fabricate Indian results.",
+    "Do not claim Indian generalization without real reference data.",
+    "Do not force the building-conditioned U-Net to masquerade as a terrain model.",
+    "Do not optimize the demo instead of the scientific benchmark."
+  ],
+  "fastest_defensible_path": "Audit current architecture, acquire one small public Indian hilly benchmark with DEM truth, measure terrain-specific error, and then decide whether a terrain-aware branch or a simpler DEM-anchored extension is required.",
+  "use_cases": {
+    "A_landslide_terrain_visualization": "Requires new model capability and terrain validation",
+    "B_flood_terrain_elevation_visualization": "Requires external data and terrain calibration",
+    "C_slope_and_steepness_analysis": "Partially supported with current slope module; requires validation",
+    "D_terrain_change_visualization": "Requires external data and event-aware reference",
+    "E_building_exposure_in_hazardous_terrain": "Potentially feasible with terrain + building fusion, but not current out-of-box",
+    "F_rapid_3d_reconstruction_after_disaster": "Possible in a limited sense, but requires validated terrain + event data",
+    "G_elevation_aware_disaster_simulation": "Requires a full terrain-aware model and external physical priors"
+  },
+  "questions_answered": {
+    "1": "Can our CURRENT model work for Indian hilly regions? No.",
+    "2": "If not, exactly why? Because it is building-centric, not terrain-native, and lacks real Indian terrain validation.",
+    "3": "Which components can be reused? RGB, georeferencing, relative depth prior, DTM/DSM concepts, slope module, 3D visualization.",
+    "4": "What is the minimum change required? A terrain-aware branch plus real benchmark validation.",
+    "5": "Can Canny help? Only as a low-level post-processing aid.",
+    "6": "Can point clouds help? Yes, for geometry continuity, but only after terrain truth is valid.",
+    "7": "What Indian data do we need? DEM/DSM, optical imagery, slope and hazard labels, held-out benchmark splits.",
+    "8": "What experiment should we run next? Minimal Indian hilly benchmark with terrain-specific metrics and slope stratification.",
+    "9": "What should we NOT change? Do not retrain or claim Indian readiness before benchmark validation.",
+    "10": "What is the fastest scientifically defensible path? Benchmark first, then add terrain-aware branch only if required by evidence."
+  }
+}

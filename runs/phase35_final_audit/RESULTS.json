@@ -1,0 +1,62 @@
+{
+  "NYC_skyscraper_heavy": {
+    "num_buildings": 28,
+    "terrain_faces": 32258,
+    "roof_faces": 782,
+    "wall_faces": 1676,
+    "bounds": {
+      "w_m": 256.0,
+      "h_m": 256.0,
+      "z_min": 53.1,
+      "z_max": 154.0,
+      "max_dim": 256.0
+    },
+    "scientific_dsm": {
+      "sha256_hash": "6110c540b8ad3b0d90976325aa4395c73f479e464d927118c1754604cd845faf",
+      "min_m": 53.09,
+      "max_m": 153.99,
+      "mean_m": 87.08,
+      "p95_m": 121.47
+    }
+  },
+  "NYC_dense_highrise": {
+    "num_buildings": 26,
+    "terrain_faces": 32258,
+    "roof_faces": 1140,
+    "wall_faces": 2384,
+    "bounds": {
+      "w_m": 256.0,
+      "h_m": 256.0,
+      "z_min": 51.7,
+      "z_max": 170.7,
+      "max_dim": 256.0
+    },
+    "scientific_dsm": {
+      "sha256_hash": "b5254a8ec1e0b7028efacfa289354bc07a9f34f0994f3a338a87baedbb8dc2b3",
+      "min_m": 51.74,
+      "max_m": 170.67,
+      "mean_m": 88.91,
+      "p95_m": 133.67
+    }
+  },
+  "NYC_lower_rise": {
+    "num_buildings": 14,
+    "terrain_faces": 32258,
+    "roof_faces": 296,
+    "wall_faces": 648,
+    "bounds": {
+      "w_m": 256.0,
+      "h_m": 256.0,
+      "z_min": 53.4,
+      "z_max": 127.0,
+      "max_dim": 256.0
+    },
+    "scientific_dsm": {
+      "sha256_hash": "8f0ec750092d5cfd9e3f96dfdc995af3a342c6b64ac74c4b4b2c2a8bb1c992b8",
+      "min_m": 53.39,
+      "max_m": 126.98,
+      "mean_m": 71.45,
+      "p95_m": 90.82
+    }
+  }
+}

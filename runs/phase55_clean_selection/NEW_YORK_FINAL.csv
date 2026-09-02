@@ -1,0 +1,2 @@
+checkpoint,threshold,iou,dice,precision,recall,foreground_pct
+E_seed_0,0.3,0.18,0.25,0.82,0.16,12.0

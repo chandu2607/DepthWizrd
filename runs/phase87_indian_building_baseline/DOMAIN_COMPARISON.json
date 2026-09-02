@@ -1,0 +1,26 @@
+{
+  "comparison_scope": "Indian regions only; no compatible non-Indian rerun performed",
+  "rows": [
+    {
+      "region": "uttarakhand",
+      "split": "development",
+      "foreground_percentage": 57.76405334472656,
+      "components_after_area_filter": 11,
+      "largest_component_ratio": 0.8453755984810962,
+      "height_mean_m": 17.35407257080078,
+      "height_std_m": 10.971451759338379,
+      "height_max_m": 41.42979431152344
+    },
+    {
+      "region": "himachal",
+      "split": "validation",
+      "foreground_percentage": 16.955947875976562,
+      "components_after_area_filter": 64,
+      "largest_component_ratio": 0.41566739409210557,
+      "height_mean_m": 6.557355880737305,
+      "height_std_m": 1.3327038288116455,
+      "height_max_m": 10.439148902893066
+    }
+  ],
+  "non_indian_comparison": "Existing repository evidence is not directly comparable because it uses different imagery, ground truth, resolution, and scene regime."
+}

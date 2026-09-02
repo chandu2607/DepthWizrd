@@ -1,0 +1,45 @@
+{
+  "train_crop": {
+    "bbox": [
+      1774,
+      2513,
+      2286,
+      3025
+    ],
+    "valid_pixels": 262144,
+    "local_median_m": 5240.126953125,
+    "local_relief_min_m": -803.09033203125,
+    "local_relief_max_m": 881.490234375,
+    "local_relief_mean_m": -31.67188262939453,
+    "local_relief_std_m": 380.5985107421875
+  },
+  "validation_crop": {
+    "bbox": [
+      5834,
+      7335,
+      6346,
+      7847
+    ],
+    "valid_pixels": 262144,
+    "local_median_m": 5000.0,
+    "local_relief_min_m": -1327.232177734375,
+    "local_relief_max_m": 1185.8154296875,
+    "local_relief_mean_m": -53.07682418823242,
+    "local_relief_std_m": 561.3602905273438
+  },
+  "trained_prediction": {
+    "prediction_min_m": 46.879310607910156,
+    "prediction_max_m": 54.58441162109375,
+    "prediction_mean_m": 49.127838134765625,
+    "prediction_std_m": 1.4360086917877197,
+    "true_min_m": -1327.232177734375,
+    "true_max_m": 1185.8154296875,
+    "true_mean_m": -53.07682418823242,
+    "true_std_m": 561.3602905273438,
+    "mae_m": 463.50677490234375,
+    "rmse_m": 570.4995727539062,
+    "pearson": 0.0641815142515434,
+    "mean_bias_m": 102.20466613769531,
+    "error_std_m": 561.2699584960938
+  }
+}

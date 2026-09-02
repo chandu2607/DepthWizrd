@@ -1,0 +1,64 @@
+{
+  "uttarakhand": {
+    "geometry_checks": {
+      "bottom_errors_m_max": 0.0,
+      "top_errors_m_max": 0.0,
+      "assertions_passed": true
+    },
+    "failure_flags": {
+      "FLOATING_BUILDING": false,
+      "BURIED_BUILDING": false,
+      "NEGATIVE_HEIGHT": false,
+      "NAN_GEOMETRY": false,
+      "MISSING_HEIGHT": true,
+      "TERRAIN_DISCONTINUITY": false,
+      "TEXTURE_ALIGNMENT_FAILURE": false,
+      "EMPTY_SCENE": false
+    },
+    "scene_bounds": {
+      "x_m": [
+        0.0,
+        5110.0
+      ],
+      "y_m": [
+        0.0,
+        5110.0
+      ],
+      "z_m": [
+        2953.3701171875,
+        4634.33642578125
+      ]
+    }
+  },
+  "himachal": {
+    "geometry_checks": {
+      "bottom_errors_m_max": null,
+      "top_errors_m_max": null,
+      "assertions_passed": false
+    },
+    "failure_flags": {
+      "FLOATING_BUILDING": false,
+      "BURIED_BUILDING": false,
+      "NEGATIVE_HEIGHT": false,
+      "NAN_GEOMETRY": true,
+      "MISSING_HEIGHT": true,
+      "TERRAIN_DISCONTINUITY": true,
+      "TEXTURE_ALIGNMENT_FAILURE": false,
+      "EMPTY_SCENE": true
+    },
+    "scene_bounds": {
+      "x_m": [
+        0.0,
+        5110.0
+      ],
+      "y_m": [
+        0.0,
+        5110.0
+      ],
+      "z_m": [
+        null,
+        null
+      ]
+    }
+  }
+}

@@ -1,0 +1,15 @@
+control,initial_state,action,expected_change,observed_change,PASS_FAIL
+Calibration Mode,Structural Prior,Select Mode,Recalibrates DSM/DTM,Recalibrates scene elevation,PASS
+Vertical Exaggeration,1.5x,Slide 1.0x-3.0x,Scales WebGL Z height,Scales 3D vertical geometry without mutating rasters,PASS
+City Overview Preset,Default,Click Preset,Wide aerial oblique,Frames full block with ~20% margin,PASS
+Urban Oblique Preset,Overview,Click Preset,35° facade perspective,Moves camera to 35° facade view,PASS
+Inspection Preset,Urban,Click Preset,Close-up on skyscraper,Zooms closely on tallest building structure,PASS
+Top-Down Preset,Inspection,Click Preset,Nadir 90° overhead,Targets nadir 90° view,PASS
+Pedestrian Preset,Top-Down,Click Preset,Street-level looking up,Drops camera to ground looking up at skyline,PASS
+RGB City Render Mode,Default,Click Mode,Satellite RGB texture,Applies satellite RGB texture to roofs & DTM,PASS
+Elevation Render Mode,RGB,Click Mode,Turbo elevation color,Applies Turbo elevation colormap & legend,PASS
+Building Height Render Mode,Elevation,Click Mode,Height colormap,Colors roofs/walls by height (0-60m+) & subdues terrain,PASS
+Terrain Slope Render Mode,Height,Click Mode,DTM slope color,Colors ground DTM by slope angle (0°-45°+),PASS
+Fit to Scene Reset,Custom View,Click Reset,Reset camera bounds,Resets camera to City Overview bounds,PASS
+Cinematic Flythrough,Static View,Click Flythrough,360° orbit animation,Triggers smooth 360° orbiting loop at 60 FPS,PASS
+Building Selection Pick,Panel Hidden,Click Building,Highlight & Inspector HUD,"Inspector HUD populates Building ID, Height, Roof Z, Ground Z",PASS

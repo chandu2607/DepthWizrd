@@ -1,0 +1,11 @@
+metric,value
+loss,0.4789047042640384
+himachal_mae,0.4696850990666066
+himachal_rmse,0.48481549152203657
+himachal_pearson,-0.22236877048057122
+sikkim_mae,0.5587155676274222
+sikkim_rmse,0.5938657845628088
+sikkim_pearson,-0.04067581078803194
+device,cpu
+epochs,1
+note,validation was computed on normalized target without inverse transform; not in meters

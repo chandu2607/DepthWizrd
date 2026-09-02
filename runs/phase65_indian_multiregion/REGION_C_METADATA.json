@@ -1,0 +1,40 @@
+{
+  "region": "Sikkim",
+  "state": "Sikkim",
+  "coordinates": {
+    "center": [
+      88.5,
+      27.3
+    ],
+    "bbox": [
+      88.1,
+      27.0,
+      88.9,
+      27.6
+    ]
+  },
+  "terrain_type": "Eastern Himalayan steep ridge and valley terrain with monsoon-driven slope dynamics",
+  "elevation_range_m": "~800-5000",
+  "imagery_availability": "PUBLIC_SENTINEL2_LIKELY_AVAILABLE",
+  "reference_availability": "DEM_AVAILABLE_IN_PUBLIC_CATALOGS_BUT_NOT_YET_VERIFIED",
+  "optical_source": "Sentinel-2 L2A (public STAC catalog)",
+  "optical_resolution_m": 10,
+  "elevation_source": "Copernicus DEM / local DEM candidate",
+  "elevation_resolution_m": 30,
+  "elevation_type": "DEM",
+  "building_labels": "CANDIDATE_ONLY",
+  "building_height_labels": "CANDIDATE_ONLY",
+  "slope_available": "YES",
+  "hazard_labels": "NO",
+  "CRS": "Scene dependent",
+  "date": "CANDIDATE",
+  "license": "Public access expected; verification pending",
+  "access": "Candidate: identified but not yet downloaded and aligned",
+  "training_suitability": "PENDING",
+  "validation_suitability": "PENDING",
+  "test_suitability": "PENDING",
+  "limitations": "No direct high-resolution building reference yet; not accepted for final evaluation",
+  "real_data": false,
+  "metrics_available": false,
+  "geographic_note": "Geographically separated from both Uttarakhand and Himachal; valid as a final test candidate only if a trusted paired benchmark is acquired."
+}

@@ -1,0 +1,5 @@
+{
+  "terrain": {"elevation": "float32 mesh vertex y, meters", "x": "viewer-local east coordinate, meters", "z": "viewer-local north coordinate, meters", "resolution": "source raster resolution, meters/pixel", "bounds": "source DEM bounds, CRS units", "crs": "source CRS string", "transform": "source affine transform", "nodata": "invalid faces omitted; never zero-filled", "source": "REAL_GEOREFERENCED DEM"},
+  "buildings": {"component_id": "integer source connected-component ID", "footprint": "authoritative Phase 89/91 mesh polygon in viewer-local meters", "height_m": "finite float meters or null", "base_elevation_m": "terrain elevation meters or null", "roof_elevation_m": "base plus height meters or null", "height_available": "boolean", "selected_by_model": "boolean", "missing_height_reason": "MODEL_CAPACITY_LIMIT or NO_FINITE_HEIGHT or null"},
+  "provenance": {"checkpoint": "Phase 24 seed_0/model.pt", "threshold": 0.5, "component_cap": 25, "mapping": "explicit component-ID dictionary", "accuracy": "UNVALIDATED"}
+}

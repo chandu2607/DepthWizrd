@@ -1,0 +1,16 @@
+{
+  "status": "READY_FOR_FULL_PHASE30",
+  "best_filter_kernel": "large",
+  "best_filter_kernel_size": 91,
+  "eval_copenhagen_subset": {
+    "dtm_mae": 1.5403118133544922,
+    "dtm_rmse": 1.9518027305603027,
+    "dtm_bias": -0.11713485419750214,
+    "ndsm_mae": 7.455399036407471,
+    "ndsm_bldg_mae": 6.465312957763672,
+    "dsm_mae": 7.131479263305664,
+    "dsm_rmse": 9.864340782165527,
+    "dsm_p95": 20.699565887451172,
+    "dsm_p99": 25.661449432373047
+  }
+}

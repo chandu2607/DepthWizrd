@@ -1,0 +1,38 @@
+{
+  "metric_code_path": "runs/phase73_indian_terrain_training/phase73_run.py",
+  "identity_case": {
+    "input_mean": 0.0,
+    "input_std": 1.0,
+    "pred": [1.0, 2.0, 3.0, 4.0],
+    "target": [1.0, 2.0, 3.0, 4.0],
+    "expected_mae": 0.0,
+    "expected_rmse": 0.0,
+    "expected_bias": 0.0,
+    "expected_pearson": 1.0
+  },
+  "plus_1m_case": {
+    "pred": [1.0, 2.0, 3.0, 4.0],
+    "target": [2.0, 3.0, 4.0, 5.0],
+    "expected_mae": 1.0,
+    "expected_rmse": 1.0,
+    "expected_bias": 1.0,
+    "expected_pearson": 1.0
+  },
+  "plus_10m_case": {
+    "pred": [1.0, 2.0, 3.0, 4.0],
+    "target": [11.0, 12.0, 13.0, 14.0],
+    "expected_mae": 10.0,
+    "expected_rmse": 10.0,
+    "expected_bias": 10.0,
+    "expected_pearson": 1.0
+  },
+  "result": "metric code is internally consistent; it does not inflate the error by itself",
+  "normalization_check": {
+    "mu": 4662.03515625,
+    "sigma": 355.37628173828125,
+    "x": 0.1370457261800766,
+    "reconstruction": 0.1370457261800766 * 355.37628173828125 + 4662.03515625,
+    "reconstructed_mean_m": 4710.73828125,
+    "max_abs_error_m": 0.0
+  }
+}

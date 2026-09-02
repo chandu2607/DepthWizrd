@@ -1,0 +1,9 @@
+{
+  "server": {"url": "http://localhost:8511", "started": true, "startup_log": "Uvicorn server started", "model_checkpoint_load_log": "CalibrationEngine loaded production building footprint model"},
+  "page_load": {"status": "PASS", "title": "DepthWizard — Single-View 3D Elevation & Flythrough", "main_ui_loaded": true, "initial_running_shell_observed": true, "eventual_interactive_ui": true},
+  "default_mode": {"status": "PASS", "sidebar_controls_visible": true, "viewer_region_visible": true, "iframe_controls_visible": true},
+  "uttarakhand": {"status": "PASS", "selector_value": "Uttarakhand", "crs": "EPSG:32644", "structures_reported_by_iframe": 11, "provenance_banner_visible": true},
+  "himachal": {"status": "PASS", "selector_value": "Himachal Pradesh", "crs": "EPSG:32643", "structures_reported_by_iframe": 1, "provenance_banner_visible": true},
+  "interaction": {"orbit_pan_zoom_instructions_visible": true, "camera_presets_visible": true, "reset_camera_clicked": true, "ray_picking_control_present": true},
+  "browser_screenshot_note": "Actual screenshots were captured into VISUALS; iframe canvas pixel inspection was not separately instrumented."
+}

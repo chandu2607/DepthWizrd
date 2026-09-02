@@ -1,0 +1,7 @@
+{
+  "SELECTED_CONFIG": "C",
+  "SELECTED_SEED": 0,
+  "SELECTED_CHECKPOINT": "C:\\Users\\chand\\OneDrive\\Desktop\\DepthWizard\\runs\\phase51_corrected_unet\\checkpoints\\C_seed_0_best.pt",
+  "SELECTED_THRESHOLD": 0.6,
+  "selection_split": "Copenhagen only"
+}

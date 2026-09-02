@@ -1,0 +1,35 @@
+{
+  "phase": "Phase 35 -- Sparse Metric Anchor + Monocular Depth Completion",
+  "experiment_type": "PROXY FEASIBILITY EXPERIMENT",
+  "locked_baselines": {
+    "phase29_ny_mae": 7.63,
+    "phase29_ny_mae_40m": 13.36,
+    "phase29_recovery_pct": 44.81
+  },
+  "primary_sparsity_pct": 0.5,
+  "primary_strategy": "building_aware",
+  "test_ny": {
+    "A_coarse_mae": 15.311,
+    "D_sparse_mono_mae": 11.306,
+    "E_sparse_coarse_mae": 12.806,
+    "best_mae": 11.306,
+    "best_40m_mae": 20.269,
+    "improvement_vs_p29_pct": -48.18,
+    "improvement_40m_vs_p29_pct": -51.71,
+    "improvement_vs_coarse_pct": 26.15
+  },
+  "val_cph": {
+    "E_sparse_coarse_mae": 5.645,
+    "A_coarse_mae": 5.566
+  },
+  "min_useful_sparsity_pct": 0.01,
+  "gates": {
+    "gate1_ny_mae_10pct_vs_p29": false,
+    "gate2_ny_40m_15pct_vs_p29": false,
+    "gate3_sparse_beats_coarse_10pct": true,
+    "gate4_cph_preserved": false,
+    "gate5_zero_leakage": true,
+    "n_passed": 2
+  },
+  "verdict": "SPARSE_METRIC_PARTIAL_SUPPORT"
+}

@@ -1,0 +1,10 @@
+TerrainUNet
+Input: 4 channels (RGB + depth)
+Encoder block 1: Conv2d(4,32,3,pad=1) -> ReLU -> Conv2d(32,32,3,pad=1) -> ReLU
+Downsample: MaxPool2d(2)
+Encoder block 2: Conv2d(32,64,3,pad=1) -> ReLU -> Conv2d(64,64,3,pad=1) -> ReLU
+Downsample: MaxPool2d(2)
+Bottleneck: Conv2d(64,128,3,pad=1) -> ReLU -> Conv2d(128,128,3,pad=1) -> ReLU
+Decoder: bilinear upsample -> concatenate skip from block2 -> Conv2d(64+64,64) -> ReLU -> Conv2d(64,64) -> ReLU
+Decoder: bilinear upsample -> concatenate skip from block1 -> Conv2d(64+32,32) -> ReLU -> Conv2d(32,32) -> ReLU
+Final: Conv2d(32,1,1) no activation

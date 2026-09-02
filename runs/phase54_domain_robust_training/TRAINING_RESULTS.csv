@@ -1,0 +1,11 @@
+config,seed,best_val_iou,batch_size,train_tiles,smoke,augmentation,sampler
+A,0,0.4995395743840694,8,937,False,A,uniform
+A,1,0.491727941315495,8,937,False,A,uniform
+B,0,0.4721643356394473,8,937,False,B,uniform
+B,1,0.4946056660402539,8,937,False,B,uniform
+C,0,0.5175254589642906,8,937,False,C,uniform
+C,1,0.5042041350462049,8,937,False,C,uniform
+D,0,0.5117671061812268,8,937,False,D,height-balanced
+D,1,0.5035162124665357,8,937,False,D,height-balanced
+E,0,0.52406099098692,8,937,False,E,height-balanced
+E,1,0.4941021723795935,8,937,False,E,height-balanced

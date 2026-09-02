@@ -1,0 +1,8 @@
+{
+  "same_scene": "uttarakhand",
+  "off": {"tested": true, "checkbox_state": false, "authoritative_structure_count": 11},
+  "on": {"tested": true, "checkbox_state": true, "authoritative_structure_count": 11, "rerun_completed": true},
+  "source_contract": {"terrain": "authoritative DEM XYZ", "finite_buildings": "authoritative footprint/building vertices", "unavailable_buildings": "no fabricated Z height"},
+  "result": "Point cloud remains an optional representation/export layer and does not infer missing heights.",
+  "limitation": "No point-cloud viewport layer is currently rendered; toggle exercises the adapter representation path."
+}

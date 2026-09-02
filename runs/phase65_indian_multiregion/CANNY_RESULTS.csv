@@ -1,0 +1,2 @@
+region,canny_role,boundary_help,terrain_false_edges,vegetation_false_edges,road_false_edges,notes
+Uttarakhand,EXPERIMENTAL_ONLY,UNVERIFIED,YES,YES,YES,Canny remains experimental; it is not integrated into production.

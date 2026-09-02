@@ -1,0 +1,51 @@
+{
+  "verdict": "VISUAL_REALISM_SUCCESS",
+  "root_visual_cause": "Flat-shaded polygon rendering without surface normals, un-smoothed high-frequency vertex jitter on roof plateaus, and close-up camera perspective distortion.",
+  "technique_selected": "Edge-preserving Bilateral surface regularization on visualization mesh + point normal computation + smooth shading (ambient=0.3, diffuse=0.8) + reworked isometric camera optics.",
+  "scientific_integrity_preserved": true,
+  "dsm_unchanged": true,
+  "dsm_stats_before": {
+    "min": 53.078128814697266,
+    "max": 166.57180786132812,
+    "mean": 86.76116943359375,
+    "p95": 127.3790512084961,
+    "p99": 148.61131286621094
+  },
+  "dsm_stats_after": {
+    "min": 53.078128814697266,
+    "max": 166.57180786132812,
+    "mean": 86.76116943359375,
+    "p95": 127.3790512084961,
+    "p99": 148.61131286621094
+  },
+  "variants_evaluated": {
+    "A_full_res_raw": {
+      "n_points": 262144,
+      "n_cells": 257893,
+      "build_s": 0.152
+    },
+    "B_2x_reduced": {
+      "n_points": 65536,
+      "n_cells": 63418,
+      "build_s": 0.035
+    },
+    "C_edge_preserving_smooth": {
+      "n_points": 262144,
+      "n_cells": 257893,
+      "build_s": 0.133
+    },
+    "D_edge_preserving_2x": {
+      "n_points": 65536,
+      "n_cells": 63418,
+      "build_s": 0.028
+    }
+  },
+  "roof_preservation": "Flat building roofs and sharp outer walls preserved; high-frequency jitter eliminated.",
+  "texture_alignment": "RGB texture perfectly aligned with 1:1 UV mapping.",
+  "performance": {
+    "mesh_build_s": 0.133,
+    "render_s": 0.15
+  },
+  "jury_presentation_ready": true,
+  "recommended_action": "INTEGRATE_VISUAL_REALISM_INTO_APP"
+}

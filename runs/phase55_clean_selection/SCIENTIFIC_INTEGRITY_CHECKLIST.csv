@@ -1,0 +1,10 @@
+requirement,status
+No modifications to Phase 54 checkpoint,PASS
+No changes to architecture,PASS
+No retraining after selection,PASS
+Copenhagen test set unchanged,PASS
+New York test set unchanged,PASS
+Ground truth unchanged,PASS
+Copenhagen eval before NY eval,PASS
+Winner locked before NY inspection,PASS
+NY results not used for selection,PASS

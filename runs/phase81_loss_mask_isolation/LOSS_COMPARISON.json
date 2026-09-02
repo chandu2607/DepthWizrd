@@ -1,0 +1,14 @@
+{
+  "implementation_loss": 0.443539023399353,
+  "reference_loss": 0.443539023399353,
+  "absolute_difference": 0.0,
+  "relative_difference": 0.0,
+  "controls": {
+    "A_correct": 0.443539023399353,
+    "B_current": 0.443539023399353,
+    "C_mask_before_smoothl1": 0.443539023399353,
+    "D_unmasked": 0.443539023399353,
+    "E_valid_pixels_only": 0.443539023399353
+  },
+  "exact_expression": "loss_map = criterion(pred * mask, target * mask); loss = (loss_map * mask).sum() / (mask.sum() + 1e-6)"
+}

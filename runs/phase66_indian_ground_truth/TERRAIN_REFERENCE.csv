@@ -1,0 +1,4 @@
+region,terrain_source,elevation_read_verified,dem_min,dem_max,dem_mean,dem_std,slope_min_deg,slope_max_deg,slope_mean_deg,slope_std_deg,notes
+Uttarakhand,Copernicus DEM GLO-30 (reprojected crop),YES,3217.87158203125,6493.1953125,5014.94384765625,545.3397827148438,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,"Raster exists and was read, but the DEM is too coarse for building-height ground truth."
+Himachal Pradesh,CANDIDATE_PUBLIC_DEM,NO,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,Not yet acquired or validated.
+Sikkim,CANDIDATE_PUBLIC_DEM,NO,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,Not yet acquired or validated.

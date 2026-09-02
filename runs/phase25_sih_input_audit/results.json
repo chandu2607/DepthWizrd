@@ -1,0 +1,10 @@
+{
+  "phase": "25",
+  "name": "sih_isro_input_capability_audit",
+  "status": "STOPPED_OFFICIAL_STATEMENT_MISSING",
+  "timestamp": "2026-08-29T09:27:00Z",
+  "audit_results": {
+    "official_inputs_present": false,
+    "missing_information": "Official SIH / ISRO problem statement and input/output dataset specifications document."
+  }
+}

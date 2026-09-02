@@ -1,0 +1,38 @@
+{
+  "rechecked_maes": {
+    "depth_only": 57.66572939220876,
+    "footprint_only": 47.99409496702225,
+    "combined": 58.51690614167446,
+    "oracle": 49.99171353082313,
+    "gt_footprint_only": 36.49364985661475
+  },
+  "per_scene_breakdown": {
+    "n_footprint_wins": 16,
+    "n_depth_wins": 0,
+    "n_combined_failures": 63,
+    "n_all_failures": 92
+  },
+  "top_driving_features": [
+    {
+      "Feature": "rgb_mean",
+      "Std Coefficient": -7.702450674570624
+    },
+    {
+      "Feature": "median_area_m2",
+      "Std Coefficient": 5.750255320948343
+    },
+    {
+      "Feature": "n_buildings",
+      "Std Coefficient": -5.731866785678598
+    },
+    {
+      "Feature": "sat_mean",
+      "Std Coefficient": -4.685997396110561
+    },
+    {
+      "Feature": "p90_area_m2",
+      "Std Coefficient": -4.3781517053228365
+    }
+  ],
+  "final_decision": "PROCEED WITH GEOMETRY-GUIDED SCALE"
+}

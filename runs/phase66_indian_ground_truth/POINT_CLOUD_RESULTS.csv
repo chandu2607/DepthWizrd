@@ -1,0 +1,2 @@
+region,point_cloud_role,terrain_continuity,smoothness,height_preservation,geometric_stability,notes
+Uttarakhand,EXPERIMENTAL_ONLY,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED,Point cloud is a diagnostic comparison only; it does not replace the production renderer.

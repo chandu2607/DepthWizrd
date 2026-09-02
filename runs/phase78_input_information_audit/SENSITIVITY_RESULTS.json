@@ -1,0 +1,44 @@
+{
+  "original": {
+    "shape": [
+      512,
+      512
+    ],
+    "dtype": "float32",
+    "min": -1.805009126663208,
+    "max": 2.5207905769348145,
+    "mean": 0.39259523153305054,
+    "std": 0.25813645124435425,
+    "finite_fraction": 1.0,
+    "nan_fraction": 0.0,
+    "inf_fraction": 0.0
+  },
+  "shuffled": {
+    "shape": [
+      512,
+      512
+    ],
+    "dtype": "float32",
+    "min": -0.9581162929534912,
+    "max": 2.2819948196411133,
+    "mean": 0.4121682643890381,
+    "std": 0.30890700221061707,
+    "finite_fraction": 1.0,
+    "nan_fraction": 0.0,
+    "inf_fraction": 0.0
+  },
+  "constant": {
+    "shape": [
+      512,
+      512
+    ],
+    "dtype": "float32",
+    "min": -4.237680912017822,
+    "max": 5.013762950897217,
+    "mean": 0.2912434935569763,
+    "std": 0.32031673192977905,
+    "finite_fraction": 1.0,
+    "nan_fraction": 0.0,
+    "inf_fraction": 0.0
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "valid_pixel_count": 262144,
+  "phase75_prediction": {
+    "prediction_min_m": 47.16195297241211,
+    "prediction_max_m": 51.24330520629883,
+    "prediction_mean_m": 49.56986618041992,
+    "prediction_std_m": 0.3129335939884186
+  },
+  "true_relief": {
+    "target_min_m": -4.7158355712890625,
+    "target_max_m": 23.854366302490234,
+    "target_mean_m": 0.3652685880661011,
+    "target_std_m": 2.054396629333496
+  },
+  "error": {
+    "mae_m": 49.20459747314453,
+    "rmse_m": 49.24799346923828,
+    "mean_bias_m": 49.20459747314453,
+    "error_std_m": 2.067009687423706
+  },
+  "correlation": 0.035732719176776166,
+  "gradient_x_prediction_mean_abs": 0.013528278097510338,
+  "gradient_x_target_mean_abs": 0.1528603881597519,
+  "gradient_y_prediction_mean_abs": 0.01040564477443695,
+  "gradient_y_target_mean_abs": 0.17320393025875092,
+  "mean_absolute_gradient_difference": 0.16768097877502441,
+  "metric_implementation_note": "Pearson is NaN for constant predictions because the standard deviation of the prediction is exactly zero; the code explicitly checks for zero variance before computing the correlation."
+}

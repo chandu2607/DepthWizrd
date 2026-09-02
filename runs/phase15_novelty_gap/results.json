@@ -1,0 +1,19 @@
+{
+  "phase": "15",
+  "task": "novelty_gap_analysis",
+  "status": "completed",
+  "existing_methods_reviewed": [
+    "HGDNet",
+    "HTC-DC Net",
+    "DFC2023 official baseline",
+    "IM2HEIGHT",
+    "HeightFormer",
+    "Depth2Elevation"
+  ],
+  "unresolved_gap": "Decoupling relative structural topology from absolute metric scale to prevent dense regression losses from mathematically collapsing tall-tail structures to the dataset mean under unseen-city transfer.",
+  "top_direction": "Direction A: Scale-Decoupled Normalized Topography (SDNT)",
+  "top_direction_rationale": "It completely abandons dense metric regression, protecting the foundation model's relative structure from destructive scale gradients, and relies on a scene-level scale anchor.",
+  "experiment_proposed": "Modify SmallFusionUNet to output a 0-1 normalized map, and add a Global Average Pooling branch to DA-V2 to predict a single metric scale scalar Z_max.",
+  "physical_scale_source": "Learned statistical prior anchored by GSD footprint geometry and global scene context, isolated from pixel-wise loss.",
+  "novelty_score": 39
+}

@@ -1,0 +1,6 @@
+{
+  "server_start": {"status": "PASS", "initialization": "real Streamlit process; model load completed", "exact_wall_clock": "not instrumented"},
+  "python_adapter_and_viewer_reference": {"uttarakhand": {"adapter_seconds": 1.2558, "viewer_generation_seconds": 1.1242, "html_bytes": 59116176}, "himachal": {"adapter_seconds": 1.3331, "viewer_generation_seconds": 1.1491, "html_bytes": 59213783}},
+  "browser_observed": {"uttarakhand_existing_pipeline_processing_seconds": 11.83, "himachal_existing_pipeline_processing_seconds": 1.0, "browser_render_load_seconds": "not separately instrumented"},
+  "terrain_vertices": {"uttarakhand": 262144, "himachal": 262144}
+}

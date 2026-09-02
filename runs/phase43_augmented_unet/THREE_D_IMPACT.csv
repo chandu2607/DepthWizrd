@@ -1,0 +1,4 @@
+config,mean_recon_height_m,max_recon_height_m,footprint_coverage_pct,valid_building_count
+A,18.42,54.10,43.17,1
+B,18.15,53.80,42.88,1
+D,19.05,58.30,44.18,3

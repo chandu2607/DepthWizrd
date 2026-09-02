@@ -1,0 +1,217 @@
+{
+  "region": "himachal",
+  "terrain_source": "REAL GEOREFERENCED DEM",
+  "building_source": "SINGLE-VIEW MODEL PREDICTIONS",
+  "height_mapping": "COMPONENT-ID CORRECTED",
+  "height_accuracy": "UNVALIDATED",
+  "vertical_exaggeration": 1.0,
+  "crs": "EPSG:32643",
+  "resolution_m": [
+    10.0,
+    10.0
+  ],
+  "terrain_elevation_m": {
+    "count": 0,
+    "min": null,
+    "max": null,
+    "mean": null,
+    "median": null,
+    "std": null
+  },
+  "terrain_vertex_count": 0,
+  "terrain_triangle_count": 0,
+  "building_count": 64,
+  "finite_height_building_count": 25,
+  "height_unavailable_count": 39,
+  "building_height_statistics_finite_only_m": {
+    "count": 25,
+    "min": 4.402091979980469,
+    "max": 10.439148902893066,
+    "mean": 6.55735523223877,
+    "median": 6.321893215179443,
+    "std": 1.3327038618360265
+  },
+  "building_mesh_triangle_count": 0,
+  "mesh_triangle_count_total": 0,
+  "scene_bounds": {
+    "x_m": [
+      0.0,
+      5110.0
+    ],
+    "y_m": [
+      0.0,
+      5110.0
+    ],
+    "z_m": [
+      null,
+      null
+    ]
+  },
+  "geometry_checks": {
+    "bottom_errors_m_max": null,
+    "top_errors_m_max": null,
+    "assertions_passed": false
+  },
+  "failure_flags": {
+    "FLOATING_BUILDING": false,
+    "BURIED_BUILDING": false,
+    "NEGATIVE_HEIGHT": false,
+    "NAN_GEOMETRY": true,
+    "MISSING_HEIGHT": true,
+    "TERRAIN_DISCONTINUITY": true,
+    "TEXTURE_ALIGNMENT_FAILURE": false,
+    "EMPTY_SCENE": true
+  },
+  "mesh_records": [
+    {
+      "component_id": 1,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 7.434872627258301
+    },
+    {
+      "component_id": 3,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 10.439148902893066
+    },
+    {
+      "component_id": 9,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 4.438207149505615
+    },
+    {
+      "component_id": 13,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 4.402091979980469
+    },
+    {
+      "component_id": 15,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 7.192608833312988
+    },
+    {
+      "component_id": 21,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 5.87635612487793
+    },
+    {
+      "component_id": 23,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 6.020137786865234
+    },
+    {
+      "component_id": 26,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 6.570121765136719
+    },
+    {
+      "component_id": 31,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 7.795652389526367
+    },
+    {
+      "component_id": 34,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 4.678033828735352
+    },
+    {
+      "component_id": 36,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 8.140093803405762
+    },
+    {
+      "component_id": 37,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 6.218406677246094
+    },
+    {
+      "component_id": 38,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 6.3429718017578125
+    },
+    {
+      "component_id": 39,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 6.1583452224731445
+    },
+    {
+      "component_id": 40,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 6.467703342437744
+    },
+    {
+      "component_id": 42,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 5.719910621643066
+    },
+    {
+      "component_id": 50,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 6.07459020614624
+    },
+    {
+      "component_id": 53,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 6.045347690582275
+    },
+    {
+      "component_id": 54,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 9.320416450500488
+    },
+    {
+      "component_id": 57,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 5.4936299324035645
+    },
+    {
+      "component_id": 58,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 6.306990623474121
+    },
+    {
+      "component_id": 62,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 6.675451278686523
+    },
+    {
+      "component_id": 63,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 7.048236846923828
+    },
+    {
+      "component_id": 71,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 6.321893215179443
+    },
+    {
+      "component_id": 73,
+      "vertices": 0,
+      "triangles": 0,
+      "height_m": 6.75266170501709
+    }
+  ]
+}

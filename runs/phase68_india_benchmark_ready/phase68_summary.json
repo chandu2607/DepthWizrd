@@ -1,0 +1,25 @@
+{
+  "phase": "PHASE_68_INDIAN_BENCHMARK",
+  "real_regions": 3,
+  "regions": [
+    {
+      "name": "uttarakhand",
+      "split": "train",
+      "status": "real_public_data_verified"
+    },
+    {
+      "name": "himachal",
+      "split": "validation",
+      "status": "real_public_data_verified"
+    },
+    {
+      "name": "sikkim",
+      "split": "test",
+      "status": "real_public_data_verified"
+    }
+  ],
+  "terrain_reference": "public DEM verified via rasterio open",
+  "building_reference": "not yet acquired; coarse DEM is not validated building-height ground truth",
+  "model_training_started": false,
+  "current_claim": "The benchmark is evidence-based and physically downloaded to disk. The model baseline is not retrained or modified at this stage."
+}

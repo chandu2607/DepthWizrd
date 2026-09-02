@@ -1,0 +1,11 @@
+checkpoint,path,exists,loads,error,has_metadata,config,seed,best_epoch,best_val_iou,model_keys,missing_keys,unexpected_keys
+A_seed_0,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase54_domain_robust_training\checkpoints\A_seed_0_best.pt,True,True,,True,A,0,,,0,[],[]
+A_seed_1,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase54_domain_robust_training\checkpoints\A_seed_1_best.pt,True,True,,True,A,1,,,0,[],[]
+B_seed_0,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase54_domain_robust_training\checkpoints\B_seed_0_best.pt,True,True,,True,B,0,,,0,[],[]
+B_seed_1,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase54_domain_robust_training\checkpoints\B_seed_1_best.pt,True,True,,True,B,1,,,0,[],[]
+C_seed_0,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase54_domain_robust_training\checkpoints\C_seed_0_best.pt,True,True,,True,C,0,,,0,[],[]
+C_seed_1,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase54_domain_robust_training\checkpoints\C_seed_1_best.pt,True,True,,True,C,1,,,0,[],[]
+D_seed_0,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase54_domain_robust_training\checkpoints\D_seed_0_best.pt,True,True,,True,D,0,,,0,[],[]
+D_seed_1,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase54_domain_robust_training\checkpoints\D_seed_1_best.pt,True,True,,True,D,1,,,0,[],[]
+E_seed_0,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase54_domain_robust_training\checkpoints\E_seed_0_best.pt,True,True,,True,E,0,,,0,[],[]
+E_seed_1,C:\Users\chand\OneDrive\Desktop\DepthWizard\runs\phase54_domain_robust_training\checkpoints\E_seed_1_best.pt,True,True,,True,E,1,,,0,[],[]
