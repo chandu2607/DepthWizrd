@@ -503,13 +503,14 @@ def generate_interactive_webgl_html(
     exaggeration: float = 1.0,
     stride: int = 4,
     default_preset: str = "overview",
-    default_mode: str = "rgb"
+    default_mode: str = "rgb",
+    prebuilt_scene: Dict[str, Any] = None
 ) -> str:
     """
     Constructs a complete self-contained Three.js WebGL application HTML string.
     Renders explicit DTM terrain + Ear-clipped DSM roofs + Slate architectural walls.
     """
-    geom = build_city_geometry(
+    geom = prebuilt_scene if prebuilt_scene is not None else build_city_geometry(
         rgb_img=rgb_img,
         dsm=dsm,
         dtm=dtm,
@@ -552,6 +553,17 @@ def generate_interactive_webgl_html(
             width: 100%;
             height: 100%;
             display: block;
+        }}
+        #canny-overlay {{
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            pointer-events: none;
+            opacity: 0.78;
+            mix-blend-mode: screen;
+            z-index: 5;
         }}
         
         /* ── Top HUD ────────────────────────────── */
@@ -758,6 +770,7 @@ def generate_interactive_webgl_html(
 <body>
     <div id="viewport-container">
         <canvas id="webgl-canvas"></canvas>
+        <img id="canny-overlay" alt="Canny auxiliary structural edge cue" style="display:none;">
         
         <!-- HUD Overlay -->
         <div id="hud-top">
@@ -816,6 +829,11 @@ def generate_interactive_webgl_html(
         const cityData = {geom_json};
         const canvas = document.getElementById('webgl-canvas');
         const container = document.getElementById('viewport-container');
+        const cannyOverlay = document.getElementById('canny-overlay');
+        if (cityData.canny && cityData.canny.enabled && cityData.canny_overlay_base64) {{
+            cannyOverlay.src = "data:image/png;base64," + cityData.canny_overlay_base64;
+            cannyOverlay.style.display = 'block';
+        }}
 
         // ── 1. Three.js Scene, Camera, Renderer ────────────────────────────────
         const scene = new THREE.Scene();
@@ -909,6 +927,26 @@ def generate_interactive_webgl_html(
         const terrainMesh = new THREE.Mesh(terrainGeom, terrainMatRGB);
         terrainMesh.receiveShadow = true;
         scene.add(terrainMesh);
+
+        // Optional XYZ representation of authoritative terrain and building vertices.
+        let pointCloud = null;
+        if (cityData.point_cloud && cityData.point_cloud.enabled && cityData.point_cloud.positions && cityData.point_cloud.positions.length > 0) {{
+            const pointGeom = new THREE.BufferGeometry();
+            const finitePointPositions = [];
+            for (let i = 0; i < cityData.point_cloud.positions.length; i += 3) {{
+                const px = cityData.point_cloud.positions[i];
+                const py = cityData.point_cloud.positions[i + 1];
+                const pz = cityData.point_cloud.positions[i + 2];
+                if (Number.isFinite(px) && Number.isFinite(py) && Number.isFinite(pz)) {{
+                    finitePointPositions.push(px, py, pz);
+                }}
+            }}
+            pointGeom.setAttribute('position', new THREE.Float32BufferAttribute(finitePointPositions, 3));
+            const pointMat = new THREE.PointsMaterial({{ color: 0xFFD166, size: 2.2, sizeAttenuation: false, transparent: true, opacity: 0.92 }});
+            pointCloud = new THREE.Points(pointGeom, pointMat);
+            pointCloud.name = 'Authoritative XYZ Point Cloud';
+            scene.add(pointCloud);
+        }}
 
         // ── 5. Construct Layer 2: DSM Building Roofs ──────────────────────────
         let roofsMesh = null;
@@ -1078,9 +1116,9 @@ def generate_interactive_webgl_html(
             const panel = document.getElementById('inspector-panel');
             panel.style.display = 'block';
             document.getElementById('insp-id').innerText = '#' + b.id;
-            document.getElementById('insp-roof').innerText = b.z_roof.toFixed(1) + ' m';
-            document.getElementById('insp-ground').innerText = b.z_ground.toFixed(1) + ' m';
-            document.getElementById('insp-height').innerText = b.height_m.toFixed(1) + ' m';
+            document.getElementById('insp-roof').innerText = b.height_available === false ? 'HEIGHT_UNAVAILABLE' : b.z_roof.toFixed(1) + ' m';
+            document.getElementById('insp-ground').innerText = b.height_available === false ? 'HEIGHT_UNAVAILABLE' : b.z_ground.toFixed(1) + ' m';
+            document.getElementById('insp-height').innerText = b.height_available === false ? 'HEIGHT_UNAVAILABLE' : b.height_m.toFixed(1) + ' m';
             document.getElementById('insp-area').innerText = Math.round(b.area_m2).toLocaleString() + ' m²';
         }}
 
@@ -1094,9 +1132,9 @@ def generate_interactive_webgl_html(
         const camDist = maxDim * 1.65;
         const sceneTarget = new THREE.Vector3(0, maxDim * 0.12, 0);
 
-        let tallestBldg = cityData.buildings[0] || {{ cx: 0, cy: 10, cz: 0, height_m: 20 }};
+        let tallestBldg = cityData.buildings.find(b => b.height_available !== false && Number.isFinite(b.height_m)) || {{ cx: 0, cy: 10, cz: 0, height_m: 20 }};
         cityData.buildings.forEach(b => {{
-            if (b.height_m > tallestBldg.height_m) tallestBldg = b;
+            if (b.height_available !== false && Number.isFinite(b.height_m) && b.height_m > tallestBldg.height_m) tallestBldg = b;
         }});
 
         window.setPreset = function(preset) {{

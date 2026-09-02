@@ -24,6 +24,7 @@ from depthwizard.analysis.slope import compute_slope
 from depthwizard.analysis.height import analyze_building_massing, probe_point_elevation
 from depthwizard.metrics.validation import run_validation
 from depthwizard.viz.interactive_viewer import generate_interactive_webgl_html, generate_footprint_debug
+from depthwizard.integration import load_phase89_raster_input, load_phase89_scene
 from scripts.run_phase29_peak_recovery import PeakRecoveryMLP
 
 pv.OFF_SCREEN = True
@@ -223,6 +224,9 @@ calib_choice = st.sidebar.selectbox(
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🌐 3D Render Controls")
+indian_scene = st.sidebar.selectbox("Indian Scene Prototype", ["Off", "Uttarakhand", "Himachal Pradesh"])
+canny_refinement = st.sidebar.checkbox("Canny structural refinement (experimental)", value=False)
+point_cloud_enabled = st.sidebar.checkbox("Point-cloud XYZ representation (experimental)", value=False)
 exaggeration = st.sidebar.select_slider("Vertical Exaggeration", options=[1.0, 1.5, 2.0, 3.0], value=1.0)
 camera_angle = st.sidebar.selectbox("Camera Preset", ["City Overview", "Urban Oblique", "Inspection", "Top-Down", "Pedestrian"])
 render_mode = st.sidebar.selectbox("Render Mode", ["RGB City", "Elevation Colormap", "Building Height", "Terrain Slope"])
@@ -278,6 +282,17 @@ elif uploaded_file is not None:
             st.session_state.pop(k, None)
 
 raster_input: Optional[RasterInput] = st.session_state.get("raster_input")
+
+if indian_scene != "Off" and st.session_state.get("active_indian_scene") != indian_scene:
+    indian_region = "uttarakhand" if indian_scene == "Uttarakhand" else "himachal"
+    st.session_state["raster_input"] = load_phase89_raster_input(indian_region)
+    st.session_state["active_indian_scene"] = indian_scene
+    for k in ["calib_result", "slope_result", "massing_df", "val_report", "render_cache"]:
+        st.session_state.pop(k, None)
+    raster_input = st.session_state["raster_input"]
+
+if indian_scene != "Off":
+    st.info("INDIAN 3D SCENE PROTOTYPE | Terrain: REAL GEOREFERENCED DEM | Buildings: SINGLE-VIEW MODEL PREDICTIONS | Height accuracy: UNVALIDATED | Canny: optional structural refinement | Point cloud: optional XYZ representation")
 
 if raster_input is None:
     c1, c2, c3 = st.columns(3)
@@ -414,7 +429,12 @@ webgl_html = generate_interactive_webgl_html(
     exaggeration=exaggeration,
     stride=4,
     default_preset=preset_map.get(camera_angle, "overview"),
-    default_mode=mode_map.get(render_mode, "rgb")
+    default_mode=mode_map.get(render_mode, "rgb"),
+    prebuilt_scene=(load_phase89_scene(
+        "uttarakhand" if indian_scene == "Uttarakhand" else "himachal",
+        canny_refinement=canny_refinement,
+        point_cloud_enabled=point_cloud_enabled,
+    ) if indian_scene != "Off" else None)
 )
 components.html(webgl_html, height=720)
 
