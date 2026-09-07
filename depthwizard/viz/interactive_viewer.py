@@ -431,8 +431,12 @@ def build_city_geometry(
             r_i = int(np.clip(pts_cnt[i][1], 0, h - 1))
             px_m = (float(c_i) / w - 0.5) * w_m
             pz_m = (float(r_i) / h - 0.5) * h_m
+            u_i = float(c_i) / max(w - 1, 1)
+            v_i = 1.0 - float(r_i) / max(h - 1, 1)
             all_wall_pos.append([float(px_m), float(y_ground), float(pz_m)])
             all_wall_pos.append([float(px_m), float(y_roof),   float(pz_m)])
+            all_wall_uvs.append([u_i, v_i])
+            all_wall_uvs.append([u_i, v_i])
             all_wall_elev_colors.extend([er_g, eg_g2, eb_g, er, eg, eb])
             all_wall_height_colors.extend([hr * 0.6, hg * 0.6, hb * 0.6, hr, hg, hb])
 
@@ -475,6 +479,7 @@ def build_city_geometry(
         },
         "walls": {
             "positions": np.array(all_wall_pos,  dtype=np.float32).ravel().tolist() if all_wall_pos else [],
+            "uvs":       np.array(all_wall_uvs,  dtype=np.float32).ravel().tolist() if all_wall_uvs else [],
             "indices":   all_wall_indices,
             "elev_colors":   all_wall_elev_colors,
             "height_colors": all_wall_height_colors,
@@ -553,17 +558,6 @@ def generate_interactive_webgl_html(
             width: 100%;
             height: 100%;
             display: block;
-        }}
-        #canny-overlay {{
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: fill;
-            pointer-events: none;
-            opacity: 0.78;
-            mix-blend-mode: screen;
-            z-index: 5;
         }}
         
         /* ── Top HUD ────────────────────────────── */
@@ -770,7 +764,6 @@ def generate_interactive_webgl_html(
 <body>
     <div id="viewport-container">
         <canvas id="webgl-canvas"></canvas>
-        <img id="canny-overlay" alt="Canny auxiliary structural edge cue" style="display:none;">
         
         <!-- HUD Overlay -->
         <div id="hud-top">
@@ -829,11 +822,6 @@ def generate_interactive_webgl_html(
         const cityData = {geom_json};
         const canvas = document.getElementById('webgl-canvas');
         const container = document.getElementById('viewport-container');
-        const cannyOverlay = document.getElementById('canny-overlay');
-        if (cityData.canny && cityData.canny.enabled && cityData.canny_overlay_base64) {{
-            cannyOverlay.src = "data:image/png;base64," + cityData.canny_overlay_base64;
-            cannyOverlay.style.display = 'block';
-        }}
 
         // ── 1. Three.js Scene, Camera, Renderer ────────────────────────────────
         const scene = new THREE.Scene();
@@ -895,6 +883,12 @@ def generate_interactive_webgl_html(
             renderer.render(scene, camera);
         }});
         satTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+        
+        let cannyTexture = null;
+        if (cityData.canny_overlay_base64) {{
+            cannyTexture = texLoader.load("data:image/png;base64," + cityData.canny_overlay_base64);
+            cannyTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+        }}
 
         // ── 4. Construct Layer 1: DTM Terrain Mesh ────────────────────────────
         const terrainGeom = new THREE.BufferGeometry();
@@ -907,6 +901,9 @@ def generate_interactive_webgl_html(
 
         const terrainMatRGB = new THREE.MeshStandardMaterial({{
             map: satTexture,
+            emissiveMap: cannyTexture ? cannyTexture : null,
+            emissive: cannyTexture ? new THREE.Color(0xFFFFFF) : new THREE.Color(0x000000),
+            emissiveIntensity: 0.78,
             roughness: 0.85,
             metalness: 0.05,
             flatShading: false
@@ -951,6 +948,7 @@ def generate_interactive_webgl_html(
         // ── 5. Construct Layer 2: DSM Building Roofs ──────────────────────────
         let roofsMesh = null;
         let roofsMatRGB = null;
+        let roofsMatRGBLocal = null;
         let roofsMatVertex = null;
         if (cityData.roofs.n_verts > 0) {{
             const roofsGeom = new THREE.BufferGeometry();
@@ -958,15 +956,31 @@ def generate_interactive_webgl_html(
             roofsGeom.setAttribute('uv', new THREE.Float32BufferAttribute(cityData.roofs.uvs, 2));
             roofsGeom.setAttribute('colorElev', new THREE.Float32BufferAttribute(cityData.roofs.elev_colors, 3));
             roofsGeom.setAttribute('colorHeight', new THREE.Float32BufferAttribute(cityData.roofs.height_colors, 3));
+            if (cityData.roofs.rgb_colors && cityData.roofs.rgb_colors.length > 0) {{
+                roofsGeom.setAttribute('colorRGB', new THREE.Float32BufferAttribute(cityData.roofs.rgb_colors, 3));
+            }}
             roofsGeom.setIndex(cityData.roofs.indices);
             roofsGeom.computeVertexNormals();
 
             roofsMatRGB = new THREE.MeshStandardMaterial({{
                 map: satTexture,
+                emissiveMap: cannyTexture ? cannyTexture : null,
+                emissive: cannyTexture ? new THREE.Color(0xFFFFFF) : new THREE.Color(0x000000),
+                emissiveIntensity: 0.78,
                 roughness: 0.65,
                 metalness: 0.1,
                 flatShading: false
             }});
+            
+            if (cityData.roofs.rgb_colors && cityData.roofs.rgb_colors.length > 0) {{
+                roofsMatRGBLocal = new THREE.MeshStandardMaterial({{
+                    vertexColors: true,
+                    roughness: 0.65,
+                    metalness: 0.1,
+                    flatShading: false
+                }});
+            }}
+            
             roofsMatVertex = new THREE.MeshStandardMaterial({{
                 vertexColors: true,
                 roughness: 0.65,
@@ -974,7 +988,10 @@ def generate_interactive_webgl_html(
                 flatShading: false
             }});
 
-            roofsMesh = new THREE.Mesh(roofsGeom, roofsMatRGB);
+            roofsMesh = new THREE.Mesh(roofsGeom, roofsMatRGBLocal ? roofsMatRGBLocal : roofsMatRGB);
+            if (roofsMatRGBLocal) {{
+                roofsMesh.geometry.setAttribute('color', roofsMesh.geometry.getAttribute('colorRGB'));
+            }}
             roofsMesh.castShadow = true;
             roofsMesh.receiveShadow = true;
             scene.add(roofsMesh);
@@ -982,20 +999,30 @@ def generate_interactive_webgl_html(
 
         // ── 6. Construct Layer 3: Vertical Architectural Facades ───────────────
         let wallsMesh = null;
+        let wallsMatRGB = null;
         let wallsMatSlate = null;
         let wallsMatVertex = null;
         if (cityData.walls.n_verts > 0) {{
             const wallsGeom = new THREE.BufferGeometry();
             wallsGeom.setAttribute('position', new THREE.Float32BufferAttribute(cityData.walls.positions, 3));
+            if (cityData.walls.uvs && cityData.walls.uvs.length > 0) {{
+                wallsGeom.setAttribute('uv', new THREE.Float32BufferAttribute(cityData.walls.uvs, 2));
+            }}
             wallsGeom.setAttribute('colorElev', new THREE.Float32BufferAttribute(cityData.walls.elev_colors, 3));
             wallsGeom.setAttribute('colorHeight', new THREE.Float32BufferAttribute(cityData.walls.height_colors, 3));
             wallsGeom.setIndex(cityData.walls.indices);
             wallsGeom.computeVertexNormals();
 
+            wallsMatRGB = new THREE.MeshStandardMaterial({{
+                map: satTexture,
+                roughness: 0.8,
+                metalness: 0.1,
+                flatShading: true
+            }});
             wallsMatSlate = new THREE.MeshStandardMaterial({{
-                color: 0x334155, // Clean architectural slate-concrete
-                roughness: 0.6,
-                metalness: 0.2,
+                color: 0x30363D,
+                roughness: 0.7,
+                metalness: 0.1,
                 flatShading: true
             }});
             wallsMatVertex = new THREE.MeshStandardMaterial({{
@@ -1005,7 +1032,7 @@ def generate_interactive_webgl_html(
                 flatShading: true
             }});
 
-            wallsMesh = new THREE.Mesh(wallsGeom, wallsMatSlate);
+            wallsMesh = new THREE.Mesh(wallsGeom, wallsMatRGB);
             wallsMesh.castShadow = true;
             wallsMesh.receiveShadow = true;
             scene.add(wallsMesh);
@@ -1027,8 +1054,15 @@ def generate_interactive_webgl_html(
 
             if (mode === 'rgb') {{
                 terrainMesh.material = terrainMatRGB;
-                if (roofsMesh) roofsMesh.material = roofsMatRGB;
-                if (wallsMesh) wallsMesh.material = wallsMatSlate;
+                if (roofsMesh) {{
+                    if (roofsMatRGBLocal) {{
+                        roofsMesh.geometry.setAttribute('color', roofsMesh.geometry.getAttribute('colorRGB'));
+                        roofsMesh.material = roofsMatRGBLocal;
+                    }} else {{
+                        roofsMesh.material = roofsMatRGB;
+                    }}
+                }}
+                if (wallsMesh) wallsMesh.material = wallsMatRGB;
                 legendBox.style.display = 'none';
             }} else if (mode === 'elev') {{
                 terrainGeom.setAttribute('color', terrainGeom.getAttribute('colorElev'));
@@ -1064,8 +1098,15 @@ def generate_interactive_webgl_html(
             }} else if (mode === 'slope') {{
                 terrainGeom.setAttribute('color', terrainGeom.getAttribute('colorSlope'));
                 terrainMesh.material = terrainMatVertex;
-                if (roofsMesh) roofsMesh.material = roofsMatRGB;
-                if (wallsMesh) wallsMesh.material = wallsMatSlate;
+                if (roofsMesh) {{
+                    if (roofsMatRGBLocal) {{
+                        roofsMesh.geometry.setAttribute('color', roofsMesh.geometry.getAttribute('colorRGB'));
+                        roofsMesh.material = roofsMatRGBLocal;
+                    }} else {{
+                        roofsMesh.material = roofsMatRGB;
+                    }}
+                }}
+                if (wallsMesh) wallsMesh.material = wallsMatRGB;
                 legendTitle.innerText = "Terrain Slope (degrees)";
                 legendGrad.style.background = "linear-gradient(to right, #22C55E, #EAB308, #EF4444)";
                 legendMin.innerText = "0° (Flat)";
@@ -1127,12 +1168,35 @@ def generate_interactive_webgl_html(
         }};
 
         // ── 9. Camera Presets (Bounding-Box Calculated) ────────────────────────
-        const maxDim = cityData.bounds.max_dim || 256;
-        // Wider base distance so full city block fits with ~20% margin
-        const camDist = maxDim * 1.65;
-        const sceneTarget = new THREE.Vector3(0, maxDim * 0.12, 0);
+        const sceneBounds = new THREE.Box3();
+        if (typeof terrainMesh !== 'undefined' && terrainMesh) sceneBounds.expandByObject(terrainMesh);
+        if (typeof roofsMesh !== 'undefined' && roofsMesh) sceneBounds.expandByObject(roofsMesh);
+        if (typeof wallsMesh !== 'undefined' && wallsMesh) sceneBounds.expandByObject(wallsMesh);
 
-        let tallestBldg = cityData.buildings.find(b => b.height_available !== false && Number.isFinite(b.height_m)) || {{ cx: 0, cy: 10, cz: 0, height_m: 20 }};
+        const sceneCenter = new THREE.Vector3();
+        if (sceneBounds.isEmpty()) {{
+            sceneCenter.set(0, 0, 0);
+            sceneBounds.expandByPoint(new THREE.Vector3(-256, -256, -256));
+            sceneBounds.expandByPoint(new THREE.Vector3(256, 256, 256));
+        }} else {{
+            sceneBounds.getCenter(sceneCenter);
+        }}
+
+        const sceneSize = new THREE.Vector3();
+        sceneBounds.getSize(sceneSize);
+        const sceneRadius = sceneSize.length() * 0.5;
+        const maxDim = Math.max(sceneSize.x, sceneSize.y, sceneSize.z, 256);
+
+        // Derive near/far planes from actual scene size to prevent clipping
+        camera.near = Math.max(0.1, sceneRadius * 0.001);
+        camera.far = Math.max(4000, sceneRadius * 10);
+        camera.updateProjectionMatrix();
+
+        // Wider base distance so full city block fits with ~20% margin
+        const camDist = sceneRadius * 2.2;
+        const sceneTarget = sceneCenter.clone();
+
+        let tallestBldg = cityData.buildings.find(b => b.height_available !== false && Number.isFinite(b.height_m)) || {{ cx: sceneCenter.x, cy: sceneCenter.y + 10, cz: sceneCenter.z, height_m: 20 }};
         cityData.buildings.forEach(b => {{
             if (b.height_available !== false && Number.isFinite(b.height_m) && b.height_m > tallestBldg.height_m) tallestBldg = b;
         }});
@@ -1147,12 +1211,12 @@ def generate_interactive_webgl_html(
 
             if (preset === 'overview') {{
                 // Elevated oblique — entire city block with 20% margin
-                animateCameraTo(-camDist * 0.62, maxDim * 0.82, camDist * 0.62,
-                                0, maxDim * 0.10, 0);
+                animateCameraTo(sceneCenter.x - camDist * 0.62, sceneCenter.y + maxDim * 0.82, sceneCenter.z + camDist * 0.62,
+                                sceneCenter.x, sceneCenter.y, sceneCenter.z);
             }} else if (preset === 'urban') {{
                 // Lower oblique — emphasises building facades
-                animateCameraTo(-camDist * 0.42, maxDim * 0.30, camDist * 0.42,
-                                0, maxDim * 0.10, 0);
+                animateCameraTo(sceneCenter.x - camDist * 0.42, sceneCenter.y + maxDim * 0.30, sceneCenter.z + camDist * 0.42,
+                                sceneCenter.x, sceneCenter.y, sceneCenter.z);
             }} else if (preset === 'inspection') {{
                 // Close-up on tallest building
                 const td = maxDim * 0.30;
@@ -1162,11 +1226,12 @@ def generate_interactive_webgl_html(
                                 tallestBldg.cx, tallestBldg.cy, tallestBldg.cz);
             }} else if (preset === 'top') {{
                 // Nadir — footprint / roof inspection
-                animateCameraTo(0, camDist * 1.05, 0.5, 0, 0, 0);
+                animateCameraTo(sceneCenter.x, sceneCenter.y + camDist * 1.05, sceneCenter.z + 0.5,
+                                sceneCenter.x, sceneCenter.y, sceneCenter.z);
             }} else if (preset === 'street') {{
                 // Street-level looking up at skyline
-                animateCameraTo(0, maxDim * 0.025, maxDim * 0.44,
-                                0, maxDim * 0.10, 0);
+                animateCameraTo(sceneCenter.x, sceneCenter.y + maxDim * 0.025, sceneCenter.z + maxDim * 0.44,
+                                sceneCenter.x, sceneCenter.y, sceneCenter.z);
             }}
         }};
 
@@ -1208,7 +1273,7 @@ def generate_interactive_webgl_html(
             setPreset(initPreset);
         }} else {{
             // Default City Overview: full city block, 20% margin
-            camera.position.set(-camDist * 0.62, maxDim * 0.82, camDist * 0.62);
+            camera.position.set(sceneCenter.x - camDist * 0.62, sceneCenter.y + maxDim * 0.82, sceneCenter.z + camDist * 0.62);
             controls.target.copy(sceneTarget);
             controls.update();
         }}
@@ -1263,10 +1328,10 @@ def generate_interactive_webgl_html(
             if (isFlying) {{
                 flyProgress += delta * 0.22;
                 const radius = maxDim * 0.65;
-                camera.position.x = Math.sin(flyProgress) * radius;
-                camera.position.z = Math.cos(flyProgress) * radius;
-                camera.position.y = (maxDim * 0.28) + Math.sin(flyProgress * 2.0) * (maxDim * 0.08);
-                controls.target.set(0, maxDim * 0.08, 0);
+                camera.position.x = sceneCenter.x + Math.sin(flyProgress) * radius;
+                camera.position.z = sceneCenter.z + Math.cos(flyProgress) * radius;
+                camera.position.y = sceneCenter.y + (maxDim * 0.28) + Math.sin(flyProgress * 2.0) * (maxDim * 0.08);
+                controls.target.set(sceneCenter.x, sceneCenter.y + maxDim * 0.08, sceneCenter.z);
                 controls.update();
             }} else {{
                 handleFlightControls(delta);

@@ -285,11 +285,19 @@ raster_input: Optional[RasterInput] = st.session_state.get("raster_input")
 
 if indian_scene != "Off" and st.session_state.get("active_indian_scene") != indian_scene:
     indian_region = "uttarakhand" if indian_scene == "Uttarakhand" else "himachal"
-    st.session_state["raster_input"] = load_phase89_raster_input(indian_region)
-    st.session_state["active_indian_scene"] = indian_scene
-    for k in ["calib_result", "slope_result", "massing_df", "val_report", "render_cache"]:
-        st.session_state.pop(k, None)
-    raster_input = st.session_state["raster_input"]
+    try:
+        st.session_state["raster_input"] = load_phase89_raster_input(indian_region)
+        st.session_state["active_indian_scene"] = indian_scene
+        for k in ["calib_result", "slope_result", "massing_df", "val_report", "render_cache"]:
+            st.session_state.pop(k, None)
+        raster_input = st.session_state["raster_input"]
+    except Exception as e:
+        st.error(f"INDIAN_SCENE_DATA_UNAVAILABLE: {e}")
+        st.session_state["raster_input"] = None
+        st.session_state["active_indian_scene"] = indian_scene
+        raster_input = None
+        for k in ["calib_result", "slope_result", "massing_df", "val_report", "render_cache"]:
+            st.session_state.pop(k, None)
 
 if indian_scene != "Off":
     st.info("INDIAN 3D SCENE PROTOTYPE | Terrain: REAL GEOREFERENCED DEM | Buildings: SINGLE-VIEW MODEL PREDICTIONS | Height accuracy: UNVALIDATED | Canny: optional structural refinement | Point cloud: optional XYZ representation")
